@@ -1,0 +1,11 @@
+{
+  "name": "project1",
+  "version": "1.0.0",
+  "description": "A money tracking app that allows users to log their spending",
+  "main": "./src/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Noah Kellem",
+  "license": "ISC"
+}
