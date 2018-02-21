@@ -11,7 +11,7 @@ const respondJSON = (request, response, status, object) => {
 };
 
 const addEntry = (request, response) => {
-  //unimplemented
+  // unimplemented
   response.end();
 };
 
