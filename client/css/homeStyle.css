@@ -4,6 +4,43 @@
 }
 
 #pageTitle {
-  font-size: 2.5em;
+  font-size: 3em;
   color: red;
+  margin: 20px;
+  text-align: center;
+}
+
+#monthSummaries {
+  width: 100%;
+  margin: auto;
+  position: absolute;
+}
+
+.month h2 {
+  font-size: 2em;
+  margin-left: 40px;
+  line-height: 75px;
+}
+
+.month {
+  width: 75%;
+  background-color: #EEEEEE;
+  height: 75px;
+  margin: auto;
+  border-bottom: 1px solid black;
+}
+
+.month:nth-child(12) {
+  margin-bottom: 50px;
+}
+
+.month:hover {
+  cursor: pointer;
+}
+
+#sidebar {
+  display: inline-block;
+  float: right;
+  position: relative;
+  width: 10%;
 }
