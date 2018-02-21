@@ -6,6 +6,7 @@ const newEntry = fs.readFileSync(`${__dirname}/../client/newEntry.html`);
 const homeStyle = fs.readFileSync(`${__dirname}/../client/css/homeStyle.css`);
 const addEntryStyle = fs.readFileSync(`${__dirname}/../client/css/addEntryStyle.css`);
 const getJSBundle = fs.readFileSync(`${__dirname}/../client/babel/bundle.js`);
+const ashImage = fs.readFileSync(`${__dirname}/../client/images/Attackers/ash.png`);
 
 // Send files from server to client
 const getIndex = (request, response) => {
@@ -38,6 +39,12 @@ const getJavaScript = (request, response) => {
   response.end();
 };
 
+const getAshImage = (request, response) => {
+  response.writeHead(200, { 'Content-Type': 'image/png' });
+  response.write(ashImage);
+  response.end();
+};
+
 // export methods
 module.exports = {
   getIndex,
@@ -45,4 +52,5 @@ module.exports = {
   getHomeStylesheet,
   getAddEntryStylesheet,
   getJavaScript,
+  getAshImage,
 };

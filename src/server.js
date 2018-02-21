@@ -14,6 +14,7 @@ const urlStruct = {
   '/babel/bundle.js': htmlHandler.getJavaScript,
   '/addEntry': jsonHandler.addEntry,
   '/getEntries': jsonHandler.getEntries,
+  '/images/Attackers/ash.png': htmlHandler.getAshImage,
   'notFound': jsonHandler.notFound,
 };
 

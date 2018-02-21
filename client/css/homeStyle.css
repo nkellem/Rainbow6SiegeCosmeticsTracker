@@ -10,10 +10,8 @@
   text-align: center;
 }
 
-#monthSummaries {
-  width: 100%;
-  margin: auto;
-  position: absolute;
+#mainContent {
+  text-align: center;
 }
 
 .month h2 {
@@ -30,10 +28,6 @@
   border-bottom: 1px solid black;
 }
 
-.month:nth-child(12) {
-  margin-bottom: 50px;
-}
-
 .month:hover {
   cursor: pointer;
 }
@@ -43,4 +37,41 @@
   float: right;
   position: relative;
   width: 10%;
+}
+
+.operators {
+  width: 49%;
+  height: 800px;
+}
+
+.operators h2 {
+  font-size: 2em;
+  margin-top: 20px;
+}
+
+#attackers {
+  display: inline-block;
+  background-color: red;
+}
+
+#defenders {
+  display: inline-block;
+  background-color: blue;
+}
+
+.opIcons {
+  width: 90%;
+  height: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+}
+
+.opIcons td {
+  background-color: black;
+}
+
+.opIcon {
+  width: 162.4px;
+  height: 142px;
 }
