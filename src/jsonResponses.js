@@ -27,7 +27,19 @@ const getEntries = (request, response, params) => {
   return respondJSON(request, response, 200, responseJSON);
 };
 
+const notFound = (request, response) => {
+  const responseJSON = {
+    data: 'The page you are looking for was not found.',
+    id: 'notFound',
+  };
+
+  return respondJSON(request, response, 404, responseJSON);
+
+};
+
+
 module.exports = {
   addEntry,
   getEntries,
+  notFound,
 };
