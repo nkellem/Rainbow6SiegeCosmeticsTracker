@@ -1,5 +1,5 @@
 (function() {
-
+  //processes the data received from get requests and adds that data to the home screen
   const addDataToPage = (data, operator) => {
     const opName = document.querySelector('#operatorName');
     const weaponSkins = document.querySelector('#weaponSkins');
@@ -7,7 +7,7 @@
     op.style.display = 'block';
     opName.innerHTML = operator;
     weaponSkins.innerHTML = '';
-
+    //loops through our data and creates html containers for each
     Object.keys(data.skins).forEach(gun => {
       let gunSpan = document.createElement('div');
       let gunTitle = document.createElement('h2');
@@ -29,6 +29,7 @@
     });
   };
 
+  //populates the gun options select on the new entry screen
   const loadGunOptions = data => {
     const gunSelect = document.querySelector('#opGun');
     let htmlString;
@@ -39,6 +40,7 @@
   };
 
   //functions to make REST requests to API
+  //makes a get request and retrieves data from the server
   const makeGetRequest = (url, operator, callback) => {
     //make the get request from the specified url
     fetch(url).then(response => {
@@ -48,6 +50,7 @@
     });
   };
 
+  //makes post request to add data to the server
   const makePostRequest = (url, callback) => {
     //get data from the form
     const operator = document.querySelector('#operatorSelect').value;
@@ -71,6 +74,7 @@
     });
   };
 
+  //resets the new entry screen and gives the user a confirmation that their data was added successfully
   const processPostResults = () => {
     document.querySelector('#operatorSelect').value = '';
     document.querySelector('#opGun').innerHTML = '<option value="">Select A Gun</option>';
@@ -78,6 +82,7 @@
     alert('Data added successfully!');
   };
 
+  //sets up all the necessary events for the app
   const setupClickEvents = () => {
     //setup click events for operators
     if (document.querySelector('.opIcon')) {
@@ -99,10 +104,11 @@
       document.querySelector('#submitEntry').onclick = e => {
         e.preventDefault();
         makePostRequest('/addNewEntry', processPostResults);
-      };  
+      };
     }
   };
 
+  //sets up events on window load
   window.onload = setupClickEvents;
 
 })();

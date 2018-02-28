@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-
+  //processes the data received from get requests and adds that data to the home screen
   var addDataToPage = function addDataToPage(data, operator) {
     var opName = document.querySelector('#operatorName');
     var weaponSkins = document.querySelector('#weaponSkins');
@@ -9,7 +9,7 @@
     op.style.display = 'block';
     opName.innerHTML = operator;
     weaponSkins.innerHTML = '';
-
+    //loops through our data and creates html containers for each
     Object.keys(data.skins).forEach(function (gun) {
       var gunSpan = document.createElement('div');
       var gunTitle = document.createElement('h2');
@@ -31,6 +31,7 @@
     });
   };
 
+  //populates the gun options select on the new entry screen
   var loadGunOptions = function loadGunOptions(data) {
     var gunSelect = document.querySelector('#opGun');
     var htmlString = void 0;
@@ -41,6 +42,7 @@
   };
 
   //functions to make REST requests to API
+  //makes a get request and retrieves data from the server
   var makeGetRequest = function makeGetRequest(url, operator, callback) {
     //make the get request from the specified url
     fetch(url).then(function (response) {
@@ -50,6 +52,7 @@
     });
   };
 
+  //makes post request to add data to the server
   var makePostRequest = function makePostRequest(url, callback) {
     //get data from the form
     var operator = document.querySelector('#operatorSelect').value;
@@ -73,6 +76,7 @@
     });
   };
 
+  //resets the new entry screen and gives the user a confirmation that their data was added successfully
   var processPostResults = function processPostResults() {
     document.querySelector('#operatorSelect').value = '';
     document.querySelector('#opGun').innerHTML = '<option value="">Select A Gun</option>';
@@ -80,6 +84,7 @@
     alert('Data added successfully!');
   };
 
+  //sets up all the necessary events for the app
   var setupClickEvents = function setupClickEvents() {
     //setup click events for operators
     if (document.querySelector('.opIcon')) {
@@ -105,5 +110,6 @@
     }
   };
 
+  //sets up events on window load
   window.onload = setupClickEvents;
 })();
