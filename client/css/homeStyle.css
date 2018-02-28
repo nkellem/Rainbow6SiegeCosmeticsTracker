@@ -1,77 +1,115 @@
+@font-face {
+  font-family: bebas;
+  src: url('../font/bebas.ttf');
+}
+
 * {
   padding: 0;
   margin: 0;
+  color: white;
+  font-family: bebas;
+}
+
+body {
+  background-color: black;
+  background-image: url('../images/background.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 #pageTitle {
   font-size: 3em;
-  color: red;
   margin: 20px;
   text-align: center;
+}
+
+.siegeLogo {
+  color: black;
+  background-color: white;
 }
 
 #mainContent {
   text-align: center;
 }
 
-.month h2 {
+.nav {
+  width: 100%;
+  text-align: center;
   font-size: 2em;
-  margin-left: 40px;
-  line-height: 75px;
 }
 
-.month {
-  width: 75%;
-  background-color: #EEEEEE;
-  height: 75px;
-  margin: auto;
-  border-bottom: 1px solid black;
-}
-
-.month:hover {
-  cursor: pointer;
-}
-
-#sidebar {
-  display: inline-block;
-  float: right;
-  position: relative;
-  width: 10%;
-}
-
-.operators {
-  width: 49%;
-  height: 800px;
+.nav a {
+  text-decoration: none;
 }
 
 .operators h2 {
   font-size: 2em;
   margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+#attackers div:nth-child(5n) {
+  text-align: left;
+}
+
+#defenders div:nth-child(5n) {
+  text-align: right;
+}
+
+.row {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 #attackers {
   display: inline-block;
-  background-color: red;
+  margin-right: 15px;
 }
 
 #defenders {
   display: inline-block;
-  background-color: blue;
-}
-
-.opIcons {
-  width: 90%;
-  height: 600px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 20px;
-}
-
-.opIcons td {
-  background-color: black;
+  margin-left: 30px;
 }
 
 .opIcon {
-  width: 162.4px;
+  width: 142px;
   height: 142px;
+  margin: 0px 5px;
+  cursor: pointer;
+}
+
+#operatorContent {
+  width: 100%;
+  display: none;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+#weaponSkins {
+  width: 100%;
+  text-align: center;
+  display: flex;
+}
+
+#operatorName {
+  font-size: 3em;
+  text-align: center;
+}
+
+.gunSkin {
+  display: inline-block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 25px;
+  width: 20%;
+}
+
+.gunSkin h2 {
+  border-bottom: 1px solid white;
+  padding-bottom: 6px;
+}
+
+.skinList {
+  margin-top: 10px;
+  list-style: none;
 }

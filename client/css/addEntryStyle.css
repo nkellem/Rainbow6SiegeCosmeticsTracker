@@ -1,0 +1,38 @@
+body {
+  width: 100%;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 100px;
+  margin-bottom: 25px;
+  font-size: 3em;
+}
+
+.nav {
+  margin-bottom: 40px;
+}
+
+#formDiv {
+  width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+#operatorSelect {
+  background-color: black;
+  margin-right: 5px;
+}
+
+#opGun {
+  background-color: black;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+form input {
+  background-color: black;
+  margin-left: 5px;
+  margin-right: 5px;
+}

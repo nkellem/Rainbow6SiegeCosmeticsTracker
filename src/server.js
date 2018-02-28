@@ -1,34 +1,31 @@
 const http = require('http');
-const query = require('querystring');
-const url = require('url');
 const jsonHandler = require('./jsonResponses.js');
-const htmlHandler = require('./htmlResponses.js');
+const url = require('url');
+const query = require('querystring');
+const nodeStatic = require('node-static');
+
+const fileServer = new nodeStatic.Server(`${__dirname}/../client`, {
+  cache: false,
+  gzip: true,
+});
 
 const PORT = process.env.PORT || process.env.NODE_PORT || 3000;
-
-const urlStruct = {
-  '/': htmlHandler.getIndex,
-  '/newEntry': htmlHandler.getNewEntry,
-  '/css/homeStyle.css': htmlHandler.getHomeStylesheet,
-  '/css/addEntryStyle.css': htmlHandler.getAddEntryStylesheet,
-  '/babel/bundle.js': htmlHandler.getJavaScript,
-  '/addEntry': jsonHandler.addEntry,
-  '/getEntries': jsonHandler.getEntries,
-  '/images/Attackers/ash.png': htmlHandler.getAshImage,
-  'notFound': jsonHandler.notFound,
-};
 
 const onRequest = (request, response) => {
   const parsedUrl = url.parse(request.url);
   const params = query.parse(parsedUrl.query);
 
-  console.dir(parsedUrl.pathname);
-
-  if (urlStruct[parsedUrl.pathname]) {
-    urlStruct[parsedUrl.pathname](request, response, params);
-  } else {
-    urlStruct.notFound(request, response, params);
-  }
+  fileServer.serve(request, response, (err) => {
+    if (err) {
+      if (parsedUrl.pathname === '/getEntries') {
+        jsonHandler.getEntries(request, response, params);
+      } else if (parsedUrl.pathname === '/addNewEntry') {
+        jsonHandler.addEntry(request, response);
+      } else {
+        jsonHandler.notFound(request, response);
+      }
+    }
+  });
 };
 
 http.createServer(onRequest).listen(PORT);
