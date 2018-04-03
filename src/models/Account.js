@@ -8,11 +8,11 @@ const iterations = 10000;
 const saltLength = 64;
 const keyLength = 64;
 
-const AccountSchema = new mongoose.Scheme({
+const AccountSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
-    trimL true,
+    trim: true,
     unique: true,
     match: /^[A-Za-z0-9_\-.]{1,16}$/,
   },
@@ -46,7 +46,7 @@ const validatePassword = (doc, password, callback) => {
   });
 };
 
-const AccountSchema.statics.findByUsername = (name, callback) => {
+AccountSchema.statics.findByUsername = (name, callback) => {
   const search = {
     username: name,
   };
@@ -54,7 +54,7 @@ const AccountSchema.statics.findByUsername = (name, callback) => {
   return AccountModel.findOne(search, callback);
 };
 
-const AccountSchema.statics.generateHash = (password, callback) => {
+AccountSchema.statics.generateHash = (password, callback) => {
   const salt = crypto.randomBytes(saltLength);
 
   crypto.pbkdf2(password, salt, iterations, keyLength, 'RSA-SHA512', (err, hash) =>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>R6S Tracker</title>
+    <script crossorigin src="https://unpkg.com/react@15/dist/react.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
+    <script crossorigin src="https://unpkg.com/prop-types/prop-types.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/assets/css/login.css"/>
+  </head>
+  <body>
+    <nav>
+      <span class="navlink"><a id="loginButton" href="/login">Login</a></span>
+      <span class="navlink"><a id="signupButton" href="/signup">Sign up</a></span>
+    </nav>
+    <div id="content"></div>
+    <!-- Form serialization without jQuery https://code.google.com/archive/p/form-serialize/ -->
+    <script src="/assets/js/libraries/serialize-0.2.min.js"></script>
+    <script src="/assets/babel/loginBundle.js"></script>
+  </body>
+</html>

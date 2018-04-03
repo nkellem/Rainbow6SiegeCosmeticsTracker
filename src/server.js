@@ -48,26 +48,6 @@ const router = require('./router.js');
 //adds port for the app to listen on
 const PORT = process.env.PORT || process.env.NODE_PORT || 3000;
 
-//processes/routes requests appropriately
-/*const onRequest = (request, response) => {
-  const parsedUrl = url.parse(request.url);
-  const params = query.parse(parsedUrl.query);
-
-  //node-static tries to serve/route on its own
-  //if it can't, defers to jsonHandler
-  fileServer.serve(request, response, (err) => {
-    if (err) {
-      if (parsedUrl.pathname === '/getEntries') {
-        jsonHandler.getEntries(request, response, params);
-      } else if (parsedUrl.pathname === '/addNewEntry') {
-        jsonHandler.addEntry(request, response);
-      } else {
-        jsonHandler.notFound(request, response);
-      }
-    }
-  });
-};*/
-
 const app = express();
 app.use('/assets', express.static(path.resolve(`${__dirname}/../client/`)));
 //app.use(favicon(`${__dirname}/../hosted/img/favicon.png`));
@@ -89,11 +69,11 @@ app.use(bodyParser.urlencoded({
   cookie: {
     httpOnly: true,
   },
-}));
+}));*/
 app.engine('handlebars', expressHandlebars({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 app.set('views', `${__dirname}/../views`);
-app.use(cookieParser());
+/*app.use(cookieParser());
 
 // csurf must come AFTER app.use(cookieParser())
 // and app.use(session{...})
@@ -106,7 +86,7 @@ app.use((err, req, res, next) => {
   return false;
 });*/
 
-//router(app);
+router(app);
 
 //starts the server
 app.listen(PORT, err => {
