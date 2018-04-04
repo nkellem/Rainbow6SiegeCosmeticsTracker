@@ -22,7 +22,13 @@ var handleSignup = function handleSignup(e) {
   var username = document.querySelector('#username').value;
   var password = document.querySelector('#password').value;
   var password2 = document.querySelector('#password2').value;
-  var signupForm = document.querySelector('#signupForm').value;
+  var signupForm = document.querySelector('#signupForm');
+
+  var data = {
+    username: username,
+    password: password,
+    password2: password2
+  };
 
   if (username === '' || password === '' || password2 === '') {
     handleError('All fields are required');
@@ -34,7 +40,10 @@ var handleSignup = function handleSignup(e) {
     return false;
   }
 
+  console.dir(serialize(signupForm));
   sendAjax('POST', '/signup', serialize(signupForm), redirect);
+  //console.dir(JSON.stringify(data));
+  //sendAjax('POST', '/signup', JSON.stringify(data), redirect);
 
   return false;
 };
@@ -126,8 +135,11 @@ var redirect = function redirect(response) {
 
 var sendAjax = function sendAjax(type, action, data, success) {
   fetch(action, {
-    body: data,
-    method: type
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    method: type,
+    body: data
   }).then(function (response) {
     if (response.status !== 204) {
       return response.json();

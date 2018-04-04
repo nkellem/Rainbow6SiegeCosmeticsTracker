@@ -9,8 +9,11 @@ const redirect = response => {
 
 const sendAjax = (type, action, data, success) => {
   fetch(action, {
-    body: data,
-    method: type
+		headers: {
+			'Content-Type': 'application/x-www-form-urlencoded'
+		},
+    method: type,
+		body: data
   }).then(response => {
     if (response.status !== 204) {
       return response.json();

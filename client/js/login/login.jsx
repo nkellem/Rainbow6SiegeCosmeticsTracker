@@ -20,7 +20,13 @@ const handleSignup = e => {
   const username = document.querySelector('#username').value;
   const password = document.querySelector('#password').value;
   const password2 = document.querySelector('#password2').value;
-  const signupForm = document.querySelector('#signupForm').value;
+  const signupForm = document.querySelector('#signupForm');
+	
+	const data = {
+		username:	username,
+		password: password,
+		password2: password2,
+	};
 
   if (username === '' || password === '' || password2 === '') {
     handleError('All fields are required');
@@ -31,8 +37,11 @@ const handleSignup = e => {
     handleError('Passwords do not match');
     return false;
   }
-
+	
+	console.dir(serialize(signupForm));
   sendAjax('POST', '/signup', serialize(signupForm), redirect);
+	//console.dir(JSON.stringify(data));
+	//sendAjax('POST', '/signup', JSON.stringify(data), redirect);
 
   return false;
 };
