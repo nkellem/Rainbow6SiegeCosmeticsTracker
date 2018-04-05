@@ -1,11 +1,12 @@
 const controllers = require('./controllers');
+const mid = require('./middleware');
 
 const router = app => {
-  app.get('/login', controllers.Account.loginPage);
-  app.post('/login', controllers.Account.login);
-  app.post('/signup', controllers.Account.signup);
-  app.get('/', controllers.Account.loginPage);
-  app.get('/home', controllers.Operators.operatorsPage);
+  app.get('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
+  app.post('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.login);
+  app.post('/signup', mid.requiresSecure, mid.requiresLogout, controllers.Account.signup);
+  app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
+  app.get('/home', mid.requiresLogin, controllers.Operators.operatorsPage);
 };
 
 module.exports = router;

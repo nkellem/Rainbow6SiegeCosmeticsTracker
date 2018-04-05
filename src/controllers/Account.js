@@ -7,15 +7,13 @@ const loginPage = (req, res) => {
 };
 
 const login = (req, res) => {
+	console.log('login fired');
   const request = req;
   const response = res;
 
   // force cast to strings to overcome some security flaws
   const username = `${request.body.username}`;
   const password = `${request.body.password}`;
-
-  console.dir(req);
-  console.dir(password);
 
   if (!username || !password) {
     return response.status(400).json({ error: 'All fields are required' });
@@ -26,10 +24,16 @@ const login = (req, res) => {
       return response.status(401).json({ error: 'Wrong username or password' });
     }
 
-    //request.session.account = Account.AccountModel.toAPI(account);
+    request.session.account = Account.AccountModel.toAPI(account);
+		console.log(request.session);
 
     return response.json({ redirect: '/home' });
   });
+};
+
+const logout = (req, res) => {
+	req.session.destroy();
+	res.redirect('/');
 };
 
 const signup = (req, res) => {
@@ -63,7 +67,7 @@ const signup = (req, res) => {
     const savePromise = newAccount.save();
 
     savePromise.then(() => {
-      //request.session.account = Account.AccountModel.toAPI(newAccount);
+      request.session.account = Account.AccountModel.toAPI(newAccount);
       response.json({ redirect: '/home' });
     });
 
@@ -82,5 +86,6 @@ const signup = (req, res) => {
 module.exports = {
   loginPage,
   login,
+	logout,
   signup,
 };

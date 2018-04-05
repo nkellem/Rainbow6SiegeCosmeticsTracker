@@ -175,7 +175,7 @@ var NewEntryForm = function NewEntryForm(props) {
           "Select A Gun"
         )
       ),
-      React.createElement("input", { id: "gunSkin", type: "text", name: "skin" }),
+      React.createElement("input", { id: "gunSkin", type: "text", name: "skin", placeholder: "Enter a Skin" }),
       React.createElement("input", { id: "submitEntry", type: "submit", value: "submit" })
     )
   );

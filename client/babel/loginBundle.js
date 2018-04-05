@@ -1,5 +1,6 @@
 'use strict';
 
+//
 var handleLogin = function handleLogin(e) {
   e.preventDefault();
   var username = document.querySelector('#username').value;
@@ -11,7 +12,6 @@ var handleLogin = function handleLogin(e) {
     return false;
   }
 
-  console.dir(serialize(loginForm));
   sendAjax('POST', '/login', serialize(loginForm), redirect);
 
   return false;
@@ -34,7 +34,6 @@ var handleSignup = function handleSignup(e) {
     return false;
   }
 
-  console.dir(serialize(signupForm));
   sendAjax('POST', '/signup', serialize(signupForm), redirect);
 
   return false;
@@ -45,18 +44,30 @@ var LoginWindow = function LoginWindow(props) {
     'form',
     { id: 'loginForm', name: 'loginForm', action: '/login', onSubmit: handleLogin, method: 'POST', className: 'mainForm' },
     React.createElement(
-      'label',
-      { htmlFor: 'username' },
-      'Username: '
+      'div',
+      { className: 'rightAlign' },
+      React.createElement(
+        'label',
+        { htmlFor: 'username' },
+        'Username: '
+      ),
+      React.createElement('input', { id: 'username', type: 'text', name: 'username', placeholder: 'username' })
     ),
-    React.createElement('input', { id: 'username', type: 'text', name: 'username', placeholder: 'username' }),
     React.createElement(
-      'label',
-      { htmlFor: 'password' },
-      'Password: '
+      'div',
+      { className: 'rightAlign' },
+      React.createElement(
+        'label',
+        { htmlFor: 'password' },
+        'Password: '
+      ),
+      React.createElement('input', { id: 'password', type: 'password', name: 'password', placeholder: 'password' })
     ),
-    React.createElement('input', { id: 'password', type: 'password', name: 'password', placeholder: 'password' }),
-    React.createElement('input', { className: 'submitForm', type: 'submit', value: 'Sign In ' })
+    React.createElement(
+      'div',
+      null,
+      React.createElement('input', { className: 'submitForm', type: 'submit', value: 'Sign In ' })
+    )
   );
 };
 
@@ -65,24 +76,45 @@ var SignupWindow = function SignupWindow(props) {
     'form',
     { id: 'signupForm', name: 'signupForm', action: '/signup', onSubmit: handleSignup, method: 'POST', className: 'mainForm' },
     React.createElement(
-      'label',
-      { htmlFor: 'username' },
-      'Username: '
+      'div',
+      { className: 'rightAlign' },
+      React.createElement(
+        'label',
+        { htmlFor: 'username' },
+        'Username: '
+      ),
+      React.createElement('input', { id: 'username', type: 'text', name: 'username', placeholder: 'username' })
     ),
-    React.createElement('input', { id: 'username', type: 'text', name: 'username', placeholder: 'username' }),
     React.createElement(
-      'label',
-      { htmlFor: 'password' },
-      'Password: '
+      'div',
+      { className: 'rightAlign' },
+      React.createElement(
+        'label',
+        { htmlFor: 'password' },
+        'Password: '
+      ),
+      React.createElement('input', { id: 'password', type: 'password', name: 'password', placeholder: 'password' })
     ),
-    React.createElement('input', { id: 'password', type: 'password', name: 'password', placeholder: 'password' }),
     React.createElement(
-      'label',
-      { htmlFor: 'password2' },
-      'Confirm Password: '
+      'div',
+      { className: 'rightAlign' },
+      React.createElement(
+        'label',
+        { htmlFor: 'password2' },
+        'Confirm ',
+        React.createElement(
+          'span',
+          { className: 'siegeLogo' },
+          'Password: '
+        )
+      ),
+      React.createElement('input', { id: 'password2', type: 'password', name: 'password2', placeholder: 'confirm password' })
     ),
-    React.createElement('input', { id: 'password2', type: 'password', name: 'password2', placeholder: 'confirm password' }),
-    React.createElement('input', { className: 'submitForm', type: 'submit', value: 'Sign In ' })
+    React.createElement(
+      'div',
+      null,
+      React.createElement('input', { className: 'submitForm', type: 'submit', value: 'Sign In ' })
+    )
   );
 };
 

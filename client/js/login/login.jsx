@@ -1,3 +1,4 @@
+//
 const handleLogin = e => {
   e.preventDefault();
   const username = document.querySelector('#username').value;
@@ -9,7 +10,6 @@ const handleLogin = e => {
     return false;
   }
 
-  console.dir(serialize(loginForm));
   sendAjax('POST', '/login', serialize(loginForm), redirect);
 
   return false;
@@ -32,7 +32,6 @@ const handleSignup = e => {
     return false;
   }
 
-	console.dir(serialize(signupForm));
   sendAjax('POST', '/signup', serialize(signupForm), redirect);
 
   return false;
@@ -41,11 +40,17 @@ const handleSignup = e => {
 const LoginWindow = props => {
   return (
     <form id="loginForm" name="loginForm" action="/login" onSubmit={handleLogin} method="POST" className="mainForm">
-      <label htmlFor="username">Username: </label>
-      <input id="username" type="text" name="username" placeholder="username" />
-      <label htmlFor="password">Password: </label>
-      <input id="password" type="password" name="password" placeholder="password" />
-      <input className="submitForm" type="submit" value="Sign In " />
+			<div className="rightAlign">
+				<label htmlFor="username">Username: </label>
+      	<input id="username" type="text" name="username" placeholder="username" />
+			</div>
+			<div className="rightAlign">
+				<label htmlFor="password">Password: </label>
+      	<input id="password" type="password" name="password" placeholder="password" />
+			</div>
+			<div>
+				<input className="submitForm" type="submit" value="Sign In " />
+			</div>
     </form>
   );
 };
@@ -53,13 +58,21 @@ const LoginWindow = props => {
 const SignupWindow = props => {
   return (
     <form id="signupForm" name="signupForm" action="/signup" onSubmit={handleSignup} method="POST" className="mainForm">
-      <label htmlFor="username">Username: </label>
-      <input id="username" type="text" name="username" placeholder="username" />
-      <label htmlFor="password">Password: </label>
-      <input id="password" type="password" name="password" placeholder="password" />
-      <label htmlFor="password2">Confirm Password: </label>
-      <input id="password2" type="password" name="password2" placeholder="confirm password" />
-      <input className="submitForm" type="submit" value="Sign In " />
+			<div className="rightAlign">
+				<label htmlFor="username">Username: </label>
+      	<input id="username" type="text" name="username" placeholder="username" />
+			</div>
+			<div className="rightAlign">
+				<label htmlFor="password">Password: </label>
+      	<input id="password" type="password" name="password" placeholder="password" />
+			</div>
+			<div className="rightAlign">
+				<label htmlFor="password2">Confirm <span className="siegeLogo">Password: </span></label>
+      	<input id="password2" type="password" name="password2" placeholder="confirm password" />
+			</div>
+			<div>
+				<input className="submitForm" type="submit" value="Sign In " />
+			</div>
     </form>
   );
 };

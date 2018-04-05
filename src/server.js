@@ -8,16 +8,9 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const expressHandlebars = require('express-handlebars');
 const session = require('express-session');
-//const RedisStore = require('connect-redis')(session);
+const RedisStore = require('connect-redis')(session);
 const url = require('url');
 const csrf = require('csurf');
-
-
-//instantiates the node-static object to allow for file serving
-/*const fileServer = new nodeStatic.Server(`${__dirname}/../client`, {
-  cache: false,
-  gzip: true,
-});*/
 
 //TODO: Add redis and MONGODB
 
@@ -29,7 +22,7 @@ mongoose.connect(dbURL, err => {
     throw err;
   }
 });
-/*
+
 let redisURL = {
   hostname: 'localhost',
   port: 6379,
@@ -41,7 +34,6 @@ if (process.env.REDISCLOUD_URL) {
   redisURL = url.parse(process.env.REDISCLOUD_URL);
   redisPASS = redisURL.auth.split(':')[1];
 }
-*/
 
 const router = require('./router.js');
 
@@ -56,25 +48,25 @@ app.use(compression());
 app.use(bodyParser.urlencoded({
   extended: true,
 }));
-/*app.use(session({
+app.use(session({
   key: 'sessionid',
   store: new RedisStore({
     host: redisURL.hostname,
     port: redisURL.port,
     pass: redisPASS,
   }),
-  secret: 'Domo Arigato',
+  secret: 'Track Your R6S Cosmetics',
   resave: true,
   saveUninitialized: true,
   cookie: {
     httpOnly: true,
   },
-}));*/
+}));
 app.engine('handlebars', expressHandlebars({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 app.set('views', `${__dirname}/../views`);
-/*app.use(cookieParser());
-
+app.use(cookieParser());
+/*
 // csurf must come AFTER app.use(cookieParser())
 // and app.use(session{...})
 // BEFORE router

@@ -1,0 +1,46 @@
+html, body {
+	width: 100%;
+	height: 100%;
+}
+
+nav span {
+	margin-right: 10px;
+	margin-left: 10px;
+}
+
+span.siegeLogo {
+	margin: 0;
+}
+
+form input {
+  background-color: black;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+#content {
+	text-align: center;
+}
+
+.rightAlign {
+	text-align: right;
+}
+
+#loginForm {
+	width: 257px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 100px;
+}
+
+#signupForm {
+	width: 315px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 100px;
+}
+
+form div{
+	margin-top: 10px;
+	margin-bottom: 10px;
+}

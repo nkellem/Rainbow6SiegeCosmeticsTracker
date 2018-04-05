@@ -46,7 +46,7 @@ const NewEntryForm = props => {
         <select name="gun" id="opGun">
           <option value="">Select A Gun</option>
         </select>
-        <input id="gunSkin" type="text" name="skin" />
+        <input id="gunSkin" type="text" name="skin" placeholder="Enter a Skin" />
         <input id="submitEntry" type="submit" value="submit" />
       </form>
     </div>
