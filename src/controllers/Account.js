@@ -28,7 +28,7 @@ const login = (req, res) => {
 
     //request.session.account = Account.AccountModel.toAPI(account);
 
-    return response.json({ redirect: '/assets/index.html' });
+    return response.json({ redirect: '/home' });
   });
 };
 
@@ -40,7 +40,7 @@ const signup = (req, res) => {
   request.body.username = `${request.body.username}`;
   request.body.password = `${request.body.password}`;
   request.body.password2 = `${request.body.password2}`;
-	
+
 	console.dir(request.body);
 
   if (!request.body.username || !request.body.password || !request.body.password2) {
@@ -64,7 +64,7 @@ const signup = (req, res) => {
 
     savePromise.then(() => {
       //request.session.account = Account.AccountModel.toAPI(newAccount);
-      response.json({ redirect: '/assets/index.html' });
+      response.json({ redirect: '/home' });
     });
 
     savePromise.catch(err => {

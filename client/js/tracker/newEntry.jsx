@@ -1,19 +1,17 @@
-<!DOCTYPE html>
-<html lang="en-us">
-  <head>
-    <meta charset="utf-8">
-    <title>R6S Cosmetic Tracker</title>
-    <link rel="stylesheet" href="./css/homeStyle.css">
-    <link rel="stylesheet" href="./css/addEntryStyle.css">
-    <script src="./babel/bundle.js"></script>
-  </head>
-  <body>
-    <h1>New<span class="siegeLogo">Entry</span></h1>
-    <div class="nav">
-      <a href="./index.html">Home</a>
-    </div>
+const handleEntrySubmit = e => {
+
+};
+
+const HomeNav = props => {
+  return (
+    <a href="#" onClick={createTracker}>Home</a>
+  );
+};
+
+const NewEntryForm = props => {
+  return (
     <div id="formDiv">
-      <form action="/addNewEntry" method="post">
+      <form action="/addNewEntry" method="POST" name="newEntryForm" onSubmit={handleEntrySubmit} id="newEntryForm">
         <select name="operator" id="operatorSelect">
           <option value="">Select An Op</option>
           <option value="Ash">Ash</option>
@@ -48,9 +46,31 @@
         <select name="gun" id="opGun">
           <option value="">Select A Gun</option>
         </select>
-        <input id="gunSkin" type="text" name="skin">
-        <input id="submitEntry" type="submit" value="submit">
+        <input id="gunSkin" type="text" name="skin" />
+        <input id="submitEntry" type="submit" value="submit" />
       </form>
     </div>
-  </body>
-</html>
+  );
+};
+
+const createNewEntryForm = () => {
+  ReactDOM.render(
+    <NewEntryForm />,
+    document.querySelector('#mainContent')
+  );
+};
+
+const createNewEntryFormNav = () => {
+  ReactDOM.render(
+    <HomeNav />,
+    document.querySelector('nav')
+  );
+};
+
+const createNewEntry = e => {
+  if (e) {
+    e.preventDefault();
+  }
+  createNewEntryFormNav();
+  createNewEntryForm();
+};

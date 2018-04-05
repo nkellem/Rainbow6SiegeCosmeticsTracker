@@ -4,7 +4,7 @@ const handleError = message => {
 };
 
 const redirect = response => {
-  alert('Redirecting');
+  window.location = response.redirect;
 };
 
 const sendAjax = (type, action, data, success) => {
@@ -15,11 +15,12 @@ const sendAjax = (type, action, data, success) => {
     method: type,
 		body: data
   }).then(response => {
-    if (response.status !== 204) {
-      return response.json();
-    }
-    return;
+    return response.json();
   }).then(data => {
-    success();
+    if (data.error) {
+      handleError(data.error);
+      return;
+    }
+    success(data);
   });
 };

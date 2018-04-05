@@ -10,8 +10,10 @@
     "nodemon": "nodemon --watch ./src ./src/server.js",
     "build": "babel ./client/js --out-file ./client/babel/bundle.js",
     "buildLogin": "babel ./client/js/login ./client/js/helper --presets react --out-file ./client/babel/loginBundle.js",
+    "buildTracker": "babel ./client/js/tracker ./client/js/helper --presets react --out-file ./client/babel/trackerBundle.js",
     "watch": "babel --watch ./client/js --out-file ./client/babel/bundle.js",
-    "watchLogin": "babel --watch ./client/js/login ./client/js/helper --presets react --out-file ./client/babel/loginBundle.js"
+    "watchLogin": "babel --watch ./client/js/login ./client/js/helper --presets react --out-file ./client/babel/loginBundle.js",
+    "watchTracker": "babel --watch ./client/js/tracker ./client/js/helper --presets react --out-file ./client/babel/trackerBundle.js"
   },
   "author": "Noah Kellem",
   "license": "ISC",

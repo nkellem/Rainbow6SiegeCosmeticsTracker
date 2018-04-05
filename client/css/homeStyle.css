@@ -32,13 +32,13 @@ body {
   text-align: center;
 }
 
-.nav {
+nav {
   width: 100%;
   text-align: center;
   font-size: 2em;
 }
 
-.nav a {
+nav a {
   text-decoration: none;
 }
 
