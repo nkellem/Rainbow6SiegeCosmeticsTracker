@@ -1,13 +1,13 @@
 const models = require('../models');
 
-const Account = models.Account;
+const { Account } = models;
 
 const loginPage = (req, res) => {
   res.render('login');
 };
 
 const login = (req, res) => {
-	console.log('login fired');
+  console.log('login fired');
   const request = req;
   const response = res;
 
@@ -25,15 +25,16 @@ const login = (req, res) => {
     }
 
     request.session.account = Account.AccountModel.toAPI(account);
-		console.log(request.session);
+		request.session.save();
+    console.log(request.session);
 
     return response.json({ redirect: '/home' });
   });
 };
 
 const logout = (req, res) => {
-	req.session.destroy();
-	res.redirect('/');
+  req.session.destroy();
+  res.redirect('/');
 };
 
 const signup = (req, res) => {
@@ -45,7 +46,7 @@ const signup = (req, res) => {
   request.body.password = `${request.body.password}`;
   request.body.password2 = `${request.body.password2}`;
 
-	console.dir(request.body);
+  console.dir(request.body);
 
   if (!request.body.username || !request.body.password || !request.body.password2) {
     return response.status(400).json({ error: 'All fields are required' });
@@ -71,7 +72,7 @@ const signup = (req, res) => {
       response.json({ redirect: '/home' });
     });
 
-    savePromise.catch(err => {
+    savePromise.catch((err) => {
       console.log(err);
 
       if (err.code === 11000) {
@@ -86,6 +87,6 @@ const signup = (req, res) => {
 module.exports = {
   loginPage,
   login,
-	logout,
+  logout,
   signup,
 };

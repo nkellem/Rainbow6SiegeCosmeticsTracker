@@ -1,6 +1,6 @@
 const models = require('../models');
 
-//const Operators = models.Operatorsl;
+// const Operators = models.Operators;
 
 const operatorsPage = (req, res) => {
   res.render('home');
