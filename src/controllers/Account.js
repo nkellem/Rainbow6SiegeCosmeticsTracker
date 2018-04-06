@@ -25,7 +25,7 @@ const login = (req, res) => {
     }
 
     request.session.account = Account.AccountModel.toAPI(account);
-		request.session.save();
+    request.session.save();
     console.log(request.session);
 
     return response.json({ redirect: '/home' });
