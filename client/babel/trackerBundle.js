@@ -330,7 +330,7 @@ var setup = function setup() {
 };
 
 setup();
-"use strict";
+'use strict';
 
 //TODO:: Implement real versions of handleError and redirect
 var handleError = function handleError(message) {
@@ -342,31 +342,20 @@ var redirect = function redirect(response) {
 };
 
 var sendAjax = function sendAjax(type, action, data, success) {
-  /*fetch(action, {
-  headers: {
-  	'Content-Type': 'application/x-www-form-urlencoded'
-  },
+  fetch(action, {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    credentials: 'include',
     method: type,
-  body: data
-  }).then(response => {
+    body: data
+  }).then(function (response) {
     return response.json();
-  }).then(data => {
+  }).then(function (data) {
     if (data.error) {
       handleError(data.error);
       return;
     }
     success(data);
-  });*/
-  $.ajax({
-    cache: false,
-    type: type,
-    url: action,
-    data: data,
-    dataType: "json",
-    success: success,
-    error: function error(xhr, status, _error) {
-      var messageObj = JSON.parse(xhr.responseText);
-      handleError(messageObj.error);
-    }
   });
 };
