@@ -8,7 +8,7 @@ const redirect = response => {
 };
 
 const sendAjax = (type, action, data, success) => {
-  fetch(action, {
+  /*fetch(action, {
 		headers: {
 			'Content-Type': 'application/x-www-form-urlencoded'
 		},
@@ -22,5 +22,17 @@ const sendAjax = (type, action, data, success) => {
       return;
     }
     success(data);
+  });*/
+  $.ajax({
+    cache: false,
+    type,
+    url: action,
+    data,
+    dataType: "json",
+    success,
+    error: function(xhr, status, error) {
+      var messageObj = JSON.parse(xhr.responseText);
+      handleError(messageObj.error);
+    }
   });
 };
