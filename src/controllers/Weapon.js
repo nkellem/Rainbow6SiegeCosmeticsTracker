@@ -1,6 +1,6 @@
-// const models = require('../models');
+const models = require('../models');
 
-// const Operators = models.Operators;
+const { Weapon } = models;
 
 const operatorsPage = (req, res) => {
   res.render('home');
