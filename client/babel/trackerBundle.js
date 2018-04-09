@@ -1,182 +1,199 @@
-"use strict";
+'use strict';
 
-var handleEntrySubmit = function handleEntrySubmit(e) {};
+var handleEntrySubmit = function handleEntrySubmit(e) {
+  e.preventDefault();
+  var opName = document.querySelector('#newEntryForm').value;
+  var weaponName = document.querySelector('#opGun').value;
+  var skin = document.querySelector('#gunSkin').value;
+  var entryForm = document.querySelector('#newEntryForm');
+
+  if (opName === '' || weaponName === '' || skin === '') {
+    handleError('All fields are required');
+    return false;
+  }
+
+  sendAjax(entryForm.getAttribute('method'), entryForm.getAttribute('action'), serialize(newEntryForm), function () {
+    alert('Data sent');
+  });
+
+  return false;
+};
 
 var HomeNav = function HomeNav(props) {
   return React.createElement(
-    "a",
-    { href: "#", onClick: createTracker },
-    "Home"
+    'a',
+    { href: '#', onClick: createTracker },
+    'Home'
   );
 };
 
 var NewEntryForm = function NewEntryForm(props) {
   return React.createElement(
-    "div",
-    { id: "formDiv" },
+    'div',
+    { id: 'formDiv' },
     React.createElement(
-      "form",
-      { action: "/addNewEntry", method: "POST", name: "newEntryForm", onSubmit: handleEntrySubmit, id: "newEntryForm" },
+      'form',
+      { action: '/addNewEntry', method: 'POST', name: 'newEntryForm', onSubmit: handleEntrySubmit, id: 'newEntryForm' },
       React.createElement(
-        "select",
-        { name: "operator", id: "operatorSelect" },
+        'select',
+        { name: 'opName', id: 'operatorSelect' },
         React.createElement(
-          "option",
-          { value: "" },
-          "Select An Op"
+          'option',
+          { value: '' },
+          'Select An Op'
         ),
         React.createElement(
-          "option",
-          { value: "Ash" },
-          "Ash"
+          'option',
+          { value: 'Ash' },
+          'Ash'
         ),
         React.createElement(
-          "option",
-          { value: "Blackbeard" },
-          "Blackbeard"
+          'option',
+          { value: 'Blackbeard' },
+          'Blackbeard'
         ),
         React.createElement(
-          "option",
-          { value: "Blitz" },
-          "Blitz"
+          'option',
+          { value: 'Blitz' },
+          'Blitz'
         ),
         React.createElement(
-          "option",
-          { value: "Buck" },
-          "Buck"
+          'option',
+          { value: 'Buck' },
+          'Buck'
         ),
         React.createElement(
-          "option",
-          { value: "Capitao" },
-          "Capitao"
+          'option',
+          { value: 'Capitao' },
+          'Capitao'
         ),
         React.createElement(
-          "option",
-          { value: "Fuze" },
-          "Fuze"
+          'option',
+          { value: 'Fuze' },
+          'Fuze'
         ),
         React.createElement(
-          "option",
-          { value: "Glaz" },
-          "Glaz"
+          'option',
+          { value: 'Glaz' },
+          'Glaz'
         ),
         React.createElement(
-          "option",
-          { value: "Hibana" },
-          "Hibana"
+          'option',
+          { value: 'Hibana' },
+          'Hibana'
         ),
         React.createElement(
-          "option",
-          { value: "IQ" },
-          "IQ"
+          'option',
+          { value: 'IQ' },
+          'IQ'
         ),
         React.createElement(
-          "option",
-          { value: "Montagne" },
-          "Montagne"
+          'option',
+          { value: 'Montagne' },
+          'Montagne'
         ),
         React.createElement(
-          "option",
-          { value: "Sledge" },
-          "Sledge"
+          'option',
+          { value: 'Sledge' },
+          'Sledge'
         ),
         React.createElement(
-          "option",
-          { value: "Thatcher" },
-          "Thatcher"
+          'option',
+          { value: 'Thatcher' },
+          'Thatcher'
         ),
         React.createElement(
-          "option",
-          { value: "Thermite" },
-          "Thermite"
+          'option',
+          { value: 'Thermite' },
+          'Thermite'
         ),
         React.createElement(
-          "option",
-          { value: "Twitch" },
-          "Twitch"
+          'option',
+          { value: 'Twitch' },
+          'Twitch'
         ),
         React.createElement(
-          "option",
-          { value: "Bandit" },
-          "Bandit"
+          'option',
+          { value: 'Bandit' },
+          'Bandit'
         ),
         React.createElement(
-          "option",
-          { value: "Castle" },
-          "Castle"
+          'option',
+          { value: 'Castle' },
+          'Castle'
         ),
         React.createElement(
-          "option",
-          { value: "Caveira" },
-          "Caveira"
+          'option',
+          { value: 'Caveira' },
+          'Caveira'
         ),
         React.createElement(
-          "option",
-          { value: "Doc" },
-          "Doc"
+          'option',
+          { value: 'Doc' },
+          'Doc'
         ),
         React.createElement(
-          "option",
-          { value: "Echo" },
-          "Echo"
+          'option',
+          { value: 'Echo' },
+          'Echo'
         ),
         React.createElement(
-          "option",
-          { value: "Frost" },
-          "Frost"
+          'option',
+          { value: 'Frost' },
+          'Frost'
         ),
         React.createElement(
-          "option",
-          { value: "Jager" },
-          "Jager"
+          'option',
+          { value: 'Jager' },
+          'Jager'
         ),
         React.createElement(
-          "option",
-          { value: "Kapkan" },
-          "Kapkan"
+          'option',
+          { value: 'Kapkan' },
+          'Kapkan'
         ),
         React.createElement(
-          "option",
-          { value: "Mute" },
-          "Mute"
+          'option',
+          { value: 'Mute' },
+          'Mute'
         ),
         React.createElement(
-          "option",
-          { value: "Pulse" },
-          "Pulse"
+          'option',
+          { value: 'Pulse' },
+          'Pulse'
         ),
         React.createElement(
-          "option",
-          { value: "Rook" },
-          "Rook"
+          'option',
+          { value: 'Rook' },
+          'Rook'
         ),
         React.createElement(
-          "option",
-          { value: "Smoke" },
-          "Smoke"
+          'option',
+          { value: 'Smoke' },
+          'Smoke'
         ),
         React.createElement(
-          "option",
-          { value: "Tachanka" },
-          "Tachanka"
+          'option',
+          { value: 'Tachanka' },
+          'Tachanka'
         ),
         React.createElement(
-          "option",
-          { value: "Valkyrie" },
-          "Valkyrie"
+          'option',
+          { value: 'Valkyrie' },
+          'Valkyrie'
         )
       ),
       React.createElement(
-        "select",
-        { name: "gun", id: "opGun" },
+        'select',
+        { name: 'weaponName', id: 'opGun' },
         React.createElement(
-          "option",
-          { value: "" },
-          "Select A Gun"
+          'option',
+          { value: '' },
+          'Select A Gun'
         )
       ),
-      React.createElement("input", { id: "gunSkin", type: "text", name: "skin", placeholder: "Enter a Skin" }),
-      React.createElement("input", { id: "submitEntry", type: "submit", value: "submit" })
+      React.createElement('input', { id: 'gunSkin', type: 'text', name: 'skin', placeholder: 'Enter a Skin' }),
+      React.createElement('input', { id: 'submitEntry', type: 'submit', value: 'submit' })
     )
   );
 };

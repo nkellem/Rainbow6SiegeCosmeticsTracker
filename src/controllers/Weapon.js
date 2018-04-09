@@ -6,6 +6,11 @@ const operatorsPage = (req, res) => {
   res.render('home');
 };
 
+const addWeaponSkin = (req, res) => {
+	
+};
+
 module.exports = {
   operatorsPage,
+	addWeaponSkin,
 };

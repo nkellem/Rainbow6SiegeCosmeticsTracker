@@ -1,5 +1,18 @@
 const handleEntrySubmit = e => {
-
+	e.preventDefault();
+	const opName = document.querySelector('#newEntryForm').value;
+	const weaponName = document.querySelector('#opGun').value;
+	const skin = document.querySelector('#gunSkin').value;
+	const entryForm = document.querySelector('#newEntryForm');
+	
+	if (opName === '' || weaponName === '' || skin === '') {
+		handleError('All fields are required');
+		return false;
+	}
+	
+	sendAjax(entryForm.getAttribute('method'), entryForm.getAttribute('action'), serialize(newEntryForm), () => { alert('Data sent'); });
+	
+	return false;
 };
 
 const HomeNav = props => {
@@ -12,7 +25,7 @@ const NewEntryForm = props => {
   return (
     <div id="formDiv">
       <form action="/addNewEntry" method="POST" name="newEntryForm" onSubmit={handleEntrySubmit} id="newEntryForm">
-        <select name="operator" id="operatorSelect">
+        <select name="opName" id="operatorSelect">
           <option value="">Select An Op</option>
           <option value="Ash">Ash</option>
           <option value="Blackbeard">Blackbeard</option>
@@ -43,7 +56,7 @@ const NewEntryForm = props => {
           <option value="Tachanka">Tachanka</option>
           <option value="Valkyrie">Valkyrie</option>
         </select>
-        <select name="gun" id="opGun">
+        <select name="weaponName" id="opGun">
           <option value="">Select A Gun</option>
         </select>
         <input id="gunSkin" type="text" name="skin" placeholder="Enter a Skin" />
