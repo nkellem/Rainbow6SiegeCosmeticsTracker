@@ -7,7 +7,6 @@ const loginPage = (req, res) => {
 };
 
 const login = (req, res) => {
-  console.log('login fired');
   const request = req;
   const response = res;
 
@@ -25,8 +24,6 @@ const login = (req, res) => {
     }
 
     request.session.account = Account.AccountModel.toAPI(account);
-    request.session.save();
-    console.log(request.session);
 
     return response.json({ redirect: '/home' });
   });
@@ -45,8 +42,6 @@ const signup = (req, res) => {
   request.body.username = `${request.body.username}`;
   request.body.password = `${request.body.password}`;
   request.body.password2 = `${request.body.password2}`;
-
-  console.dir(request.body);
 
   if (!request.body.username || !request.body.password || !request.body.password2) {
     return response.status(400).json({ error: 'All fields are required' });

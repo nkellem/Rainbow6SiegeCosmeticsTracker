@@ -1,11 +1,7 @@
 const requiresLogin = (req, res, next) => {
-  console.log(req.session);
-  console.log(req.session.account);
   if (!req.session.account) {
-    console.log('account not read');
     return res.redirect('/');
   }
-  console.log('account read');
   return next();
 };
 
