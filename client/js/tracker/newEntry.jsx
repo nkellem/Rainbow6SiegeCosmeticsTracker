@@ -21,11 +21,36 @@ const HomeNav = props => {
   );
 };
 
+const OpWeaponOption = props => {
+	return (
+		<option value={props.weaponName}>{props.weaponName}</option>
+	);
+};
+
+const OpWeaponOptions = props => {
+	let options = [];
+	console.log(props);
+	console.log(props.weapons);
+	
+	props.weapons.forEach(weapon => {
+		console.log(weapon);
+		options.push(<OpWeaponOption weaponName={weapon}/>);
+	});
+	console.log(options);
+	
+	return (
+		<select name="weaponName" id="opGun">
+    	<option value="">Select A Gun</option>
+			{options}
+    </select>
+	);
+};
+
 const NewEntryForm = props => {
   return (
     <div id="formDiv">
       <form action="/addNewEntry" method="POST" name="newEntryForm" onSubmit={handleEntrySubmit} id="newEntryForm">
-        <select name="opName" id="operatorSelect">
+        <select name="opName" id="operatorSelect" onChange={loadOpWeaponOptions}>
           <option value="">Select An Op</option>
           <option value="Ash">Ash</option>
           <option value="Blackbeard">Blackbeard</option>
@@ -56,9 +81,7 @@ const NewEntryForm = props => {
           <option value="Tachanka">Tachanka</option>
           <option value="Valkyrie">Valkyrie</option>
         </select>
-        <select name="weaponName" id="opGun">
-          <option value="">Select A Gun</option>
-        </select>
+				<span id="opGun"></span>
         <input id="gunSkin" type="text" name="skin" placeholder="Enter a Skin" />
         <input id="submitEntry" type="submit" value="submit" />
       </form>
@@ -80,10 +103,23 @@ const createNewEntryFormNav = () => {
   );
 };
 
+const createWeaponSelect = weapons => {
+	ReactDOM.render(
+		<OpWeaponOptions weapons={weapons}/>,
+		document.querySelector('#opGun')
+	);
+};
+
 const createNewEntry = e => {
   if (e) {
     e.preventDefault();
   }
   createNewEntryFormNav();
   createNewEntryForm();
+	createWeaponSelect([]);
+};
+
+const loadOpWeaponOptions = e => {
+	let opWeapons = opGuns[e.target.value];
+	createWeaponSelect(opWeapons);
 };

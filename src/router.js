@@ -8,7 +8,7 @@ const router = (app) => {
   app.post('/signup', mid.requiresSecure, mid.requiresLogout, controllers.Account.signup);
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
   app.get('/home', mid.requiresLogin, controllers.Weapon.operatorsPage);
-	app.post('/newEntry', mid.requiresSecure, mid.requiresLogin, controllers.Weapon.addWeaponSkin);
+  app.post('/addNewEntry', mid.requiresSecure, mid.requiresLogin, controllers.Weapon.addWeaponSkin);
 };
 
 module.exports = router;

@@ -56,6 +56,17 @@ WeaponSchema.statics.findByOwner = (ownerId, opName, callback) => {
   return WeaponModel.find(search).select('weaponName skins').exec(callback);
 };
 
+WeaponSchema.statics.findWeaponByOwner = (ownerId, opName, weaponName, callback) => {
+  const search = {
+    owner: convertId(ownerId),
+    opName,
+    weaponName,
+  };
+	
+	
+  return WeaponModel.findOne(search).select('skins').exec(callback);
+};
+
 WeaponModel = mongoose.model('Weapon', WeaponSchema);
 
 module.exports = {

@@ -27,6 +27,37 @@ var HomeNav = function HomeNav(props) {
   );
 };
 
+var OpWeaponOption = function OpWeaponOption(props) {
+  return React.createElement(
+    'option',
+    { value: props.weaponName },
+    props.weaponName
+  );
+};
+
+var OpWeaponOptions = function OpWeaponOptions(props) {
+  var options = [];
+  console.log(props);
+  console.log(props.weapons);
+
+  props.weapons.forEach(function (weapon) {
+    console.log(weapon);
+    options.push(React.createElement(OpWeaponOption, { weaponName: weapon }));
+  });
+  console.log(options);
+
+  return React.createElement(
+    'select',
+    { name: 'weaponName', id: 'opGun' },
+    React.createElement(
+      'option',
+      { value: '' },
+      'Select A Gun'
+    ),
+    options
+  );
+};
+
 var NewEntryForm = function NewEntryForm(props) {
   return React.createElement(
     'div',
@@ -36,7 +67,7 @@ var NewEntryForm = function NewEntryForm(props) {
       { action: '/addNewEntry', method: 'POST', name: 'newEntryForm', onSubmit: handleEntrySubmit, id: 'newEntryForm' },
       React.createElement(
         'select',
-        { name: 'opName', id: 'operatorSelect' },
+        { name: 'opName', id: 'operatorSelect', onChange: loadOpWeaponOptions },
         React.createElement(
           'option',
           { value: '' },
@@ -183,15 +214,7 @@ var NewEntryForm = function NewEntryForm(props) {
           'Valkyrie'
         )
       ),
-      React.createElement(
-        'select',
-        { name: 'weaponName', id: 'opGun' },
-        React.createElement(
-          'option',
-          { value: '' },
-          'Select A Gun'
-        )
-      ),
+      React.createElement('span', { id: 'opGun' }),
       React.createElement('input', { id: 'gunSkin', type: 'text', name: 'skin', placeholder: 'Enter a Skin' }),
       React.createElement('input', { id: 'submitEntry', type: 'submit', value: 'submit' })
     )
@@ -206,12 +229,22 @@ var createNewEntryFormNav = function createNewEntryFormNav() {
   ReactDOM.render(React.createElement(HomeNav, null), document.querySelector('nav'));
 };
 
+var createWeaponSelect = function createWeaponSelect(weapons) {
+  ReactDOM.render(React.createElement(OpWeaponOptions, { weapons: weapons }), document.querySelector('#opGun'));
+};
+
 var createNewEntry = function createNewEntry(e) {
   if (e) {
     e.preventDefault();
   }
   createNewEntryFormNav();
   createNewEntryForm();
+  createWeaponSelect([]);
+};
+
+var loadOpWeaponOptions = function loadOpWeaponOptions(e) {
+  var opWeapons = opGuns[e.target.value];
+  createWeaponSelect(opWeapons);
 };
 "use strict";
 
@@ -375,4 +408,36 @@ var sendAjax = function sendAjax(type, action, data, success) {
     }
     success(data);
   });
+};
+"use strict";
+
+var opGuns = {
+  Ash: ["G36C", "R4-C", "M45 MEUSOC", "5.7 USG"],
+  Blackbeard: ["MK17 CQB", "SR-25", "D-50"],
+  Blitz: ["Flash Shield", "P12"],
+  Buck: ["C8 SFW", "CAMRS", "MK1 9mm"],
+  Capitao: ["PARA 308", "M249", "PRB92"],
+  Fuze: ["Ballistic Shield", "6P41", "AK 12", "PMM", "GSH 18"],
+  Glaz: ["OTs-03", "GSH 18", "PMM"],
+  Hibana: ["Type 89", "Supernova", "P229", "Bearing 9"],
+  IQ: ["AUG A2", "552 Commando", "G8A1", "P12"],
+  Montagne: ["Extendable Shield", "P9", "LFP586"],
+  Sledge: ["M590A1", "L85A2", "P226 MK-25", "SMG-11"],
+  Thatcher: ["AR33", "L85A2", "M590A1", "P226 MK-25"],
+  Thermite: ["M1014", "556XI", "M45 MEUSOC", "5.7 USG"],
+  Twitch: ["F2", "417", "SG CQB"],
+  Bandit: ["MP7", "M870", "P12"],
+  Castle: ["UMP45", "M1014", "5.7 USG", "M45 MEUSOC"],
+  Caveira: ["M12", "SPAS-15", "Luison"],
+  Doc: ["SG CQB", "MP5", "P90", "P9", "LFP586"],
+  Echo: ["Supernova", "MP5SD", "P229", "Bearing 9"],
+  Frost: ["Super 90", "9mm C1", "MK1 9mm"],
+  Jager: ["M870", "416-C Carbine", "P12"],
+  Kapkan: ["9x19VSN", "SASG-12", "PMM", "GSH 18"],
+  Smoke: ["FMG-9", "M590A1", "P226 MK-25", "SMG-11"],
+  Pulse: ["M1014", "UMP45", "M45 MEUSOC", "5.7 USG"],
+  Rook: ["P90", "MP5", "SG-CQB", "LFP586", "P9"],
+  Mute: ["MP5K", "M590A1", "P226 MK-25"],
+  Tachanka: ["SASG-12", "9x19VSN", "GSH 18", "PMM"],
+  Valkyrie: ["MPX", "SPAS-12", "D-50"]
 };
