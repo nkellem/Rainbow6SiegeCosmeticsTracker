@@ -43,20 +43,20 @@ const addWeaponSkin = (req, res) => {
   const request = req;
   const response = res;
 
-  Weapon.WeaponModel.findWeaponByOwner(request.session.account._id, request.body.opName, request.body.weaponName, (err, docs) => {
+  return Weapon.WeaponModel.findWeaponByOwner(request.session.account._id, request.body.opName, request.body.weaponName, (err, docs) => {
     if (!docs || err) {
-			console.log('creation fired');
+      console.log('creation fired');
       createWeaponSkin(request, response);
     } else {
-			console.log('update fired');
+      console.log('update fired');
       const search = {
         owner: request.session.account._id,
         opName: request.body.opName,
         weaponName: request.body.weaponName,
       };
-			
+
       const newSkins = docs.skins;
-			newSkins.push(request.body.skin);
+      newSkins.push(request.body.skin);
 
       Weapon.WeaponModel.update(search, { $set: { skins: newSkins } }, {}, (error) => {
         if (error) {
@@ -69,7 +69,23 @@ const addWeaponSkin = (req, res) => {
   });
 };
 
+const getWeaponSkins = (req, res) => {
+  const request = req;
+  const response = res;
+
+  return Weapon.WeaponModel.findWeaponsByOwner(request.session.account._id, request.body.opName, (err, docs) => {
+    if (err) {
+      console.log(err);
+      return response.status(500).json({ error: 'An internal server error occurred' });
+    }
+
+    console.log(docs);
+    return res.status(200).json({ weapons: docs });
+  });
+};
+
 module.exports = {
   operatorsPage,
   addWeaponSkin,
+  getWeaponSkins,
 };
