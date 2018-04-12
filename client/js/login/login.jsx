@@ -1,4 +1,4 @@
-//
+//signs the user in
 const handleLogin = e => {
   e.preventDefault();
   const username = document.querySelector('#username').value;
@@ -15,6 +15,7 @@ const handleLogin = e => {
   return false;
 };
 
+//creates an account for the user and signs them in
 const handleSignup = e => {
   e.preventDefault();
   const username = document.querySelector('#username').value;
@@ -37,6 +38,7 @@ const handleSignup = e => {
   return false;
 };
 
+//React Component for rendering the login form on the login.handlebars page
 const LoginWindow = props => {
   return (
     <form id="loginForm" name="loginForm" action="/login" onSubmit={handleLogin} method="POST" className="mainForm">
@@ -55,6 +57,7 @@ const LoginWindow = props => {
   );
 };
 
+//React Component for rendering the sign up form on the login.handlebars page
 const SignupWindow = props => {
   return (
     <form id="signupForm" name="signupForm" action="/signup" onSubmit={handleSignup} method="POST" className="mainForm">
@@ -77,6 +80,7 @@ const SignupWindow = props => {
   );
 };
 
+//renders the login window
 const createLoginWindow = () => {
   ReactDOM.render(
     <LoginWindow />,
@@ -84,6 +88,7 @@ const createLoginWindow = () => {
   );
 };
 
+//renders the sign up window
 const createSignupWindow = () => {
   ReactDOM.render(
     <SignupWindow />,
@@ -91,6 +96,7 @@ const createSignupWindow = () => {
   );
 };
 
+//method for setting up click events and rendering each form appropriately
 const setup = () => {
   const loginButton = document.querySelector('#loginButton');
   const signupButton = document.querySelector('#signupButton');
@@ -110,4 +116,5 @@ const setup = () => {
   createLoginWindow();
 };
 
+//render the page
 setup();

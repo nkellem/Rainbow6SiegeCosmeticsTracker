@@ -119,3 +119,8 @@ nav a {
   padding-top: 20px;
   text-align: right;
 }
+
+#opGun select{
+  margin: 0;
+  background-color: black;
+}

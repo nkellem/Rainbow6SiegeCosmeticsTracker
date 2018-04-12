@@ -1,4 +1,6 @@
 const models = require('../models');
+const url = require('url');
+const query = require('querystring');
 
 const { Weapon } = models;
 
@@ -25,15 +27,15 @@ const createWeaponSkin = (req, res) => {
 
   const weaponPromise = newWeapon.save();
 
-  // add some response here
+  weaponPromise.then(() => response.status(204).json({ message: 'Skin added successfully' }));
 
   weaponPromise.catch((err) => {
     console.log(err);
     if (err.code === 11000) {
-      return res.status(400).json({ error: 'Weapon already exists' });
+      return response.status(400).json({ error: 'Weapon already exists' });
     }
 
-    return res.status(400).json({ error: 'an error ocurred' });
+    return response.status(400).json({ error: 'an error ocurred' });
   });
 
   return weaponPromise;
@@ -63,7 +65,7 @@ const addWeaponSkin = (req, res) => {
           return response.status(500).json({ error: 'Unable to update DB' });
         }
 
-        return true;
+        return response.status(200).json({ message: 'Updated successfully' });
       });
     }
   });
@@ -72,8 +74,14 @@ const addWeaponSkin = (req, res) => {
 const getWeaponSkins = (req, res) => {
   const request = req;
   const response = res;
+  const parsedUrl = url.parse(request.url);
+  const params = query.parse(parsedUrl.query);
 
-  return Weapon.WeaponModel.findWeaponsByOwner(request.session.account._id, request.body.opName, (err, docs) => {
+  console.log(request.url);
+  console.log(parsedUrl);
+  console.log(params);
+
+  return Weapon.WeaponModel.findWeaponsByOwner(request.session.account._id, params.opName, (err, docs) => {
     if (err) {
       console.log(err);
       return response.status(500).json({ error: 'An internal server error occurred' });

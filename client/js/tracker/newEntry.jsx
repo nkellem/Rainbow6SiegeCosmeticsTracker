@@ -1,51 +1,52 @@
+//Sends op weapon data to the server to save skins
 const handleEntrySubmit = e => {
 	e.preventDefault();
 	const opName = document.querySelector('#newEntryForm').value;
 	const weaponName = document.querySelector('#opGun').value;
 	const skin = document.querySelector('#gunSkin').value;
 	const entryForm = document.querySelector('#newEntryForm');
-	
+
 	if (opName === '' || weaponName === '' || skin === '') {
 		handleError('All fields are required');
 		return false;
 	}
-	
+
 	sendAjax(entryForm.getAttribute('method'), entryForm.getAttribute('action'), serialize(newEntryForm), () => { alert('Data sent'); });
-	
+
 	return false;
 };
 
+//React Component for the nav bar so the user can go back to the home page
 const HomeNav = props => {
   return (
     <a href="#" onClick={createTracker}>Home</a>
   );
 };
 
+//React Component to create dynamic options for the weapons select
 const OpWeaponOption = props => {
 	return (
 		<option value={props.weaponName}>{props.weaponName}</option>
 	);
 };
 
+//React Component that creates the weapons select
 const OpWeaponOptions = props => {
 	let options = [];
-	console.log(props);
-	console.log(props.weapons);
-	
+
 	props.weapons.forEach(weapon => {
-		console.log(weapon);
 		options.push(<OpWeaponOption weaponName={weapon}/>);
 	});
-	console.log(options);
-	
+
 	return (
-		<select name="weaponName" id="opGun">
+		<select name="weaponName">
     	<option value="">Select A Gun</option>
 			{options}
     </select>
 	);
 };
 
+//React Component for rendring the New Entry form
 const NewEntryForm = props => {
   return (
     <div id="formDiv">
@@ -89,6 +90,7 @@ const NewEntryForm = props => {
   );
 };
 
+//Renders the new entry form
 const createNewEntryForm = () => {
   ReactDOM.render(
     <NewEntryForm />,
@@ -96,6 +98,7 @@ const createNewEntryForm = () => {
   );
 };
 
+//Renders the nav bar for the new entry page
 const createNewEntryFormNav = () => {
   ReactDOM.render(
     <HomeNav />,
@@ -103,6 +106,7 @@ const createNewEntryFormNav = () => {
   );
 };
 
+//Renders the weapon select in the new entry form
 const createWeaponSelect = weapons => {
 	ReactDOM.render(
 		<OpWeaponOptions weapons={weapons}/>,
@@ -110,6 +114,7 @@ const createWeaponSelect = weapons => {
 	);
 };
 
+//Renders the entire new entry page
 const createNewEntry = e => {
   if (e) {
     e.preventDefault();
@@ -119,6 +124,7 @@ const createNewEntry = e => {
 	createWeaponSelect([]);
 };
 
+//Renders the Weapon select and dynamically loads the weapon options based on the operator selected
 const loadOpWeaponOptions = e => {
 	let opWeapons = opGuns[e.target.value];
 	createWeaponSelect(opWeapons);
