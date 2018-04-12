@@ -81,8 +81,20 @@ nav a {
 #operatorContent {
   width: 100%;
   display: none;
-  margin-top: 50px;
-  margin-bottom: 50px;
+	top: 0;
+	left: 0;
+	position: fixed;
+}
+
+#opSummary {
+	margin-left: auto;
+	margin-right: auto;
+	width: 70%;
+	background-color: black;
+}
+
+#operatorContent select {
+	background-color: black;
 }
 
 #weaponSkins {

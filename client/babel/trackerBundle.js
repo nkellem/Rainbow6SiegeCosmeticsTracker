@@ -1,5 +1,6 @@
 'use strict';
 
+//Sends op weapon data to the server to save skins
 var handleEntrySubmit = function handleEntrySubmit(e) {
   e.preventDefault();
   var opName = document.querySelector('#newEntryForm').value;
@@ -19,6 +20,7 @@ var handleEntrySubmit = function handleEntrySubmit(e) {
   return false;
 };
 
+//React Component for the nav bar so the user can go back to the home page
 var HomeNav = function HomeNav(props) {
   return React.createElement(
     'a',
@@ -27,6 +29,7 @@ var HomeNav = function HomeNav(props) {
   );
 };
 
+//React Component to create dynamic options for the weapons select
 var OpWeaponOption = function OpWeaponOption(props) {
   return React.createElement(
     'option',
@@ -35,6 +38,7 @@ var OpWeaponOption = function OpWeaponOption(props) {
   );
 };
 
+//React Component that creates the weapons select
 var OpWeaponOptions = function OpWeaponOptions(props) {
   var options = [];
 
@@ -54,6 +58,7 @@ var OpWeaponOptions = function OpWeaponOptions(props) {
   );
 };
 
+//React Component for rendring the New Entry form
 var NewEntryForm = function NewEntryForm(props) {
   return React.createElement(
     'div',
@@ -217,18 +222,22 @@ var NewEntryForm = function NewEntryForm(props) {
   );
 };
 
+//Renders the new entry form
 var createNewEntryForm = function createNewEntryForm() {
   ReactDOM.render(React.createElement(NewEntryForm, null), document.querySelector('#mainContent'));
 };
 
+//Renders the nav bar for the new entry page
 var createNewEntryFormNav = function createNewEntryFormNav() {
   ReactDOM.render(React.createElement(HomeNav, null), document.querySelector('nav'));
 };
 
+//Renders the weapon select in the new entry form
 var createWeaponSelect = function createWeaponSelect(weapons) {
   ReactDOM.render(React.createElement(OpWeaponOptions, { weapons: weapons }), document.querySelector('#opGun'));
 };
 
+//Renders the entire new entry page
 var createNewEntry = function createNewEntry(e) {
   if (e) {
     e.preventDefault();
@@ -238,23 +247,43 @@ var createNewEntry = function createNewEntry(e) {
   createWeaponSelect([]);
 };
 
+//Renders the Weapon select and dynamically loads the weapon options based on the operator selected
 var loadOpWeaponOptions = function loadOpWeaponOptions(e) {
   var opWeapons = opGuns[e.target.value];
   createWeaponSelect(opWeapons);
 };
 'use strict';
 
+//Renders the nav bar on the home page
 var handleHomeNav = function handleHomeNav(e) {
   e.preventDefault();
   createTracker();
 };
 
+//shows the operatorContent div if it is hidden
+var showOpContent = function showOpContent() {
+  var opContent = document.querySelector('#operatorContent');
+  console.log(opContent);
+  console.log(opContent.style.display);
+  if (opContent.style.display === 'none' || opContent.style.display === '') {
+    opContent.style.display = 'block';
+  }
+};
+
+//Retrieves the skins for an operator from the database
 var getOpWeapons = function getOpWeapons(e) {
-  sendAjax('GET', '/opWeapons?opName=' + e.target.getAttribute('value'), null, function (data) {
+  var imgSrc = e.target.src;
+  var opName = e.target.getAttribute('value');
+  sendAjax('GET', '/opWeapons?opName=' + opName, null, function (data) {
     console.log(data);
+
+    ReactDOM.render(React.createElement(OperatorSummaryComponent, { weapons: data.weapons, imgSrc: imgSrc, opName: opName }), document.querySelector('#operatorContent'));
+
+    showOpContent();
   });
 };
 
+//React Component for rendering the nav bar on the Home page
 var NewEntryNav = function NewEntryNav(props) {
   return React.createElement(
     'a',
@@ -268,6 +297,7 @@ var NewEntryNav = function NewEntryNav(props) {
   );
 };
 
+//React Component for rendering the Attackers on the Home page
 var OperatorsAttackersComponent = function OperatorsAttackersComponent(props) {
   return React.createElement(
     'div',
@@ -310,6 +340,7 @@ var OperatorsAttackersComponent = function OperatorsAttackersComponent(props) {
   );
 };
 
+//React Component for rendering the Defenders on the Home page
 var OperatorsDefendersComponent = function OperatorsDefendersComponent(props) {
   return React.createElement(
     'div',
@@ -352,6 +383,32 @@ var OperatorsDefendersComponent = function OperatorsDefendersComponent(props) {
   );
 };
 
+//React Component for rendering the Operator's summary
+var OperatorSummaryComponent = function OperatorSummaryComponent(props) {
+  var weaponNames = [];
+  Object.keys(props.weapons).forEach(function (weapon) {
+    weaponNames.push(props.weapons[weapon].weaponName);
+  });
+
+  return React.createElement(
+    'div',
+    { id: 'opSummary' },
+    React.createElement(
+      'div',
+      { id: 'summaryLeft' },
+      React.createElement(
+        'h1',
+        null,
+        props.opName
+      ),
+      React.createElement('img', { className: 'opIcon', src: props.imgSrc }),
+      React.createElement(OpWeaponOptions, { weapons: weaponNames })
+    ),
+    React.createElement('div', { id: 'summaryRight' })
+  );
+};
+
+//React Component for rendering both the Attackers and Defenders together on the Home page
 var OperatorsList = function OperatorsList(props) {
   return React.createElement(
     'div',
@@ -361,14 +418,17 @@ var OperatorsList = function OperatorsList(props) {
   );
 };
 
+//Renders the operator list on the Home page
 var createOperatorsList = function createOperatorsList() {
   ReactDOM.render(React.createElement(OperatorsList, null), document.querySelector('#mainContent'));
 };
 
+//Renders the nav bar on the Home page
 var createTrackerNav = function createTrackerNav() {
   ReactDOM.render(React.createElement(NewEntryNav, null), document.querySelector('nav'));
 };
 
+//Renders the entire Home page
 var createTracker = function createTracker(e) {
   if (e) {
     e.preventDefault();
@@ -377,6 +437,7 @@ var createTracker = function createTracker(e) {
   createOperatorsList();
 };
 
+//Renders the entire home page by default
 var setup = function setup() {
   createTracker();
 };
@@ -385,14 +446,17 @@ setup();
 'use strict';
 
 //TODO:: Implement real versions of handleError and redirect
+//handles what to do in case an AJAX request sends back an error
 var handleError = function handleError(message) {
   alert(message);
 };
 
+//redirects the user to a specified page
 var redirect = function redirect(response) {
   window.location = response.redirect;
 };
 
+//helper method for sending out AJAX requests
 var sendAjax = function sendAjax(type, action, data, success) {
   fetch(action, {
     headers: {
@@ -413,6 +477,8 @@ var sendAjax = function sendAjax(type, action, data, success) {
 };
 'use strict';
 
+//holds weapon data for each operator
+//used in the newEntry.jsx file to dynamically load weapon options
 var opGuns = {
   Ash: ['G36C', 'R4-C', 'M45 MEUSOC', '5.7 USG'],
   Blackbeard: ['MK17 CQB', 'SR-25', 'D-50'],

@@ -4,10 +4,30 @@ const handleHomeNav = e => {
   createTracker();
 };
 
+//shows the operatorContent div if it is hidden
+const showOpContent = () => {
+	const opContent = document.querySelector('#operatorContent');
+	console.log(opContent);
+	console.log(opContent.style.display);
+	if (opContent.style.display === 'none' || opContent.style.display === '') {
+		opContent.style.display = 'block';
+	}
+	
+};
+
 //Retrieves the skins for an operator from the database
 const getOpWeapons = e => {
-  sendAjax('GET', `/opWeapons?opName=${e.target.getAttribute('value')}`, null, data => {
+	const imgSrc = e.target.src;
+	const opName = e.target.getAttribute('value');
+  sendAjax('GET', `/opWeapons?opName=${opName}`, null, data => {
     console.log(data);
+		
+		ReactDOM.render(
+			<OperatorSummaryComponent weapons={data.weapons} imgSrc={imgSrc} opName={opName} />,
+			document.querySelector('#operatorContent')
+		);
+		
+		showOpContent();
   });
 };
 
@@ -78,6 +98,26 @@ const OperatorsDefendersComponent = props => {
       </div>
     </div>
   );
+};
+
+//React Component for rendering the Operator's summary
+const OperatorSummaryComponent = props => {
+	let weaponNames = [];
+	Object.keys(props.weapons).forEach(weapon => {
+		weaponNames.push(props.weapons[weapon].weaponName);
+	});
+
+	return (
+		<div id="opSummary">
+			<div id="summaryLeft">
+				<h1>{props.opName}</h1>
+				<img className="opIcon" src={props.imgSrc} />
+				<OpWeaponOptions weapons={weaponNames} />
+			</div>
+			<div id="summaryRight">
+			</div>
+		</div>
+	);
 };
 
 //React Component for rendering both the Attackers and Defenders together on the Home page

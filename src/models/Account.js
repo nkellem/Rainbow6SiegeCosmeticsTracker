@@ -1,13 +1,17 @@
+//Pulls in required dependencies
 const crypto = require('crypto');
 const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
 
+//Defines the model object
 let AccountModel = {};
+//Defines the options for password hash/encryption generation
 const iterations = 10000;
 const saltLength = 64;
 const keyLength = 64;
 
+//Defines the Schema for a user account
 const AccountSchema = new mongoose.Schema({
   username: {
     type: String,
@@ -30,11 +34,13 @@ const AccountSchema = new mongoose.Schema({
   },
 });
 
+//Formats the account's username and objectId in the DB into an object to be attached to the session
 AccountSchema.statics.toAPI = doc => ({
   username: doc.username,
   _id: doc._id,
 });
 
+//Encrypts the user's submitted password to see if it matches the hash in the DB
 const validatePassword = (doc, password, callback) => {
   const pass = doc.password;
 
@@ -46,6 +52,7 @@ const validatePassword = (doc, password, callback) => {
   });
 };
 
+//Executes the callback if a user is found with the given name
 AccountSchema.statics.findByUsername = (name, callback) => {
   const search = {
     username: name,
@@ -54,6 +61,7 @@ AccountSchema.statics.findByUsername = (name, callback) => {
   return AccountModel.findOne(search, callback);
 };
 
+//Encrypts and generates a hash based on the submitted password
 AccountSchema.statics.generateHash = (password, callback) => {
   const salt = crypto.randomBytes(saltLength);
 
@@ -61,6 +69,7 @@ AccountSchema.statics.generateHash = (password, callback) => {
     callback(salt, hash.toString('hex')));
 };
 
+//Authenticates a user's credentials with the accounts stored in the DB
 AccountSchema.statics.authenticate = (username, password, callback) =>
   AccountModel.findByUsername(username, (err, doc) => {
     if (err) {
@@ -80,8 +89,10 @@ AccountSchema.statics.authenticate = (username, password, callback) =>
     });
   });
 
+//Redfines the AccountModel object
 AccountModel = mongoose.model('Account', AccountSchema);
 
+//Exports the AccountModel and AccountSchema
 module.exports = {
   AccountModel,
   AccountSchema,

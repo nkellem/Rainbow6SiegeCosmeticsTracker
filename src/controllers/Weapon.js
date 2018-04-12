@@ -1,13 +1,17 @@
+//Pulls in required dependencies
 const models = require('../models');
 const url = require('url');
 const query = require('querystring');
 
+//Loads Weapon objct from the models module
 const { Weapon } = models;
 
+//Renders the home page
 const operatorsPage = (req, res) => {
   res.render('home');
 };
 
+//Creates a new document in the DB to store data about a specific Operator's gun
 const createWeaponSkin = (req, res) => {
   const request = req;
   const response = res;
@@ -41,6 +45,7 @@ const createWeaponSkin = (req, res) => {
   return weaponPromise;
 };
 
+//Either creates or updates a document for a specific Operator's gun
 const addWeaponSkin = (req, res) => {
   const request = req;
   const response = res;
@@ -71,6 +76,7 @@ const addWeaponSkin = (req, res) => {
   });
 };
 
+//Queries the DB and returns the skins for a specific Operator's gun
 const getWeaponSkins = (req, res) => {
   const request = req;
   const response = res;
@@ -92,6 +98,7 @@ const getWeaponSkins = (req, res) => {
   });
 };
 
+//Exports methods for the module so they can be used by other files
 module.exports = {
   operatorsPage,
   addWeaponSkin,
