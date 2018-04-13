@@ -1,17 +1,17 @@
-//Pulls in required dependencies
+// Pulls in required dependencies
 const models = require('../models');
 const url = require('url');
 const query = require('querystring');
 
-//Loads Weapon objct from the models module
+// Loads Weapon objct from the models module
 const { Weapon } = models;
 
-//Renders the home page
+// Renders the home page
 const operatorsPage = (req, res) => {
   res.render('home');
 };
 
-//Creates a new document in the DB to store data about a specific Operator's gun
+// Creates a new document in the DB to store data about a specific Operator's gun
 const createWeaponSkin = (req, res) => {
   const request = req;
   const response = res;
@@ -45,12 +45,16 @@ const createWeaponSkin = (req, res) => {
   return weaponPromise;
 };
 
-//Either creates or updates a document for a specific Operator's gun
+// Either creates or updates a document for a specific Operator's gun
 const addWeaponSkin = (req, res) => {
   const request = req;
   const response = res;
 
-  return Weapon.WeaponModel.findWeaponByOwner(request.session.account._id, request.body.opName, request.body.weaponName, (err, docs) => {
+  const id = request.session.account._id;
+  const { opName } = request.body;
+  const { weaponName } = request.body;
+
+  return Weapon.WeaponModel.findWeaponByOwner(id, opName, weaponName, (err, docs) => {
     if (!docs || err) {
       console.log('creation fired');
       createWeaponSkin(request, response);
@@ -76,18 +80,16 @@ const addWeaponSkin = (req, res) => {
   });
 };
 
-//Queries the DB and returns the skins for a specific Operator's gun
+// Queries the DB and returns the skins for a specific Operator's gun
 const getWeaponSkins = (req, res) => {
   const request = req;
   const response = res;
   const parsedUrl = url.parse(request.url);
   const params = query.parse(parsedUrl.query);
 
-  console.log(request.url);
-  console.log(parsedUrl);
-  console.log(params);
+  const id = request.session.account._id;
 
-  return Weapon.WeaponModel.findWeaponsByOwner(request.session.account._id, params.opName, (err, docs) => {
+  return Weapon.WeaponModel.findWeaponsByOwner(id, params.opName, (err, docs) => {
     if (err) {
       console.log(err);
       return response.status(500).json({ error: 'An internal server error occurred' });
@@ -98,7 +100,7 @@ const getWeaponSkins = (req, res) => {
   });
 };
 
-//Exports methods for the module so they can be used by other files
+// Exports methods for the module so they can be used by other files
 module.exports = {
   operatorsPage,
   addWeaponSkin,

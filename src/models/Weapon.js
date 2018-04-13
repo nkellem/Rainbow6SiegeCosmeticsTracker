@@ -1,17 +1,17 @@
-//Pulls in the necessary dependencies
+// Pulls in the necessary dependencies
 const mongoose = require('mongoose');
 const _ = require('underscore');
 
 mongoose.Promise = global.Promise;
 
-//Instantiates the WeaponModel
+// Instantiates the WeaponModel
 let WeaponModel = {};
 
-//Properties so we can keep track of weapon by owner
+// Properties so we can keep track of weapon by owner
 const convertId = mongoose.Types.ObjectId;
 const setName = name => _.escape(name).trim(0);
 
-//Defines the Schema for Weapon documents to be saved in the DB
+// Defines the Schema for Weapon documents to be saved in the DB
 const WeaponSchema = new mongoose.Schema({
   opName: {
     type: String,
@@ -44,14 +44,14 @@ const WeaponSchema = new mongoose.Schema({
   },
 });
 
-//Formats the data returned from a DB query
+// Formats the data returned from a DB query
 WeaponSchema.statics.toAPI = doc => ({
   opName: doc.opName,
   weaponName: doc.weaponName,
   skins: doc.skins,
 });
 
-//Queries the database to return all weapons for an Operator saved by a user
+// Queries the database to return all weapons for an Operator saved by a user
 WeaponSchema.statics.findByOwner = (ownerId, opName, callback) => {
   const search = {
     owner: convertId(ownerId),
@@ -61,7 +61,7 @@ WeaponSchema.statics.findByOwner = (ownerId, opName, callback) => {
   return WeaponModel.find(search).select('weaponName skins').exec(callback);
 };
 
-//Queries the database to return a specific weapon for an operator saved by a user
+// Queries the database to return a specific weapon for an operator saved by a user
 WeaponSchema.statics.findWeaponByOwner = (ownerId, opName, weaponName, callback) => {
   const search = {
     owner: convertId(ownerId),
@@ -84,7 +84,7 @@ WeaponSchema.statics.findWeaponsByOwner = (ownerId, opName, callback) => {
   return WeaponModel.find(search).select('weaponName skins').exec(callback);
 };
 
-//Redefines the WeaponModel object to include the Schema
+// Redefines the WeaponModel object to include the Schema
 WeaponModel = mongoose.model('Weapon', WeaponSchema);
 
 module.exports = {

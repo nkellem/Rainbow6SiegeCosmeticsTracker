@@ -1,15 +1,15 @@
-//Load the models module
+// Load the models module
 const models = require('../models');
 
-//Account model extracted from models module
+// Account model extracted from models module
 const { Account } = models;
 
-//Renders the login page
+// Renders the login page
 const loginPage = (req, res) => {
   res.render('login');
 };
 
-//Handles server-side account authentication for users logging in
+// Handles server-side account authentication for users logging in
 const login = (req, res) => {
   const request = req;
   const response = res;
@@ -33,14 +33,14 @@ const login = (req, res) => {
   });
 };
 
-//Logs out the user and resets their session
+// Logs out the user and resets their session
 const logout = (req, res) => {
   req.session.destroy();
   res.redirect('/');
 };
 
-//Creates an account for the user and logs them in
-//Adds account details to their session
+// Creates an account for the user and logs them in
+// Adds account details to their session
 const signup = (req, res) => {
   const request = req;
   const response = res;
@@ -86,7 +86,7 @@ const signup = (req, res) => {
   });
 };
 
-//Exports methods for the module so they can be used by other files
+// Exports methods for the module so they can be used by other files
 module.exports = {
   loginPage,
   login,

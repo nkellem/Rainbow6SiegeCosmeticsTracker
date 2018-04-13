@@ -1,4 +1,4 @@
-//Pull in for all our dependencies
+// Pull in for all our dependencies
 const path = require('path');
 const express = require('express');
 const compression = require('compression');

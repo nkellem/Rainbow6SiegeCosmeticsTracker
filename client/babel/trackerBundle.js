@@ -298,6 +298,11 @@ var getOpWeapons = function getOpWeapons(e) {
   });
 };
 
+//Hides the Op Summary window
+var hideSummary = function hideSummary(e) {
+  document.querySelector('#operatorContent').style.display = 'none';
+};
+
 //Renders the weapon skin list in the op summary window
 var loadWeaponSkinList = function loadWeaponSkinList(e, weapons) {
   var weapon = e.target.value;
@@ -315,7 +320,7 @@ var loadWeaponSkinList = function loadWeaponSkinList(e, weapons) {
     }
   });
 
-  ReactDOM.render(React.createElement(WeaponSkinListComponent, { weapon: weapon, skins: skins }), document.querySelector('#summaryRight'));
+  ReactDOM.render(React.createElement(WeaponSkinListComponent, { weapon: weapon, skins: skins }), document.querySelector('#summaryRight'), resizeOpSummary);
 };
 
 //React Component for rendering the nav bar on the Home page
@@ -441,7 +446,8 @@ var WeaponSkinListComponent = function WeaponSkinListComponent(props) {
     React.createElement(
       'h1',
       { className: 'skinListHeader' },
-      props.weapon
+      props.weapon,
+      ' Skins'
     ),
     React.createElement(
       'ul',
@@ -458,6 +464,11 @@ var OperatorSummaryComponent = function OperatorSummaryComponent(props) {
   return React.createElement(
     'div',
     { id: 'opSummary' },
+    React.createElement(
+      'div',
+      { id: 'exitSummary', onClick: hideSummary },
+      'x'
+    ),
     React.createElement(
       'div',
       { id: 'summaryLeft', className: 'summary' },
@@ -513,6 +524,19 @@ var createTracker = function createTracker(e) {
 //Renders the entire home page by default
 var setup = function setup() {
   createTracker();
+};
+
+//Method that resizes the height of the op summary based on skin list height
+var resizeOpSummary = function resizeOpSummary() {
+  var baseHeight = document.querySelector('#summaryLeft').clientHeight;
+  var listHeight = document.querySelector('.skinList').clientHeight - 100;
+  console.log(listHeight);
+
+  if (listHeight > baseHeight) {
+    document.querySelector('#opSummary').style.height = baseHeight + listHeight + 'px';
+  } else {
+    document.querySelector('#opSummary').style.height = baseHeight + 'px';
+  }
 };
 
 setup();

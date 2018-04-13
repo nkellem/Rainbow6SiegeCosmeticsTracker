@@ -80,16 +80,20 @@ nav a {
 
 #operatorContent {
   width: 100%;
+  height: 100%;
   display: none;
-	top: 70px;
+	top: 0;
 	left: 0;
 	position: fixed;
+  background-color: rgba(0,0,0,0.6);
+
 }
 
 #opSummary {
 	margin-left: auto;
 	margin-right: auto;
 	width: 70%;
+  margin-top: 70px;
 	background-color: black;
 }
 
@@ -150,8 +154,16 @@ nav a {
 .summary img {
   display: block;
   margin: 10px auto;
+  cursor: default;
 }
 
 #summaryRight {
   float: right;
+}
+
+#exitSummary {
+  display: inline-block;
+  position: fixed;
+  font-size: 1.5em;
+  cursor: pointer;
 }

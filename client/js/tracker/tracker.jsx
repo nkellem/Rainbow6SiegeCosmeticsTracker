@@ -31,6 +31,11 @@ const getOpWeapons = e => {
   });
 };
 
+//Hides the Op Summary window
+const hideSummary = e => {
+  document.querySelector('#operatorContent').style.display = 'none';
+};
+
 //Renders the weapon skin list in the op summary window
 const loadWeaponSkinList = (e, weapons) => {
   let weapon = e.target.value;
@@ -50,7 +55,8 @@ const loadWeaponSkinList = (e, weapons) => {
 
   ReactDOM.render(
     <WeaponSkinListComponent weapon={weapon} skins={skins} />,
-    document.querySelector('#summaryRight')
+    document.querySelector('#summaryRight'),
+    resizeOpSummary
   );
 };
 
@@ -140,7 +146,7 @@ const WeaponSkinListComponent = props => {
 
   return (
     <div>
-      <h1 className="skinListHeader">{props.weapon}</h1>
+      <h1 className="skinListHeader">{props.weapon} Skins</h1>
       <ul className="skinList">
         {items}
       </ul>
@@ -154,6 +160,9 @@ const OperatorSummaryComponent = props => {
 
 	return (
 		<div id="opSummary">
+      <div id="exitSummary" onClick={hideSummary}>
+        x
+      </div>
 			<div id="summaryLeft" className="summary">
 				<h1>{props.opName}</h1>
 				<img className="opIcon" src={props.imgSrc} />
@@ -204,6 +213,19 @@ const createTracker = e => {
 //Renders the entire home page by default
 const setup = () => {
   createTracker();
+};
+
+//Method that resizes the height of the op summary based on skin list height
+const resizeOpSummary = () => {
+  const baseHeight = document.querySelector('#summaryLeft').clientHeight;
+  let listHeight = document.querySelector('.skinList').clientHeight - 100;
+  console.log(listHeight);
+
+  if (listHeight > baseHeight) {
+    document.querySelector('#opSummary').style.height = `${baseHeight + listHeight}px`;
+  } else {
+    document.querySelector('#opSummary').style.height = `${baseHeight}px`;
+  }
 };
 
 setup();
