@@ -46,16 +46,31 @@ var OpWeaponOptions = function OpWeaponOptions(props) {
     options.push(React.createElement(OpWeaponOption, { weaponName: weapon }));
   });
 
-  return React.createElement(
-    'select',
-    { name: 'weaponName' },
-    React.createElement(
-      'option',
-      { value: '' },
-      'Select A Gun'
-    ),
-    options
-  );
+  if (props.summary) {
+    return React.createElement(
+      'select',
+      { name: 'weaponName', onChange: function onChange(e) {
+          return loadWeaponSkinList(e, props.skins);
+        } },
+      React.createElement(
+        'option',
+        { value: '' },
+        'Select A Gun'
+      ),
+      options
+    );
+  } else {
+    return React.createElement(
+      'select',
+      { name: 'weaponName' },
+      React.createElement(
+        'option',
+        { value: '' },
+        'Select A Gun'
+      ),
+      options
+    );
+  }
 };
 
 //React Component for rendring the New Entry form
@@ -283,6 +298,26 @@ var getOpWeapons = function getOpWeapons(e) {
   });
 };
 
+//Renders the weapon skin list in the op summary window
+var loadWeaponSkinList = function loadWeaponSkinList(e, weapons) {
+  var weapon = e.target.value;
+  var skins = [];
+
+  if (weapon === '') {
+    weapon = 'Select a Gun';
+  }
+
+  Object.keys(weapons).forEach(function (gun) {
+    console.log(weapon);
+    if (weapons[gun].weaponName === weapon) {
+      skins = weapons[gun].skins;
+      return;
+    }
+  });
+
+  ReactDOM.render(React.createElement(WeaponSkinListComponent, { weapon: weapon, skins: skins }), document.querySelector('#summaryRight'));
+};
+
 //React Component for rendering the nav bar on the Home page
 var NewEntryNav = function NewEntryNav(props) {
   return React.createElement(
@@ -383,28 +418,66 @@ var OperatorsDefendersComponent = function OperatorsDefendersComponent(props) {
   );
 };
 
+//React Component for rendering individual items in the Summary skin list
+var WeaponSkinListItemComponent = function WeaponSkinListItemComponent(props) {
+  return React.createElement(
+    'li',
+    null,
+    props.skin
+  );
+};
+
+//React Component for rendering Gun List
+var WeaponSkinListComponent = function WeaponSkinListComponent(props) {
+  var items = [];
+
+  props.skins.forEach(function (skin) {
+    items.push(React.createElement(WeaponSkinListItemComponent, { skin: skin }));
+  });
+
+  return React.createElement(
+    'div',
+    null,
+    React.createElement(
+      'h1',
+      { className: 'skinListHeader' },
+      props.weapon
+    ),
+    React.createElement(
+      'ul',
+      { className: 'skinList' },
+      items
+    )
+  );
+};
+
 //React Component for rendering the Operator's summary
 var OperatorSummaryComponent = function OperatorSummaryComponent(props) {
-  var weaponNames = [];
-  Object.keys(props.weapons).forEach(function (weapon) {
-    weaponNames.push(props.weapons[weapon].weaponName);
-  });
+  var weaponNames = opGuns[props.opName];
 
   return React.createElement(
     'div',
     { id: 'opSummary' },
     React.createElement(
       'div',
-      { id: 'summaryLeft' },
+      { id: 'summaryLeft', className: 'summary' },
       React.createElement(
         'h1',
         null,
         props.opName
       ),
       React.createElement('img', { className: 'opIcon', src: props.imgSrc }),
-      React.createElement(OpWeaponOptions, { weapons: weaponNames })
+      React.createElement(OpWeaponOptions, { weapons: weaponNames, skins: props.weapons, summary: true })
     ),
-    React.createElement('div', { id: 'summaryRight' })
+    React.createElement(
+      'div',
+      { id: 'summaryRight', className: 'summary' },
+      React.createElement(
+        'h1',
+        { className: 'skinListHeader' },
+        'Select a Gun'
+      )
+    )
   );
 };
 

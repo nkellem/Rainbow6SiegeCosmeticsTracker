@@ -12,7 +12,7 @@ const showOpContent = () => {
 	if (opContent.style.display === 'none' || opContent.style.display === '') {
 		opContent.style.display = 'block';
 	}
-	
+
 };
 
 //Retrieves the skins for an operator from the database
@@ -21,14 +21,37 @@ const getOpWeapons = e => {
 	const opName = e.target.getAttribute('value');
   sendAjax('GET', `/opWeapons?opName=${opName}`, null, data => {
     console.log(data);
-		
+
 		ReactDOM.render(
 			<OperatorSummaryComponent weapons={data.weapons} imgSrc={imgSrc} opName={opName} />,
 			document.querySelector('#operatorContent')
 		);
-		
+
 		showOpContent();
   });
+};
+
+//Renders the weapon skin list in the op summary window
+const loadWeaponSkinList = (e, weapons) => {
+  let weapon = e.target.value;
+  let skins = [];
+
+  if (weapon === '') {
+    weapon = 'Select a Gun';
+  }
+
+  Object.keys(weapons).forEach(gun => {
+    console.log(weapon);
+    if (weapons[gun].weaponName === weapon) {
+      skins = weapons[gun].skins;
+      return;
+    }
+  });
+
+  ReactDOM.render(
+    <WeaponSkinListComponent weapon={weapon} skins={skins} />,
+    document.querySelector('#summaryRight')
+  );
 };
 
 //React Component for rendering the nav bar on the Home page
@@ -100,21 +123,44 @@ const OperatorsDefendersComponent = props => {
   );
 };
 
+//React Component for rendering individual items in the Summary skin list
+const WeaponSkinListItemComponent = props => {
+  return (
+    <li>{props.skin}</li>
+  );
+};
+
+//React Component for rendering Gun List
+const WeaponSkinListComponent = props => {
+  let items = [];
+
+  props.skins.forEach(skin => {
+    items.push(<WeaponSkinListItemComponent skin={skin} />);
+  });
+
+  return (
+    <div>
+      <h1 className="skinListHeader">{props.weapon}</h1>
+      <ul className="skinList">
+        {items}
+      </ul>
+    </div>
+  );
+};
+
 //React Component for rendering the Operator's summary
 const OperatorSummaryComponent = props => {
-	let weaponNames = [];
-	Object.keys(props.weapons).forEach(weapon => {
-		weaponNames.push(props.weapons[weapon].weaponName);
-	});
+	let weaponNames = opGuns[props.opName];
 
 	return (
 		<div id="opSummary">
-			<div id="summaryLeft">
+			<div id="summaryLeft" className="summary">
 				<h1>{props.opName}</h1>
 				<img className="opIcon" src={props.imgSrc} />
-				<OpWeaponOptions weapons={weaponNames} />
+				<OpWeaponOptions weapons={weaponNames} skins={props.weapons} summary={true}/>
 			</div>
-			<div id="summaryRight">
+			<div id="summaryRight" className="summary">
+        <h1 className="skinListHeader">Select a Gun</h1>
 			</div>
 		</div>
 	);

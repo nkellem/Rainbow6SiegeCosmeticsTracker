@@ -42,7 +42,7 @@ const PORT = process.env.PORT || process.env.NODE_PORT || 3000;
 
 const app = express();
 app.use('/assets', express.static(path.resolve(`${__dirname}/../client/`)));
-app.use(favicon(`${__dirname}/../client/images/favicon.png`));
+app.use(favicon(`${__dirname}/../client/images/favicon.ico`));
 app.disable('x-powered-by');
 app.use(compression());
 app.use(bodyParser.urlencoded({

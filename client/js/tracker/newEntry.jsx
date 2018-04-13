@@ -38,12 +38,21 @@ const OpWeaponOptions = props => {
 		options.push(<OpWeaponOption weaponName={weapon}/>);
 	});
 
-	return (
-		<select name="weaponName">
-    	<option value="">Select A Gun</option>
-			{options}
-    </select>
-	);
+	if (props.summary) {
+		return (
+			<select name="weaponName" onChange={e => loadWeaponSkinList(e, props.skins)}>
+	    	<option value="">Select A Gun</option>
+				{options}
+	    </select>
+		);
+	} else {
+		return (
+			<select name="weaponName">
+	    	<option value="">Select A Gun</option>
+				{options}
+	    </select>
+		);
+	}
 };
 
 //React Component for rendring the New Entry form

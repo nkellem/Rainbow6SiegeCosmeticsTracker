@@ -81,7 +81,7 @@ nav a {
 #operatorContent {
   width: 100%;
   display: none;
-	top: 0;
+	top: 70px;
 	left: 0;
 	position: fixed;
 }
@@ -135,4 +135,23 @@ nav a {
 #opGun select{
   margin: 0;
   background-color: black;
+}
+
+.summary {
+  width: 50%;
+  display: inline-block;
+  text-align: center;
+}
+
+.summary h1 {
+  margin: 0;
+}
+
+.summary img {
+  display: block;
+  margin: 10px auto;
+}
+
+#summaryRight {
+  float: right;
 }
