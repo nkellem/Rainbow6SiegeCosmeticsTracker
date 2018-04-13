@@ -31,7 +31,7 @@ const createWeaponSkin = (req, res) => {
 
   const weaponPromise = newWeapon.save();
 
-  weaponPromise.then(() => response.status(204).json({ message: 'Skin added successfully' }));
+  weaponPromise.then(() => response.json({ message: 'Skin added successfully' }));
 
   weaponPromise.catch((err) => {
     console.log(err);

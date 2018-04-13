@@ -7,12 +7,9 @@ const handleHomeNav = e => {
 //shows the operatorContent div if it is hidden
 const showOpContent = () => {
 	const opContent = document.querySelector('#operatorContent');
-	console.log(opContent);
-	console.log(opContent.style.display);
 	if (opContent.style.display === 'none' || opContent.style.display === '') {
 		opContent.style.display = 'block';
 	}
-
 };
 
 //Retrieves the skins for an operator from the database
@@ -31,9 +28,15 @@ const getOpWeapons = e => {
   });
 };
 
-//Hides the Op Summary window
+//Hides the Op Summary window and resets the skin list
 const hideSummary = e => {
+  resetOpSummaryView();
   document.querySelector('#operatorContent').style.display = 'none';
+  document.querySelector('#summaryLeft select').value = '';
+  ReactDOM.render(
+    <OperatorSummaryRightSideComponent />,
+    document.querySelector('#summaryRight')
+  );
 };
 
 //Renders the weapon skin list in the op summary window
@@ -154,6 +157,13 @@ const WeaponSkinListComponent = props => {
   );
 };
 
+//React component for rendering the default right side of the op summery
+const OperatorSummaryRightSideComponent = props => {
+  return (
+    <h1 className="skinListHeader">Select a Gun</h1>
+  );
+};
+
 //React Component for rendering the Operator's summary
 const OperatorSummaryComponent = props => {
 	let weaponNames = opGuns[props.opName];
@@ -168,9 +178,9 @@ const OperatorSummaryComponent = props => {
 				<img className="opIcon" src={props.imgSrc} />
 				<OpWeaponOptions weapons={weaponNames} skins={props.weapons} summary={true}/>
 			</div>
-			<div id="summaryRight" className="summary">
-        <h1 className="skinListHeader">Select a Gun</h1>
-			</div>
+      <div id="summaryRight" className="summary">
+        <OperatorSummaryRightSideComponent />
+      </div>
 		</div>
 	);
 };
@@ -226,6 +236,12 @@ const resizeOpSummary = () => {
   } else {
     document.querySelector('#opSummary').style.height = `${baseHeight}px`;
   }
+};
+
+//Method that resets the height of the op summary view
+const resetOpSummaryView = () => {
+  const baseHeight = document.querySelector('#summaryLeft').clientHeight;
+  document.querySelector('#opSummary').style.height = `${baseHeight}px`;
 };
 
 setup();

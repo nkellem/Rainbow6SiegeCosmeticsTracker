@@ -1,7 +1,7 @@
 //Sends op weapon data to the server to save skins
 const handleEntrySubmit = e => {
 	e.preventDefault();
-	const opName = document.querySelector('#newEntryForm').value;
+	const opName = document.querySelector('#operatorSelect').value;
 	const weaponName = document.querySelector('#opGun').value;
 	const skin = document.querySelector('#gunSkin').value;
 	const entryForm = document.querySelector('#newEntryForm');
@@ -11,7 +11,12 @@ const handleEntrySubmit = e => {
 		return false;
 	}
 
-	sendAjax(entryForm.getAttribute('method'), entryForm.getAttribute('action'), serialize(newEntryForm), () => { alert('Data sent'); });
+	sendAjax(entryForm.getAttribute('method'), entryForm.getAttribute('action'), serialize(newEntryForm), () => {
+		alert('Skin added!');
+		document.querySelector('#operatorSelect').value = '';
+		document.querySelector('#gunSkin').value = '';
+		createWeaponSelect([]);
+	});
 
 	return false;
 };

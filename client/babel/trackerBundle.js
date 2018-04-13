@@ -3,7 +3,7 @@
 //Sends op weapon data to the server to save skins
 var handleEntrySubmit = function handleEntrySubmit(e) {
   e.preventDefault();
-  var opName = document.querySelector('#newEntryForm').value;
+  var opName = document.querySelector('#operatorSelect').value;
   var weaponName = document.querySelector('#opGun').value;
   var skin = document.querySelector('#gunSkin').value;
   var entryForm = document.querySelector('#newEntryForm');
@@ -14,7 +14,10 @@ var handleEntrySubmit = function handleEntrySubmit(e) {
   }
 
   sendAjax(entryForm.getAttribute('method'), entryForm.getAttribute('action'), serialize(newEntryForm), function () {
-    alert('Data sent');
+    alert('Skin added!');
+    document.querySelector('#operatorSelect').value = '';
+    document.querySelector('#gunSkin').value = '';
+    createWeaponSelect([]);
   });
 
   return false;
@@ -278,8 +281,6 @@ var handleHomeNav = function handleHomeNav(e) {
 //shows the operatorContent div if it is hidden
 var showOpContent = function showOpContent() {
   var opContent = document.querySelector('#operatorContent');
-  console.log(opContent);
-  console.log(opContent.style.display);
   if (opContent.style.display === 'none' || opContent.style.display === '') {
     opContent.style.display = 'block';
   }
@@ -298,9 +299,12 @@ var getOpWeapons = function getOpWeapons(e) {
   });
 };
 
-//Hides the Op Summary window
+//Hides the Op Summary window and resets the skin list
 var hideSummary = function hideSummary(e) {
+  resetOpSummaryView();
   document.querySelector('#operatorContent').style.display = 'none';
+  document.querySelector('#summaryLeft select').value = '';
+  ReactDOM.render(React.createElement(OperatorSummaryRightSideComponent, null), document.querySelector('#summaryRight'));
 };
 
 //Renders the weapon skin list in the op summary window
@@ -457,6 +461,15 @@ var WeaponSkinListComponent = function WeaponSkinListComponent(props) {
   );
 };
 
+//React component for rendering the default right side of the op summery
+var OperatorSummaryRightSideComponent = function OperatorSummaryRightSideComponent(props) {
+  return React.createElement(
+    'h1',
+    { className: 'skinListHeader' },
+    'Select a Gun'
+  );
+};
+
 //React Component for rendering the Operator's summary
 var OperatorSummaryComponent = function OperatorSummaryComponent(props) {
   var weaponNames = opGuns[props.opName];
@@ -483,11 +496,7 @@ var OperatorSummaryComponent = function OperatorSummaryComponent(props) {
     React.createElement(
       'div',
       { id: 'summaryRight', className: 'summary' },
-      React.createElement(
-        'h1',
-        { className: 'skinListHeader' },
-        'Select a Gun'
-      )
+      React.createElement(OperatorSummaryRightSideComponent, null)
     )
   );
 };
@@ -537,6 +546,12 @@ var resizeOpSummary = function resizeOpSummary() {
   } else {
     document.querySelector('#opSummary').style.height = baseHeight + 'px';
   }
+};
+
+//Method that resets the height of the op summary view
+var resetOpSummaryView = function resetOpSummaryView() {
+  var baseHeight = document.querySelector('#summaryLeft').clientHeight;
+  document.querySelector('#opSummary').style.height = baseHeight + 'px';
 };
 
 setup();
