@@ -79,8 +79,6 @@ WeaponSchema.statics.findWeaponsByOwner = (ownerId, opName, callback) => {
     opName,
   };
 
-  console.log(opName);
-
   return WeaponModel.find(search).select('weaponName skins').exec(callback);
 };
 

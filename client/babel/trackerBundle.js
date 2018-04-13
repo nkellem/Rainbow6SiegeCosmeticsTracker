@@ -291,8 +291,6 @@ var getOpWeapons = function getOpWeapons(e) {
   var imgSrc = e.target.src;
   var opName = e.target.getAttribute('value');
   sendAjax('GET', '/opWeapons?opName=' + opName, null, function (data) {
-    console.log(data);
-
     ReactDOM.render(React.createElement(OperatorSummaryComponent, { weapons: data.weapons, imgSrc: imgSrc, opName: opName }), document.querySelector('#operatorContent'));
 
     showOpContent();
@@ -317,7 +315,6 @@ var loadWeaponSkinList = function loadWeaponSkinList(e, weapons) {
   }
 
   Object.keys(weapons).forEach(function (gun) {
-    console.log(weapon);
     if (weapons[gun].weaponName === weapon) {
       skins = weapons[gun].skins;
       return;
@@ -539,7 +536,6 @@ var setup = function setup() {
 var resizeOpSummary = function resizeOpSummary() {
   var baseHeight = document.querySelector('#summaryLeft').clientHeight;
   var listHeight = document.querySelector('.skinList').clientHeight - 100;
-  console.log(listHeight);
 
   if (listHeight > baseHeight) {
     document.querySelector('#opSummary').style.height = baseHeight + listHeight + 'px';

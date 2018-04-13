@@ -17,8 +17,6 @@ const getOpWeapons = e => {
 	const imgSrc = e.target.src;
 	const opName = e.target.getAttribute('value');
   sendAjax('GET', `/opWeapons?opName=${opName}`, null, data => {
-    console.log(data);
-
 		ReactDOM.render(
 			<OperatorSummaryComponent weapons={data.weapons} imgSrc={imgSrc} opName={opName} />,
 			document.querySelector('#operatorContent')
@@ -49,7 +47,6 @@ const loadWeaponSkinList = (e, weapons) => {
   }
 
   Object.keys(weapons).forEach(gun => {
-    console.log(weapon);
     if (weapons[gun].weaponName === weapon) {
       skins = weapons[gun].skins;
       return;
@@ -229,7 +226,6 @@ const setup = () => {
 const resizeOpSummary = () => {
   const baseHeight = document.querySelector('#summaryLeft').clientHeight;
   let listHeight = document.querySelector('.skinList').clientHeight - 100;
-  console.log(listHeight);
 
   if (listHeight > baseHeight) {
     document.querySelector('#opSummary').style.height = `${baseHeight + listHeight}px`;

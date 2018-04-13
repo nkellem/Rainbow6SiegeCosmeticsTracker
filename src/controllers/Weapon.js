@@ -95,7 +95,6 @@ const getWeaponSkins = (req, res) => {
       return response.status(500).json({ error: 'An internal server error occurred' });
     }
 
-    console.log(docs);
     return res.status(200).json({ weapons: docs });
   });
 };
