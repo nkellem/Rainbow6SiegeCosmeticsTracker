@@ -12,6 +12,7 @@ const router = (app) => {
   app.post('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.login);
   app.post('/signup', mid.requiresSecure, mid.requiresLogout, controllers.Account.signup);
   app.post('/addNewEntry', mid.requiresSecure, mid.requiresLogin, controllers.Weapon.addWeaponSkin);
+  app.get('*', mid.requiresSecure, mid.requiresLogin, controllers.Weapon.operatorsPage);
 };
 
 // exports the router
