@@ -56,10 +56,8 @@ const addWeaponSkin = (req, res) => {
 
   return Weapon.WeaponModel.findWeaponByOwner(id, opName, weaponName, (err, docs) => {
     if (!docs || err) {
-      console.log('creation fired');
       createWeaponSkin(request, response);
     } else {
-      console.log('update fired');
       const search = {
         owner: request.session.account._id,
         opName: request.body.opName,

@@ -44,3 +44,7 @@ form div{
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
+
+.alteredFont {
+	font-family: 'Anton', sans-serif;
+}

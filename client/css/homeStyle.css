@@ -167,3 +167,55 @@ nav a {
   font-size: 1.5em;
   cursor: pointer;
 }
+
+.rightAlign {
+	text-align: right;
+}
+
+.pageHeader {
+	margin-top: 50px;
+}
+
+#changePassForm {
+	width: 317px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 25px;
+}
+
+form div{
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+#changePassIcon {
+	margin-right: 10px;
+	margin-left: 10px;
+}
+
+.alteredFont {
+	font-family: 'Anton', sans-serif;
+}
+
+#upgradeHeader {
+	font-weight: 300;
+	font-size: 1.5em;
+	margin-top: 10px;
+}
+
+#upgradeList {
+	margin: 10px 0;
+	font-size: 1.5em;
+}
+
+#upgradeList li {
+	margin: 10px 0;
+}
+
+#upgradeInfo {
+	font-size: 1.5em;
+	width: 660px;
+  margin: 0 auto;
+  text-align: left;
+	margin-top: 30px;
+}

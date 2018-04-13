@@ -86,10 +86,52 @@ const signup = (req, res) => {
   });
 };
 
+// Changes the user's password
+// It makes sure the user entered their current password correctly
+// Then it changes password
+const changePassword = (req, res) => {
+  const request = req;
+  const response = res;
+
+  // force cast to strings to cover up some security measures
+  request.body.password = `${request.body.password}`;
+  request.body.newPassword = `${request.body.newPassword}`;
+  request.body.newPassword2 = `${request.body.newPassword2}`;
+
+  if (!request.body.password || !request.body.newPassword || !request.body.newPassword2) {
+    return response.status(400).json({ error: 'All fields are required' });
+  }
+
+  if (request.body.newPassword !== request.body.newPassword2) {
+    return response.status(400).json({ error: 'Passwords do not match' });
+  }
+
+  return Account.AccountModel.authenticate(`${request.session.account.username}`, request.body.password, (err, pass) => {
+    if (err || !pass) {
+      return response.status(401).json({ error: 'Current Passwords do not match' });
+    }
+
+    return Account.AccountModel.generateHash(request.body.newPassword, (salt, hash) => {
+      const search = {
+        username: `${request.session.account.username}`,
+      };
+
+      Account.AccountModel.update(search, { $set: { password: hash, salt } }, {}, (error) => {
+        if (error) {
+          return response.status(500).json({ error: 'Unable to update Password' });
+        }
+
+        return response.status(200).json({ redirect: '/home' });
+      });
+    });
+  });
+};
+
 // Exports methods for the module so they can be used by other files
 module.exports = {
   loginPage,
   login,
   logout,
   signup,
+  changePassword,
 };

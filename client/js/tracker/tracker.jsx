@@ -220,6 +220,8 @@ const createTracker = e => {
 //Renders the entire home page by default
 const setup = () => {
   createTracker();
+	handleChangePasswordClick();
+	//handleUpgradeAccountClick();
 };
 
 //Method that resizes the height of the op summary based on skin list height

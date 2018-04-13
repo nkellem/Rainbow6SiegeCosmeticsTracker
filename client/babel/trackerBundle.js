@@ -1,5 +1,114 @@
 'use strict';
 
+//Serializess the form data and sends it to the server
+//Handles the request to change user password
+var handleChangePassword = function handleChangePassword(e) {
+	e.preventDefault();
+
+	var currPass = document.querySelector('#password').value;
+	var newPass = document.querySelector('#newPassword').value;
+	var newPass2 = document.querySelector('#newPassword2').value;
+	var changePassForm = document.querySelector('#changePassForm');
+
+	if (currPass === '' || newPass === '' || newPass2 === '') {
+		handleError('All fields are required');
+		return false;
+	}
+
+	if (newPass !== newPass2) {
+		handleError('Passwords do not match');
+		return false;
+	}
+
+	sendAjax('POST', '/changePassword', serialize(changePassForm), redirect);
+
+	return false;
+};
+
+//React Component for rendering the Change Password view
+var ChangePasswordComponent = function ChangePasswordComponent(props) {
+	return React.createElement(
+		'div',
+		null,
+		React.createElement(
+			'h2',
+			{ className: 'pageHeader' },
+			'Change ',
+			React.createElement(
+				'span',
+				{ className: 'siegeLogo' },
+				'Password'
+			)
+		),
+		React.createElement(
+			'form',
+			{ id: 'changePassForm', name: 'changePassForm', action: '/changePassword', onSubmit: handleChangePassword, method: 'POST' },
+			React.createElement(
+				'div',
+				{ className: 'rightAlign' },
+				React.createElement(
+					'label',
+					{ htmlFor: 'password' },
+					'Current Password: '
+				),
+				React.createElement('input', { id: 'password', type: 'password', name: 'password', placeholder: 'password' })
+			),
+			React.createElement(
+				'div',
+				{ className: 'rightAlign' },
+				React.createElement(
+					'label',
+					{ htmlFor: 'newPassword' },
+					'New Password: '
+				),
+				React.createElement('input', { id: 'newPassword', type: 'password', name: 'newPassword', placeholder: 'new password' })
+			),
+			React.createElement(
+				'div',
+				{ className: 'rightAlign' },
+				React.createElement(
+					'label',
+					{ htmlFor: 'newPassword2' },
+					'Confirm ',
+					React.createElement(
+						'span',
+						{ className: 'siegeLogo' },
+						'Password: '
+					)
+				),
+				React.createElement('input', { id: 'newPassword2', type: 'password', name: 'newPassword2', placeholder: 'confirm password' })
+			),
+			React.createElement(
+				'div',
+				null,
+				React.createElement('input', { className: 'submitForm', type: 'submit', value: 'Change Password' })
+			)
+		)
+	);
+};
+
+//Renders the change password form
+var createChangePasswordForm = function createChangePasswordForm() {
+	ReactDOM.render(React.createElement(ChangePasswordComponent, null), document.querySelector('#mainContent'));
+};
+
+//Renders the entire change password view
+var createChangePasswordView = function createChangePasswordView() {
+	createChangePasswordForm();
+	createNewEntryFormNav();
+};
+
+//Sets up event listener for change password
+var handleChangePasswordClick = function handleChangePasswordClick() {
+	var changePass = document.querySelector('#changePassword');
+
+	changePass.addEventListener('click', function (e) {
+		e.preventDefault();
+		createChangePasswordView();
+	});
+};
+'use strict';
+
 //Sends op weapon data to the server to save skins
 var handleEntrySubmit = function handleEntrySubmit(e) {
   e.preventDefault();
@@ -530,6 +639,8 @@ var createTracker = function createTracker(e) {
 //Renders the entire home page by default
 var setup = function setup() {
   createTracker();
+  handleChangePasswordClick();
+  //handleUpgradeAccountClick();
 };
 
 //Method that resizes the height of the op summary based on skin list height
@@ -551,6 +662,77 @@ var resetOpSummaryView = function resetOpSummaryView() {
 };
 
 setup();
+"use strict";
+
+//React component for rendering the content of the Upgrade Account Page
+var UpgradeAccountInfoComponent = function UpgradeAccountInfoComponent(props) {
+	return React.createElement(
+		"div",
+		null,
+		React.createElement(
+			"h2",
+			{ className: "pageHeader" },
+			"Upgrade ",
+			React.createElement(
+				"span",
+				{ className: "siegeLogo" },
+				"Account"
+			)
+		),
+		React.createElement(
+			"h2",
+			{ className: "alteredFont", id: "upgradeHeader" },
+			"With an upgraded account, you can also keep track of:"
+		),
+		React.createElement(
+			"ul",
+			{ className: "alteredFont", id: "upgradeList" },
+			React.createElement(
+				"li",
+				null,
+				"Charms"
+			),
+			React.createElement(
+				"li",
+				null,
+				"Headgear"
+			),
+			React.createElement(
+				"li",
+				null,
+				"Uniforms"
+			)
+		),
+		React.createElement(
+			"p",
+			{ className: "alteredFont", id: "upgradeInfo" },
+			"For a yearly fee of $5.00 (USD), you can extend the power of this app and keep track of all categories of cosmetic items found in Rainbow Six Siege!"
+		)
+	);
+};
+
+//Renders the upgraded account info
+var createUpgradeAccountInfo = function createUpgradeAccountInfo() {
+	ReactDOM.render(React.createElement(UpgradeAccountInfoComponent, null), document.querySelector('#mainContent'));
+};
+
+//Renders the entire upgraded account info view
+var createUpgradeAccountInfoView = function createUpgradeAccountInfoView() {
+	createUpgradeAccountInfo();
+	createNewEntryFormNav();
+};
+
+//Sets up click event to render upgraded account info view
+var handleUpgradeAccountClick = function handleUpgradeAccountClick() {
+	var upgradeIcon = document.querySelector('#upgradeAccount');
+
+	upgradeIcon.addEventListener('click', function (e) {
+		e.preventDefault();
+		createUpgradeAccountInfoView();
+	});
+};
+
+handleUpgradeAccountClick();
 'use strict';
 
 //TODO:: Implement real versions of handleError and redirect
