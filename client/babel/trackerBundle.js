@@ -397,8 +397,8 @@ var showOpContent = function showOpContent() {
 
 //Retrieves the skins for an operator from the database
 var getOpWeapons = function getOpWeapons(e) {
-  var imgSrc = e.target.src;
   var opName = e.target.getAttribute('value');
+  var imgSrc = '/assets/images/OperatorStances/' + opName + '.png';
   sendAjax('GET', '/opWeapons?opName=' + opName, null, function (data) {
     ReactDOM.render(React.createElement(OperatorSummaryComponent, { weapons: data.weapons, imgSrc: imgSrc, opName: opName }), document.querySelector('#operatorContent'));
 
@@ -460,32 +460,41 @@ var OperatorsAttackersComponent = function OperatorsAttackersComponent(props) {
     React.createElement(
       'div',
       { className: 'row' },
-      React.createElement('img', { className: 'opIcon', src: '/assets/images/Attackers/ash.png', value: 'Ash', onClick: getOpWeapons }),
-      React.createElement('img', { className: 'opIcon', src: '/assets/images/Attackers/blackbeard.png', value: 'Blackbeard', onClick: getOpWeapons }),
-      React.createElement('img', { className: 'opIcon', src: '/assets/images/Attackers/blitz.png', value: 'Blitz', onClick: getOpWeapons }),
-      React.createElement('img', { className: 'opIcon', src: '/assets/images/Attackers/buck.png', value: 'Buck', onClick: getOpWeapons })
+      React.createElement('img', { className: 'opIcon', src: '/assets/images/Attackers/ash.png', value: 'Ash', title: 'Ash', onClick: getOpWeapons }),
+      React.createElement('img', { className: 'opIcon', src: '/assets/images/Attackers/blackbeard.png', value: 'Blackbeard', title: 'Blackbeard', onClick: getOpWeapons }),
+      React.createElement('img', { className: 'opIcon', src: '/assets/images/Attackers/blitz.png', value: 'Blitz', title: 'Blitz', onClick: getOpWeapons }),
+      React.createElement('img', { className: 'opIcon', src: '/assets/images/Attackers/buck.png', value: 'Buck', title: 'Buck', onClick: getOpWeapons })
     ),
     React.createElement(
       'div',
       { className: 'row' },
-      React.createElement('img', { className: 'opIcon', src: '/assets/images/Attackers/capitao.png', value: 'Capitao', onClick: getOpWeapons }),
-      React.createElement('img', { className: 'opIcon', src: '/assets/images/Attackers/Fuze.png', value: 'Fuze', onClick: getOpWeapons }),
-      React.createElement('img', { className: 'opIcon', src: '/assets/images/Attackers/glaz.png', value: 'Glaz', onClick: getOpWeapons }),
-      React.createElement('img', { className: 'opIcon', src: '/assets/images/Attackers/hibana.png', value: 'Hibana', onClick: getOpWeapons })
+      React.createElement('img', { className: 'opIcon', src: '/assets/images/Attackers/capitao.png', value: 'Capitao', title: 'Capitao', onClick: getOpWeapons }),
+      React.createElement('img', { className: 'opIcon', src: '/assets/images/Attackers/Dokkaebi.png', value: 'Dokkaebi', title: 'Dokkaebi', onClick: getOpWeapons }),
+      React.createElement('img', { className: 'opIcon', src: '/assets/images/Attackers/Finka.png', value: 'Finka', title: 'Finka', onClick: getOpWeapons }),
+      React.createElement('img', { className: 'opIcon', src: '/assets/images/Attackers/Fuze.png', value: 'Fuze', title: 'Fuze', onClick: getOpWeapons })
     ),
     React.createElement(
       'div',
       { className: 'row' },
-      React.createElement('img', { className: 'opIcon', src: '/assets/images/Attackers/IQ.png', value: 'IQ', onClick: getOpWeapons }),
-      React.createElement('img', { className: 'opIcon', src: '/assets/images/Attackers/Montagne.png', value: 'Montagne', onClick: getOpWeapons }),
-      React.createElement('img', { className: 'opIcon', src: '/assets/images/Attackers/Sledge.png', value: 'Sledge', onClick: getOpWeapons }),
-      React.createElement('img', { className: 'opIcon', src: '/assets/images/Attackers/Thatcher.png', value: 'Thatcher', onClick: getOpWeapons })
+      React.createElement('img', { className: 'opIcon', src: '/assets/images/Attackers/glaz.png', value: 'Glaz', title: 'Glaz', onClick: getOpWeapons }),
+      React.createElement('img', { className: 'opIcon', src: '/assets/images/Attackers/hibana.png', value: 'Hibana', title: 'Hibana', onClick: getOpWeapons }),
+      React.createElement('img', { className: 'opIcon', src: '/assets/images/Attackers/IQ.png', value: 'IQ', title: 'IQ', onClick: getOpWeapons }),
+      React.createElement('img', { className: 'opIcon', src: '/assets/images/Attackers/Jackal.png', value: 'Jackal', title: 'Jackal', onClick: getOpWeapons })
     ),
     React.createElement(
       'div',
       { className: 'row' },
-      React.createElement('img', { className: 'opIcon', src: '/assets/images/Attackers/thermite.png', value: 'Thermite', onClick: getOpWeapons }),
-      React.createElement('img', { className: 'opIcon', src: '/assets/images/Attackers/Twitch.png', value: 'Twitch', onClick: getOpWeapons })
+      React.createElement('img', { className: 'opIcon', src: '/assets/images/Attackers/Lion.png', value: 'Lion', title: 'Lion', onClick: getOpWeapons }),
+      React.createElement('img', { className: 'opIcon', src: '/assets/images/Attackers/Montagne.png', value: 'Montagne', title: 'Montagne', onClick: getOpWeapons }),
+      React.createElement('img', { className: 'opIcon', src: '/assets/images/Attackers/Sledge.png', value: 'Sledge', title: 'Sledge', onClick: getOpWeapons }),
+      React.createElement('img', { className: 'opIcon', src: '/assets/images/Attackers/Thatcher.png', value: 'Thatcher', title: 'Thatcher', onClick: getOpWeapons })
+    ),
+    React.createElement(
+      'div',
+      { className: 'row' },
+      React.createElement('img', { className: 'opIcon', src: '/assets/images/Attackers/thermite.png', value: 'Thermite', title: 'Thermite', onClick: getOpWeapons }),
+      React.createElement('img', { className: 'opIcon', src: '/assets/images/Attackers/Twitch.png', value: 'Twitch', title: 'Twitch', onClick: getOpWeapons }),
+      React.createElement('img', { className: 'opIcon', src: '/assets/images/Attackers/Zofia.png', value: 'Zofia', title: 'Zofia', onClick: getOpWeapons })
     )
   );
 };
@@ -503,32 +512,33 @@ var OperatorsDefendersComponent = function OperatorsDefendersComponent(props) {
     React.createElement(
       'div',
       { className: 'row' },
-      React.createElement('img', { className: 'opIcon', src: '/assets/images/Defenders/bandit.png', value: 'Bandit', onClick: getOpWeapons }),
-      React.createElement('img', { className: 'opIcon', src: '/assets/images/Defenders/Castle.png', value: 'Castle', onClick: getOpWeapons }),
-      React.createElement('img', { className: 'opIcon', src: '/assets/images/Defenders/Caveira.png', value: 'Caveira', onClick: getOpWeapons }),
-      React.createElement('img', { className: 'opIcon', src: '/assets/images/Defenders/doc.png', value: 'Doc', onClick: getOpWeapons })
+      React.createElement('img', { className: 'opIcon', src: '/assets/images/Defenders/bandit.png', value: 'Bandit', title: 'Bandit', onClick: getOpWeapons }),
+      React.createElement('img', { className: 'opIcon', src: '/assets/images/Defenders/Castle.png', value: 'Castle', title: 'Castle', onClick: getOpWeapons }),
+      React.createElement('img', { className: 'opIcon', src: '/assets/images/Defenders/Caveira.png', value: 'Caveira', title: 'Caveira', onClick: getOpWeapons }),
+      React.createElement('img', { className: 'opIcon', src: '/assets/images/Defenders/doc.png', value: 'Doc', title: 'Doc', onClick: getOpWeapons })
     ),
     React.createElement(
       'div',
       { className: 'row' },
-      React.createElement('img', { className: 'opIcon', src: '/assets/images/Defenders/echo.png', value: 'Echo', onClick: getOpWeapons }),
-      React.createElement('img', { className: 'opIcon', src: '/assets/images/Defenders/frost.png', value: 'Frost', onClick: getOpWeapons }),
-      React.createElement('img', { className: 'opIcon', src: '/assets/images/Defenders/jager.png', value: 'Jager', onClick: getOpWeapons }),
-      React.createElement('img', { className: 'opIcon', src: '/assets/images/Defenders/Kapkan.png', value: 'Kapkan', onClick: getOpWeapons })
+      React.createElement('img', { className: 'opIcon', src: '/assets/images/Defenders/echo.png', value: 'Echo', title: 'Echo', onClick: getOpWeapons }),
+      React.createElement('img', { className: 'opIcon', src: '/assets/images/Defenders/frost.png', value: 'Frost', title: 'Frost', onClick: getOpWeapons }),
+      React.createElement('img', { className: 'opIcon', src: '/assets/images/Defenders/jager.png', value: 'Jager', title: 'Jager', onClick: getOpWeapons }),
+      React.createElement('img', { className: 'opIcon', src: '/assets/images/Defenders/Kapkan.png', value: 'Kapkan', title: 'Kapkan', onClick: getOpWeapons })
     ),
     React.createElement(
       'div',
       { className: 'row' },
-      React.createElement('img', { className: 'opIcon', src: '/assets/images/Defenders/Mute.png', value: 'Mute', onClick: getOpWeapons }),
-      React.createElement('img', { className: 'opIcon', src: '/assets/images/Defenders/Pulse.png', value: 'Pulse', onClick: getOpWeapons }),
-      React.createElement('img', { className: 'opIcon', src: '/assets/images/Defenders/rook.png', value: 'Rook', onClick: getOpWeapons }),
-      React.createElement('img', { className: 'opIcon', src: '/assets/images/Defenders/Smoke.png', value: 'Smoke', onClick: getOpWeapons })
+      React.createElement('img', { className: 'opIcon', src: '/assets/images/Defenders/Lesion.png', value: 'Lesion', title: 'Lesion', onClick: getOpWeapons }),
+      React.createElement('img', { className: 'opIcon', src: '/assets/images/Defenders/Mute.png', value: 'Mute', title: 'Mute', onClick: getOpWeapons }),
+      React.createElement('img', { className: 'opIcon', src: '/assets/images/Defenders/Pulse.png', value: 'Pulse', title: 'Pulse', onClick: getOpWeapons }),
+      React.createElement('img', { className: 'opIcon', src: '/assets/images/Defenders/rook.png', value: 'Rook', title: 'Rook', onClick: getOpWeapons })
     ),
     React.createElement(
       'div',
       { className: 'row' },
-      React.createElement('img', { className: 'opIcon', src: '/assets/images/Defenders/Tachanka.png', value: 'Tachanka', onClick: getOpWeapons }),
-      React.createElement('img', { className: 'opIcon', src: '/assets/images/Defenders/Valkyrie.png', value: 'Valkyrie', onClick: getOpWeapons })
+      React.createElement('img', { className: 'opIcon', src: '/assets/images/Defenders/Smoke.png', value: 'Smoke', title: 'Smoke', onClick: getOpWeapons }),
+      React.createElement('img', { className: 'opIcon', src: '/assets/images/Defenders/Tachanka.png', value: 'Tachanka', title: 'Tachanka', onClick: getOpWeapons }),
+      React.createElement('img', { className: 'opIcon', src: '/assets/images/Defenders/Valkyrie.png', value: 'Valkyrie', title: 'Valkyrie', onClick: getOpWeapons })
     )
   );
 };
@@ -596,7 +606,7 @@ var OperatorSummaryComponent = function OperatorSummaryComponent(props) {
         null,
         props.opName
       ),
-      React.createElement('img', { className: 'opIcon', src: props.imgSrc }),
+      React.createElement('img', { src: props.imgSrc }),
       React.createElement(OpWeaponOptions, { weapons: weaponNames, skins: props.weapons, summary: true })
     ),
     React.createElement(
@@ -771,31 +781,37 @@ var sendAjax = function sendAjax(type, action, data, success) {
 //used in the newEntry.jsx file to dynamically load weapon options
 var opGuns = {
   Ash: ['G36C', 'R4-C', 'M45 MEUSOC', '5.7 USG'],
+  Bandit: ['MP7', 'M870', 'P12'],
   Blackbeard: ['MK17 CQB', 'SR-25', 'D-50'],
   Blitz: ['Flash Shield', 'P12'],
   Buck: ['C8 SFW', 'CAMRS', 'MK1 9mm'],
   Capitao: ['PARA 308', 'M249', 'PRB92'],
+  Castle: ['UMP45', 'M1014', '5.7 USG', 'M45 MEUSOC'],
+  Caveira: ['M12', 'SPAS-15', 'Luison'],
+  Doc: ['SG CQB', 'MP5', 'P90', 'P9', 'LFP586'],
+  Dokkaebi: ['MK 14 EBR',, 'BOSG. 12.2', 'C75 Auto', 'SMG-12'],
+  Echo: ['Supernova', 'MP5SD', 'P229', 'Bearing 9'],
+  Finka: ['SPEAR .308', '6P41', 'SASG-12', 'PMM', 'GSH-18'],
+  Frost: ['Super 90', '9mm C1', 'MK1 9mm'],
   Fuze: ['Ballistic Shield', '6P41', 'AK 12', 'PMM', 'GSH 18'],
   Glaz: ['OTs-03', 'GSH 18', 'PMM'],
   Hibana: ['Type 89', 'Supernova', 'P229', 'Bearing 9'],
   IQ: ['AUG A2', '552 Commando', 'G8A1', 'P12'],
-  Montagne: ['Extendable Shield', 'P9', 'LFP586'],
-  Sledge: ['M590A1', 'L85A2', 'P226 MK-25', 'SMG-11'],
-  Thatcher: ['AR33', 'L85A2', 'M590A1', 'P226 MK-25'],
-  Thermite: ['M1014', '556XI', 'M45 MEUSOC', '5.7 USG'],
-  Twitch: ['F2', '417', 'SG CQB'],
-  Bandit: ['MP7', 'M870', 'P12'],
-  Castle: ['UMP45', 'M1014', '5.7 USG', 'M45 MEUSOC'],
-  Caveira: ['M12', 'SPAS-15', 'Luison'],
-  Doc: ['SG CQB', 'MP5', 'P90', 'P9', 'LFP586'],
-  Echo: ['Supernova', 'MP5SD', 'P229', 'Bearing 9'],
-  Frost: ['Super 90', '9mm C1', 'MK1 9mm'],
+  Jackal: ['C7E', 'PDW9', 'ITA12L', 'ITA12S', 'USP40'],
   Jager: ['M870', '416-C Carbine', 'P12'],
   Kapkan: ['9x19VSN', 'SASG-12', 'PMM', 'GSH 18'],
-  Smoke: ['FMG-9', 'M590A1', 'P226 MK-25', 'SMG-11'],
+  Lesion: ['SIX12 SD', 'T-5 SMG', 'Q-929'],
+  Lion: ['V308', '417', 'SG-CQB', 'P9', 'LFP586'],
+  Montagne: ['Extendable Shield', 'P9', 'LFP586'],
+  Mute: ['MP5K', 'M590A1', 'P226 MK-25'],
   Pulse: ['M1014', 'UMP45', 'M45 MEUSOC', '5.7 USG'],
   Rook: ['P90', 'MP5', 'SG-CQB', 'LFP586', 'P9'],
-  Mute: ['MP5K', 'M590A1', 'P226 MK-25'],
+  Sledge: ['M590A1', 'L85A2', 'P226 MK-25', 'SMG-11'],
+  Smoke: ['FMG-9', 'M590A1', 'P226 MK-25', 'SMG-11'],
   Tachanka: ['SASG-12', '9x19VSN', 'GSH 18', 'PMM'],
-  Valkyrie: ['MPX', 'SPAS-12', 'D-50']
+  Thatcher: ['AR33', 'L85A2', 'M590A1', 'P226 MK-25'],
+  Thermite: ['M1014', '556XI', 'M45 MEUSOC', '5.7 USG'],
+  Twitch: ['F2', '417', 'SG CQB', 'P9', 'LFP586'],
+  Valkyrie: ['MPX', 'SPAS-12', 'D-50'],
+  Zofia: ['LMG-E', 'M762', 'RG15']
 };

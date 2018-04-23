@@ -14,8 +14,8 @@ const showOpContent = () => {
 
 //Retrieves the skins for an operator from the database
 const getOpWeapons = e => {
-	const imgSrc = e.target.src;
 	const opName = e.target.getAttribute('value');
+	const imgSrc = `/assets/images/OperatorStances/${opName}.png`;
   sendAjax('GET', `/opWeapons?opName=${opName}`, null, data => {
 		ReactDOM.render(
 			<OperatorSummaryComponent weapons={data.weapons} imgSrc={imgSrc} opName={opName} />,
@@ -73,27 +73,34 @@ const OperatorsAttackersComponent = props => {
     <div className="operators" id="attackers">
       <h2>Attackers</h2>
       <div className="row">
-        <img className="opIcon" src="/assets/images/Attackers/ash.png" value="Ash" onClick={getOpWeapons} />
-        <img className="opIcon" src="/assets/images/Attackers/blackbeard.png" value="Blackbeard" onClick={getOpWeapons} />
-        <img className="opIcon" src="/assets/images/Attackers/blitz.png" value="Blitz" onClick={getOpWeapons} />
-        <img className="opIcon" src="/assets/images/Attackers/buck.png" value="Buck" onClick={getOpWeapons} />
+        <img className="opIcon" src="/assets/images/Attackers/ash.png" value="Ash" title="Ash" onClick={getOpWeapons} />
+        <img className="opIcon" src="/assets/images/Attackers/blackbeard.png" value="Blackbeard" title="Blackbeard" onClick={getOpWeapons} />
+        <img className="opIcon" src="/assets/images/Attackers/blitz.png" value="Blitz" title="Blitz" onClick={getOpWeapons} />
+        <img className="opIcon" src="/assets/images/Attackers/buck.png" value="Buck" title="Buck" onClick={getOpWeapons} />
       </div>
       <div className="row">
-        <img className="opIcon" src="/assets/images/Attackers/capitao.png" value="Capitao" onClick={getOpWeapons} />
-        <img className="opIcon" src="/assets/images/Attackers/Fuze.png" value="Fuze" onClick={getOpWeapons} />
-        <img className="opIcon" src="/assets/images/Attackers/glaz.png" value="Glaz" onClick={getOpWeapons} />
-        <img className="opIcon" src="/assets/images/Attackers/hibana.png" value="Hibana" onClick={getOpWeapons} />
+        <img className="opIcon" src="/assets/images/Attackers/capitao.png" value="Capitao" title="Capitao" onClick={getOpWeapons} />
+				<img className="opIcon" src="/assets/images/Attackers/Dokkaebi.png" value="Dokkaebi" title="Dokkaebi" onClick={getOpWeapons} />
+        <img className="opIcon" src="/assets/images/Attackers/Finka.png" value="Finka" title="Finka" onClick={getOpWeapons} />
+        <img className="opIcon" src="/assets/images/Attackers/Fuze.png" value="Fuze" title="Fuze" onClick={getOpWeapons} />
       </div>
       <div className="row">
-        <img className="opIcon" src="/assets/images/Attackers/IQ.png" value="IQ" onClick={getOpWeapons} />
-        <img className="opIcon" src="/assets/images/Attackers/Montagne.png" value="Montagne" onClick={getOpWeapons} />
-        <img className="opIcon" src="/assets/images/Attackers/Sledge.png" value="Sledge" onClick={getOpWeapons} />
-        <img className="opIcon" src="/assets/images/Attackers/Thatcher.png" value="Thatcher" onClick={getOpWeapons} />
+				<img className="opIcon" src="/assets/images/Attackers/glaz.png" value="Glaz" title="Glaz" onClick={getOpWeapons} />
+        <img className="opIcon" src="/assets/images/Attackers/hibana.png" value="Hibana" title="Hibana" onClick={getOpWeapons} />
+        <img className="opIcon" src="/assets/images/Attackers/IQ.png" value="IQ" title="IQ" onClick={getOpWeapons} />
+        <img className="opIcon" src="/assets/images/Attackers/Jackal.png" value="Jackal" title="Jackal" onClick={getOpWeapons} />
       </div>
       <div className="row">
-        <img className="opIcon" src="/assets/images/Attackers/thermite.png" value="Thermite" onClick={getOpWeapons} />
-        <img className="opIcon" src="/assets/images/Attackers/Twitch.png" value="Twitch" onClick={getOpWeapons} />
+				<img className="opIcon" src="/assets/images/Attackers/Lion.png" value="Lion" title="Lion" onClick={getOpWeapons} />
+				<img className="opIcon" src="/assets/images/Attackers/Montagne.png" value="Montagne" title="Montagne" onClick={getOpWeapons} />
+        <img className="opIcon" src="/assets/images/Attackers/Sledge.png" value="Sledge" title="Sledge" onClick={getOpWeapons} />
+        <img className="opIcon" src="/assets/images/Attackers/Thatcher.png" value="Thatcher" title="Thatcher" onClick={getOpWeapons} />
       </div>
+			<div className="row">
+				<img className="opIcon" src="/assets/images/Attackers/thermite.png" value="Thermite" title="Thermite" onClick={getOpWeapons} />
+        <img className="opIcon" src="/assets/images/Attackers/Twitch.png" value="Twitch" title="Twitch" onClick={getOpWeapons} />
+				<img className="opIcon" src="/assets/images/Attackers/Zofia.png" value="Zofia" title="Zofia" onClick={getOpWeapons} />
+			</div>
     </div>
   );
 };
@@ -104,26 +111,27 @@ const OperatorsDefendersComponent = props => {
     <div className="operators" id="defenders">
       <h2>Defenders</h2>
       <div className="row">
-        <img className="opIcon" src="/assets/images/Defenders/bandit.png" value="Bandit" onClick={getOpWeapons} />
-        <img className="opIcon" src="/assets/images/Defenders/Castle.png" value="Castle" onClick={getOpWeapons} />
-        <img className="opIcon" src="/assets/images/Defenders/Caveira.png" value="Caveira" onClick={getOpWeapons} />
-        <img className="opIcon" src="/assets/images/Defenders/doc.png" value="Doc" onClick={getOpWeapons} />
+        <img className="opIcon" src="/assets/images/Defenders/bandit.png" value="Bandit" title="Bandit" onClick={getOpWeapons} />
+        <img className="opIcon" src="/assets/images/Defenders/Castle.png" value="Castle" title="Castle" onClick={getOpWeapons} />
+        <img className="opIcon" src="/assets/images/Defenders/Caveira.png" value="Caveira" title="Caveira" onClick={getOpWeapons} />
+        <img className="opIcon" src="/assets/images/Defenders/doc.png" value="Doc" title="Doc" onClick={getOpWeapons} />
       </div>
       <div className="row">
-        <img className="opIcon" src="/assets/images/Defenders/echo.png" value="Echo" onClick={getOpWeapons} />
-        <img className="opIcon" src="/assets/images/Defenders/frost.png" value="Frost" onClick={getOpWeapons} />
-        <img className="opIcon" src="/assets/images/Defenders/jager.png" value="Jager" onClick={getOpWeapons} />
-        <img className="opIcon" src="/assets/images/Defenders/Kapkan.png" value="Kapkan" onClick={getOpWeapons} />
+        <img className="opIcon" src="/assets/images/Defenders/echo.png" value="Echo" title="Echo" onClick={getOpWeapons} />
+        <img className="opIcon" src="/assets/images/Defenders/frost.png" value="Frost" title="Frost" onClick={getOpWeapons} />
+        <img className="opIcon" src="/assets/images/Defenders/jager.png" value="Jager" title="Jager" onClick={getOpWeapons} />
+        <img className="opIcon" src="/assets/images/Defenders/Kapkan.png" value="Kapkan" title="Kapkan" onClick={getOpWeapons} />
       </div>
       <div className="row">
-        <img className="opIcon" src="/assets/images/Defenders/Mute.png" value="Mute" onClick={getOpWeapons} />
-        <img className="opIcon" src="/assets/images/Defenders/Pulse.png" value="Pulse" onClick={getOpWeapons} />
-        <img className="opIcon" src="/assets/images/Defenders/rook.png" value="Rook" onClick={getOpWeapons} />
-        <img className="opIcon" src="/assets/images/Defenders/Smoke.png" value="Smoke" onClick={getOpWeapons} />
+				<img className="opIcon" src="/assets/images/Defenders/Lesion.png" value="Lesion" title="Lesion" onClick={getOpWeapons} />
+        <img className="opIcon" src="/assets/images/Defenders/Mute.png" value="Mute" title="Mute" onClick={getOpWeapons} />
+        <img className="opIcon" src="/assets/images/Defenders/Pulse.png" value="Pulse" title="Pulse" onClick={getOpWeapons} />
+        <img className="opIcon" src="/assets/images/Defenders/rook.png" value="Rook" title="Rook" onClick={getOpWeapons} />
       </div>
       <div className="row">
-        <img className="opIcon" src="/assets/images/Defenders/Tachanka.png" value="Tachanka" onClick={getOpWeapons} />
-        <img className="opIcon" src="/assets/images/Defenders/Valkyrie.png" value="Valkyrie" onClick={getOpWeapons} />
+				<img className="opIcon" src="/assets/images/Defenders/Smoke.png" value="Smoke" title="Smoke" onClick={getOpWeapons} />
+        <img className="opIcon" src="/assets/images/Defenders/Tachanka.png" value="Tachanka" title="Tachanka" onClick={getOpWeapons} />
+        <img className="opIcon" src="/assets/images/Defenders/Valkyrie.png" value="Valkyrie" title="Valkyrie" onClick={getOpWeapons} />
       </div>
     </div>
   );
@@ -172,7 +180,7 @@ const OperatorSummaryComponent = props => {
       </div>
 			<div id="summaryLeft" className="summary">
 				<h1>{props.opName}</h1>
-				<img className="opIcon" src={props.imgSrc} />
+				<img src={props.imgSrc} />
 				<OpWeaponOptions weapons={weaponNames} skins={props.weapons} summary={true}/>
 			</div>
       <div id="summaryRight" className="summary">

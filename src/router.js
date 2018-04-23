@@ -9,9 +9,15 @@ const router = (app) => {
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
   app.get('/home', mid.requiresLogin, controllers.Weapon.operatorsPage);
   app.get('/opWeapons', mid.requiresSecure, mid.requiresLogin, controllers.Weapon.getWeaponSkins);
+  app.get('/getCharms', mid.requiresSecure, mid.requiresLogin, controllers.Charm.getCharms);
+  app.get('/getHeadgear', mid.requiresSecure, mid.requiresLogin, controllers.Headgear.getHeadgear);
+  app.get('/getUniforms', mid.requiresSecure, mid.requiresLogin, controllers.Uniform.getUniforms);
   app.post('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.login);
   app.post('/signup', mid.requiresSecure, mid.requiresLogout, controllers.Account.signup);
   app.post('/addNewEntry', mid.requiresSecure, mid.requiresLogin, controllers.Weapon.addWeaponSkin);
+  app.post('/addCharm', mid.requiresSecure, mid.requiresLogin, controllers.Charm.addCharm);
+  app.post('/addHeadgear', mid.requiresSecure, mid.requiresLogin, controllers.Headgear.addHeadgear);
+  app.post('/addUniform', mid.requiresSecure, mid.requiresLogin, controllers.Uniform.addUniform);
   app.post('/changePassword', mid.requiresSecure, mid.requiresLogin, controllers.Account.changePassword);
   app.get('*', mid.requiresSecure, mid.requiresLogin, controllers.Weapon.operatorsPage);
 };
