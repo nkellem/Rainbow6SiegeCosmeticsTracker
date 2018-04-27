@@ -14,8 +14,9 @@ const createHeadgear = (req, res) => {
   }
 
   const headgearData = {
-    headgearName: [request.body.headgearName],
+    headgear: [request.body.headgearName],
     opName: request.body.opName,
+		owner: request.session.account._id,
   };
 
   const newHeadgear = new Headgear.HeadgearModel(headgearData);

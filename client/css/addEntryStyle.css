@@ -13,6 +13,14 @@ nav {
   margin-bottom: 40px;
 }
 
+#subNav {
+	margin-top: 10px;
+}
+
+#subNav a {
+	margin: 0 10px;
+}
+
 #formDiv {
   width: 900px;
   margin-left: auto;

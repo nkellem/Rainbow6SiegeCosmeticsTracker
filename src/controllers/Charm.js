@@ -14,7 +14,8 @@ const createCharm = (req, res) => {
   }
 
   const charmData = {
-    charmName: [request.body.charmName],
+    charmNames: [request.body.charmName],
+		owner: request.session.account._id,
   };
 
   const newCharm = new Charm.CharmModel(charmData);

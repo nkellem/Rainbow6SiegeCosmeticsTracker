@@ -109,275 +109,300 @@ var handleChangePasswordClick = function handleChangePasswordClick() {
 };
 'use strict';
 
-//Sends op weapon data to the server to save skins
+//Sends op cosmetic data to the server to save skins
 var handleEntrySubmit = function handleEntrySubmit(e) {
-  e.preventDefault();
-  var opName = document.querySelector('#operatorSelect').value;
-  var weaponName = document.querySelector('#opGun').value;
-  var skin = document.querySelector('#gunSkin').value;
-  var entryForm = document.querySelector('#newEntryForm');
+	e.preventDefault();
+	var cosmetic = document.querySelector('#cosmeticEntry').value;
+	var entryForm = document.querySelector('#newEntryForm');
+	var charmEntry = true;
+	var skinEntry = false;
 
-  if (opName === '' || weaponName === '' || skin === '') {
-    handleError('All fields are required');
-    return false;
-  }
+	if (entryForm.name === 'newEntryForm') {
+		skinEntry = true;
 
-  sendAjax(entryForm.getAttribute('method'), entryForm.getAttribute('action'), serialize(newEntryForm), function () {
-    alert('Skin added!');
-    document.querySelector('#operatorSelect').value = '';
-    document.querySelector('#gunSkin').value = '';
-    createWeaponSelect([]);
-  });
+		var weaponName = document.querySelector('#opGun').value;
 
-  return false;
+		if (weaponName === '') {
+			handleError('All fields are required');
+			return false;
+		}
+	}
+
+	if (entryForm.name !== 'newCharmEntryForm') {
+		charmEntry = false;
+
+		var opName = document.querySelector('#operatorSelect').value;
+
+		if (opName === '') {
+			handleError('All fields are required');
+			return false;
+		}
+	}
+
+	if (cosmetic === '') {
+		handleError('All fields are required');
+		return false;
+	}
+
+	sendAjax(entryForm.getAttribute('method'), entryForm.getAttribute('action'), serialize(entryForm), function () {
+		alert('Cosmetic added!');
+		document.querySelector('#cosmeticEntry').value = '';
+
+		if (!charmEntry) {
+			document.querySelector('#operatorSelect').value = '';
+		}
+
+		if (skinEntry) {
+			createWeaponSelect([]);
+		}
+	});
+
+	return false;
 };
 
 //React Component for the nav bar so the user can go back to the home page
 var HomeNav = function HomeNav(props) {
-  return React.createElement(
-    'a',
-    { href: '#', onClick: createTracker },
-    'Home'
-  );
+	return React.createElement(
+		'div',
+		null,
+		React.createElement(
+			'a',
+			{ href: '#', onClick: createTracker },
+			'Home'
+		),
+		React.createElement(
+			'div',
+			{ id: 'subNav' },
+			React.createElement(
+				'a',
+				{ href: '#', onClick: createNewEntryForm },
+				'Skin'
+			),
+			React.createElement(
+				'a',
+				{ href: '#', onClick: createNewCharmEntryForm },
+				'Charm'
+			),
+			React.createElement(
+				'a',
+				{ href: '#', onClick: createNewUniformEntryForm },
+				'Uniform'
+			),
+			React.createElement(
+				'a',
+				{ href: '#', onClick: createNewHeadgearEntryForm },
+				'Headgear'
+			)
+		)
+	);
 };
 
 //React Component to create dynamic options for the weapons select
 var OpWeaponOption = function OpWeaponOption(props) {
-  return React.createElement(
-    'option',
-    { value: props.weaponName },
-    props.weaponName
-  );
+	return React.createElement(
+		'option',
+		{ value: props.weaponName },
+		props.weaponName
+	);
 };
 
 //React Component that creates the weapons select
 var OpWeaponOptions = function OpWeaponOptions(props) {
-  var options = [];
+	var options = [];
 
-  props.weapons.forEach(function (weapon) {
-    options.push(React.createElement(OpWeaponOption, { weaponName: weapon }));
-  });
+	props.weapons.forEach(function (weapon) {
+		options.push(React.createElement(OpWeaponOption, { weaponName: weapon }));
+	});
 
-  if (props.summary) {
-    return React.createElement(
-      'select',
-      { name: 'weaponName', onChange: function onChange(e) {
-          return loadWeaponSkinList(e, props.skins);
-        } },
-      React.createElement(
-        'option',
-        { value: '' },
-        'Select A Gun'
-      ),
-      options
-    );
-  } else {
-    return React.createElement(
-      'select',
-      { name: 'weaponName' },
-      React.createElement(
-        'option',
-        { value: '' },
-        'Select A Gun'
-      ),
-      options
-    );
-  }
+	if (props.summary) {
+		return React.createElement(
+			'select',
+			{ name: 'weaponName', onChange: function onChange(e) {
+					return loadWeaponSkinList(e, props.skins);
+				} },
+			React.createElement(
+				'option',
+				{ value: '' },
+				'Select A Gun'
+			),
+			options
+		);
+	} else {
+		return React.createElement(
+			'select',
+			{ name: 'weaponName' },
+			React.createElement(
+				'option',
+				{ value: '' },
+				'Select A Gun'
+			),
+			options
+		);
+	}
 };
 
-//React Component for rendring the New Entry form
+//React Component that creates an operator option
+var OpOption = function OpOption(props) {
+	return React.createElement(
+		'option',
+		{ value: props.operator },
+		props.operator
+	);
+};
+
+//React Component that creates the  operator select dropdown
+var OpOptions = function OpOptions(props) {
+	var options = [];
+
+	Object.keys(opGuns).forEach(function (operator) {
+		options.push(React.createElement(OpOption, { operator: operator }));
+	});
+
+	if (props.onChangeMethod) {
+		return React.createElement(
+			'select',
+			{ name: 'opName', id: 'operatorSelect', onChange: props.onChangeMethod },
+			React.createElement(
+				'option',
+				{ value: '' },
+				'Select An Op'
+			),
+			options
+		);
+	} else {
+		return React.createElement(
+			'select',
+			{ name: 'opName', id: 'operatorSelect' },
+			React.createElement(
+				'option',
+				{ value: '' },
+				'Select An Op'
+			),
+			options
+		);
+	}
+};
+
+//React Component for rendering the New Skin Entry form
 var NewEntryForm = function NewEntryForm(props) {
-  return React.createElement(
-    'div',
-    { id: 'formDiv' },
-    React.createElement(
-      'form',
-      { action: '/addNewEntry', method: 'POST', name: 'newEntryForm', onSubmit: handleEntrySubmit, id: 'newEntryForm' },
-      React.createElement(
-        'select',
-        { name: 'opName', id: 'operatorSelect', onChange: loadOpWeaponOptions },
-        React.createElement(
-          'option',
-          { value: '' },
-          'Select An Op'
-        ),
-        React.createElement(
-          'option',
-          { value: 'Ash' },
-          'Ash'
-        ),
-        React.createElement(
-          'option',
-          { value: 'Blackbeard' },
-          'Blackbeard'
-        ),
-        React.createElement(
-          'option',
-          { value: 'Blitz' },
-          'Blitz'
-        ),
-        React.createElement(
-          'option',
-          { value: 'Buck' },
-          'Buck'
-        ),
-        React.createElement(
-          'option',
-          { value: 'Capitao' },
-          'Capitao'
-        ),
-        React.createElement(
-          'option',
-          { value: 'Fuze' },
-          'Fuze'
-        ),
-        React.createElement(
-          'option',
-          { value: 'Glaz' },
-          'Glaz'
-        ),
-        React.createElement(
-          'option',
-          { value: 'Hibana' },
-          'Hibana'
-        ),
-        React.createElement(
-          'option',
-          { value: 'IQ' },
-          'IQ'
-        ),
-        React.createElement(
-          'option',
-          { value: 'Montagne' },
-          'Montagne'
-        ),
-        React.createElement(
-          'option',
-          { value: 'Sledge' },
-          'Sledge'
-        ),
-        React.createElement(
-          'option',
-          { value: 'Thatcher' },
-          'Thatcher'
-        ),
-        React.createElement(
-          'option',
-          { value: 'Thermite' },
-          'Thermite'
-        ),
-        React.createElement(
-          'option',
-          { value: 'Twitch' },
-          'Twitch'
-        ),
-        React.createElement(
-          'option',
-          { value: 'Bandit' },
-          'Bandit'
-        ),
-        React.createElement(
-          'option',
-          { value: 'Castle' },
-          'Castle'
-        ),
-        React.createElement(
-          'option',
-          { value: 'Caveira' },
-          'Caveira'
-        ),
-        React.createElement(
-          'option',
-          { value: 'Doc' },
-          'Doc'
-        ),
-        React.createElement(
-          'option',
-          { value: 'Echo' },
-          'Echo'
-        ),
-        React.createElement(
-          'option',
-          { value: 'Frost' },
-          'Frost'
-        ),
-        React.createElement(
-          'option',
-          { value: 'Jager' },
-          'Jager'
-        ),
-        React.createElement(
-          'option',
-          { value: 'Kapkan' },
-          'Kapkan'
-        ),
-        React.createElement(
-          'option',
-          { value: 'Mute' },
-          'Mute'
-        ),
-        React.createElement(
-          'option',
-          { value: 'Pulse' },
-          'Pulse'
-        ),
-        React.createElement(
-          'option',
-          { value: 'Rook' },
-          'Rook'
-        ),
-        React.createElement(
-          'option',
-          { value: 'Smoke' },
-          'Smoke'
-        ),
-        React.createElement(
-          'option',
-          { value: 'Tachanka' },
-          'Tachanka'
-        ),
-        React.createElement(
-          'option',
-          { value: 'Valkyrie' },
-          'Valkyrie'
-        )
-      ),
-      React.createElement('span', { id: 'opGun' }),
-      React.createElement('input', { id: 'gunSkin', type: 'text', name: 'skin', placeholder: 'Enter a Skin' }),
-      React.createElement('input', { id: 'submitEntry', type: 'submit', value: 'submit' })
-    )
-  );
+	return React.createElement(
+		'div',
+		{ id: 'formDiv' },
+		React.createElement(
+			'form',
+			{ action: '/addNewEntry', method: 'POST', name: 'newEntryForm', onSubmit: handleEntrySubmit, id: 'newEntryForm' },
+			React.createElement(OpOptions, { onChangeMethod: loadOpWeaponOptions }),
+			React.createElement('span', { id: 'opGun' }),
+			React.createElement('input', { id: 'cosmeticEntry', type: 'text', name: 'skin', placeholder: 'Enter a Skin' }),
+			React.createElement('input', { id: 'submitEntry', type: 'submit', value: 'submit' })
+		)
+	);
+};
+
+//React Component for rendering the New Charm Entry form
+var NewCharmEntryForm = function NewCharmEntryForm(props) {
+	return React.createElement(
+		'div',
+		{ id: 'formDiv' },
+		React.createElement(
+			'form',
+			{ action: '/addNewCharmEntry', method: 'POST', name: 'newCharmEntryForm', onSubmit: handleEntrySubmit, id: 'newEntryForm' },
+			React.createElement('input', { id: 'cosmeticEntry', type: 'text', name: 'charmName', placeholder: 'Enter a Charm' }),
+			React.createElement('input', { id: 'submitEntry', type: 'submit', value: 'submit' })
+		)
+	);
+};
+
+//React Component for rendering the New Uniform Entry form
+var NewUniformEntryForm = function NewUniformEntryForm(props) {
+	return React.createElement(
+		'div',
+		{ id: 'formDiv' },
+		React.createElement(
+			'form',
+			{ action: '/addNewUniformEntry', method: 'POST', name: 'newUniformEntryForm', onSubmit: handleEntrySubmit, id: 'newEntryForm' },
+			React.createElement(OpOptions, null),
+			React.createElement('input', { id: 'cosmeticEntry', type: 'text', name: 'uniformName', placeholder: 'Enter a Uniform' }),
+			React.createElement('input', { id: 'submitEntry', type: 'submit', value: 'submit' })
+		)
+	);
+};
+
+//React Component for rendering the New Headgear Entry form
+var NewHeadgearEntryForm = function NewHeadgearEntryForm(props) {
+	return React.createElement(
+		'div',
+		{ id: 'formDiv' },
+		React.createElement(
+			'form',
+			{ action: '/addNewHeadgearEntry', method: 'POST', name: 'newHeadgearEntryForm', onSubmit: handleEntrySubmit, id: 'newEntryForm' },
+			React.createElement(OpOptions, null),
+			React.createElement('input', { id: 'cosmeticEntry', type: 'text', name: 'headgearName', placeholder: 'Enter Headgear' }),
+			React.createElement('input', { id: 'submitEntry', type: 'submit', value: 'submit' })
+		)
+	);
 };
 
 //Renders the new entry form
-var createNewEntryForm = function createNewEntryForm() {
-  ReactDOM.render(React.createElement(NewEntryForm, null), document.querySelector('#mainContent'));
+var createNewEntryForm = function createNewEntryForm(e) {
+	if (e) {
+		e.preventDefault();
+	}
+
+	ReactDOM.render(React.createElement(NewEntryForm, null), document.querySelector('#mainContent'));
+};
+
+//Renders the new charm entry form
+var createNewCharmEntryForm = function createNewCharmEntryForm(e) {
+	if (e) {
+		e.preventDefault();
+	}
+
+	ReactDOM.render(React.createElement(NewCharmEntryForm, null), document.querySelector('#mainContent'));
+};
+
+//Renders the new uniform entry form
+var createNewUniformEntryForm = function createNewUniformEntryForm(e) {
+	if (e) {
+		e.preventDefault();
+	}
+
+	ReactDOM.render(React.createElement(NewUniformEntryForm, null), document.querySelector('#mainContent'));
+};
+
+//Renders the new headgear entry form
+var createNewHeadgearEntryForm = function createNewHeadgearEntryForm(e) {
+	if (e) {
+		e.preventDefault();
+	}
+
+	ReactDOM.render(React.createElement(NewHeadgearEntryForm, null), document.querySelector('#mainContent'));
 };
 
 //Renders the nav bar for the new entry page
 var createNewEntryFormNav = function createNewEntryFormNav() {
-  ReactDOM.render(React.createElement(HomeNav, null), document.querySelector('nav'));
+	ReactDOM.render(React.createElement(HomeNav, null), document.querySelector('nav'));
 };
 
 //Renders the weapon select in the new entry form
 var createWeaponSelect = function createWeaponSelect(weapons) {
-  ReactDOM.render(React.createElement(OpWeaponOptions, { weapons: weapons }), document.querySelector('#opGun'));
+	ReactDOM.render(React.createElement(OpWeaponOptions, { weapons: weapons }), document.querySelector('#opGun'));
 };
 
 //Renders the entire new entry page
 var createNewEntry = function createNewEntry(e) {
-  if (e) {
-    e.preventDefault();
-  }
-  createNewEntryFormNav();
-  createNewEntryForm();
-  createWeaponSelect([]);
+	if (e) {
+		e.preventDefault();
+	}
+	createNewEntryFormNav();
+	createNewEntryForm();
+	createWeaponSelect([]);
 };
 
 //Renders the Weapon select and dynamically loads the weapon options based on the operator selected
 var loadOpWeaponOptions = function loadOpWeaponOptions(e) {
-  var opWeapons = opGuns[e.target.value];
-  createWeaponSelect(opWeapons);
+	var opWeapons = opGuns[e.target.value];
+	createWeaponSelect(opWeapons);
 };
 'use strict';
 

@@ -14,8 +14,9 @@ const createUniform = (req, res) => {
   }
 
   const uniformData = {
-    uniformName: [request.body.uniformName],
+    uniforms: [request.body.uniformName],
     opName: request.body.opName,
+		owner: request.session.account._id,
   };
 
   const newUniform = new Uniform.UniformModel(uniformData);
