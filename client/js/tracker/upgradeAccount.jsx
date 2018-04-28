@@ -3,7 +3,7 @@ const handleUpgradeAccount = e => {
 	e.preventDefault();
 	
 	sendAjax('POST', '/upgradeAccount', null, data => {
-		alert(data.message);
+		createToastMessage("toastSuccess", data.message);
 	});
 };
 
@@ -11,6 +11,7 @@ const handleUpgradeAccount = e => {
 const UpgradeAccountInfoComponent = props => {
 	return (
 		<div>
+			<div id="toast"></div>
 			<h2 className="pageHeader">Upgrade <span className="siegeLogo">Account</span></h2>
 			<h2 className="alteredFont" id="upgradeHeader">With an upgraded account, you can also keep track of:</h2>
 			<ul className="alteredFont" id="upgradeList">

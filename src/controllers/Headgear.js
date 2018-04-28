@@ -18,7 +18,7 @@ const createHeadgear = (req, res) => {
   const headgearData = {
     headgear: [request.body.headgearName],
     opName: request.body.opName,
-		owner: request.session.account._id,
+    owner: request.session.account._id,
   };
 
   const newHeadgear = new Headgear.HeadgearModel(headgearData);
@@ -43,10 +43,10 @@ const createHeadgear = (req, res) => {
 const addHeadgear = (req, res) => {
   const request = req;
   const response = res;
-	
-	if (!request.session.account.premium) {
-		return response.status(403).json({ error: 'Must be a premium member save headgear' });
-	}
+
+  if (!request.session.account.premium) {
+    return response.status(403).json({ error: 'Must be a premium member to save headgear' });
+  }
 
   const id = request.session.account._id;
   const { opName } = request.body;
@@ -78,7 +78,7 @@ const addHeadgear = (req, res) => {
 const getHeadgear = (req, res) => {
   const request = req;
   const response = res;
-	const parsedUrl = url.parse(request.url);
+  const parsedUrl = url.parse(request.url);
   const params = query.parse(parsedUrl.query);
 
   const id = request.session.account._id;

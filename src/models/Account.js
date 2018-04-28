@@ -28,10 +28,10 @@ const AccountSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-	premium: {
-		type: Boolean,
-		default: false,
-	},
+  premium: {
+    type: Boolean,
+    default: false,
+  },
   createdDate: {
     type: Date,
     default: Date.now,
@@ -40,19 +40,19 @@ const AccountSchema = new mongoose.Schema({
 
 // Formats the account's username and objectId
 // in the DB into an object to be attached to the session
-AccountSchema.statics.toAPI = doc => {
-	const accountData = {
-		username: doc.username,
-		_id: doc._id,
-	};
-	
-	if (doc.premium) {
-		accountData.premium = doc.premium;
-	} else {
-		accountData.premium = false;
-	}
-	
-	return accountData;
+AccountSchema.statics.toAPI = (doc) => {
+  const accountData = {
+    username: doc.username,
+    _id: doc._id,
+  };
+
+  if (doc.premium) {
+    accountData.premium = doc.premium;
+  } else {
+    accountData.premium = false;
+  }
+
+  return accountData;
 };
 
 // Encrypts the user's submitted password to see if it matches the hash in the DB

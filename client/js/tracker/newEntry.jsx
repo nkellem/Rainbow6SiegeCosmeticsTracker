@@ -12,7 +12,7 @@ const handleEntrySubmit = e => {
 		const weaponName = document.querySelector('#opGun').value;
 		
 		if (weaponName === '') {
-			handleError('All fields are required');
+			handleError('All Fields Are Required');
 			return false;
 		}
 	}
@@ -23,18 +23,19 @@ const handleEntrySubmit = e => {
 		const opName = document.querySelector('#operatorSelect').value;
 		
 		if (opName === '') {
-			handleError('All fields are required');
+			handleError('All Fields Are Required');
 			return false;
 		}
 	}
 
 	if (cosmetic === '') {
-		handleError('All fields are required');
+		handleError('All Fields Are Required');
 		return false;
 	}
 
 	sendAjax(entryForm.getAttribute('method'), entryForm.getAttribute('action'), serialize(entryForm), () => {
-		alert('Cosmetic added!');
+		createToastMessage("toastSuccess", "Cosmetic added!");
+		
 		document.querySelector('#cosmeticEntry').value = '';
 		
 		if (!charmEntry) {
@@ -138,6 +139,7 @@ const NewEntryForm = props => {
         <input id="cosmeticEntry" type="text" name="skin" placeholder="Enter a Skin" />
         <input id="submitEntry" type="submit" value="submit" />
       </form>
+			<div id="toast"></div>
     </div>
   );
 };
@@ -150,6 +152,7 @@ const NewCharmEntryForm = props => {
 				<input id="cosmeticEntry" type="text" name="charmName" placeholder="Enter a Charm" />
 				<input id="submitEntry" type="submit" value="submit" />
 			</form>
+			<div id="toast"></div>
 		</div>
 	);
 };
@@ -163,6 +166,7 @@ const NewUniformEntryForm = props => {
 				<input id="cosmeticEntry" type="text" name="uniformName" placeholder="Enter a Uniform" />
 				<input id="submitEntry" type="submit" value="submit" />
 			</form>
+			<div id="toast"></div>
 		</div>
 	);
 };
@@ -176,6 +180,7 @@ const NewHeadgearEntryForm = props => {
 				<input id="cosmeticEntry" type="text" name="headgearName" placeholder="Enter Headgear" />
 				<input id="submitEntry" type="submit" value="submit" />
 			</form>
+			<div id="toast"></div>
 		</div>
 	);
 };

@@ -1,7 +1,6 @@
-//TODO:: Implement real versions of handleError and redirect
 //handles what to do in case an AJAX request sends back an error
 const handleError = message => {
-  alert(message);
+  createToastMessage("toastError", message);
 };
 
 //redirects the user to a specified page
@@ -33,4 +32,21 @@ const sendAjax = (type, action, data, success) => {
 const makeSectionActive = e => {
 	document.querySelector('a[class="active"]').className = '';
 	e.target.className = 'active';
+};
+
+//React Component for rendering sucess and error messages from the server
+const ToastComponent = props => {
+	return (
+		<h2 className={props.className}>
+			{props.message}
+		</h2>
+	);
+};
+
+//Renders the toast message based on success or failure of an AJAX request
+const createToastMessage = (className, message) => {
+	ReactDOM.render(
+		<ToastComponent className={className} message={message} />,
+		document.querySelector('#toast')
+	);
 };

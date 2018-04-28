@@ -48,3 +48,17 @@ form input {
   margin-left: 5px;
   margin-right: 5px;
 }
+
+#toast {
+	margin-top: 10px;
+}
+
+.toastSuccess {
+	color: darkgreen;
+	font-family: 'Anton', sans-serif;
+}
+
+.toastError {
+	color: darkred;
+	font-family: 'Anton', sans-serif;
+}

@@ -9,12 +9,12 @@ const handleChangePassword = e => {
 	const changePassForm = document.querySelector('#changePassForm');
 	
 	if (currPass === '' || newPass === '' || newPass2 === '') {
-		handleError('All fields are required');
+		handleError('All Fields Are Required');
     return false;
 	}
 
   if (newPass !== newPass2) {
-    handleError('Passwords do not match');
+    handleError('Passwords Do Not Match');
     return false;
   }
 
@@ -28,23 +28,24 @@ const ChangePasswordComponent = props => {
 	return (
 		<div>
 			<h2 className="pageHeader">Change <span className="siegeLogo">Password</span></h2>
-		<form id="changePassForm" name="changePassForm" action="/changePassword" onSubmit={handleChangePassword} method="POST">
-			<div className="rightAlign">
-				<label htmlFor="password">Current Password: </label>
-      	<input id="password" type="password" name="password" placeholder="password" />
-			</div>
-			<div className="rightAlign">
-				<label htmlFor="newPassword">New Password: </label>
-      	<input id="newPassword" type="password" name="newPassword" placeholder="new password" />
-			</div>
-			<div className="rightAlign">
-				<label htmlFor="newPassword2">Confirm <span className="siegeLogo">Password: </span></label>
-      	<input id="newPassword2" type="password" name="newPassword2" placeholder="confirm password" />
-			</div>
-			<div>
-				<input className="submitForm" type="submit" value="Change Password" />
-			</div>
-    </form>
+			<form id="changePassForm" name="changePassForm" action="/changePassword" onSubmit={handleChangePassword} method="POST">
+				<div className="rightAlign">
+					<label htmlFor="password">Current Password: </label>
+    	  	<input id="password" type="password" name="password" placeholder="password" />
+				</div>
+				<div className="rightAlign">
+					<label htmlFor="newPassword">New Password: </label>
+    	  	<input id="newPassword" type="password" name="newPassword" placeholder="new password" />
+				</div>
+				<div className="rightAlign">
+					<label htmlFor="newPassword2">Confirm <span className="siegeLogo">Password: </span></label>
+    	  	<input id="newPassword2" type="password" name="newPassword2" placeholder="confirm password" />
+				</div>
+				<div>
+					<input className="submitForm" type="submit" value="Change Password" />
+				</div>
+    	</form>
+			<div id="toast"></div>
 		</div>
 	);
 };

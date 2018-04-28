@@ -35,7 +35,14 @@ const getCharms = e => {
 	
 	sendAjax('GET', '/getCharms', null, data => {
 		makeSectionActive(newE);
-		loadOtherCosmetics('Charms', data.charms.charmNames);
+		
+		let cosmetics = [];
+		
+		if (data.charms !== null) {
+			cosmetics = data.charms.charmNames;
+		}
+		
+		loadOtherCosmetics('Charms', cosmetics);
 	});
 };
 
@@ -63,7 +70,14 @@ const getOpUniforms = e => {
 	
 	sendAjax('GET', `getUniforms?opName=${opName}`, null, data => {
 		makeSectionActive(newE);
-		loadOtherCosmetics('Uniforms', data.uniforms.uniforms);
+		
+		let cosmetics = [];
+		
+		if (data.uniforms !== null) {
+			cosmetics = data.uniforms.uniforms;
+		}
+		
+		loadOtherCosmetics('Uniforms', cosmetics);
 	});
 };
 
@@ -78,13 +92,19 @@ const getOpHeadgear = e => {
 	
 	sendAjax('GET', `getHeadgear?opName=${opName}`, null, data => {
 		makeSectionActive(newE);
-		loadOtherCosmetics('Headgear', data.headgear.headgear);
+		
+		let cosmetics = [];
+		
+		if (data.headgear !== null) {
+			cosmetics = data.headgear.headgear;
+		}
+		
+		loadOtherCosmetics('Headgear', cosmetics);
 	});
 };
 
 //Hides the Op Summary window and resets the skin list
 const hideSummary = e => {
-  resetOpSummaryView();
   document.querySelector('#operatorContent').style.display = 'none';
   document.querySelector('#summaryLeft select').value = '';
 	document.querySelector('#skinsLink').click();
@@ -98,9 +118,10 @@ const hideSummary = e => {
 const loadWeaponSkinList = (e, weapons) => {
   let weapon = e.target.value;
   let skins = [];
+	let header = `${weapon} Skins`;
 
   if (weapon === '') {
-    weapon = 'Select a Gun';
+    header = 'Select a Gun';
   }
 
   Object.keys(weapons).forEach(gun => {
@@ -111,9 +132,8 @@ const loadWeaponSkinList = (e, weapons) => {
   });
 
   ReactDOM.render(
-    <CosmeticListComponent header={`${weapon} Skins`} cosmetics={skins} />,
-    document.querySelector('#summaryRight'),
-    resizeOpSummary
+    <CosmeticListComponent header={header} cosmetics={skins} />,
+    document.querySelector('#summaryRight')
   );
 };
 
@@ -122,8 +142,7 @@ const loadOtherCosmetics = (type, cosmetics) => {
 	document.querySelector('#summaryLeft select').style.display = 'none';
 	ReactDOM.render(
 		<CosmeticListComponent header={type} cosmetics={cosmetics} />,
-		document.querySelector('#summaryRight'),
-		resizeOpSummary
+		document.querySelector('#summaryRight')
 	);
 };
 
@@ -260,8 +279,8 @@ const OperatorSummaryComponent = props => {
 			<CosmeticSummarySubNavComponent />
 			<div id="summaryLeft" className="summary">
 				<h2>{props.opName}</h2>
-				<img src={props.imgSrc} />
 				<OpWeaponOptions weapons={weaponNames} skins={props.weapons} summary={true} />
+				<img src={props.imgSrc} />
 			</div>
       <div id="summaryRight" className="summary">
         <OperatorSummaryRightSideComponent />
@@ -309,25 +328,6 @@ const createTracker = e => {
 const setup = () => {
   createTracker();
 	handleChangePasswordClick();
-	//handleUpgradeAccountClick();
-};
-
-//Method that resizes the height of the op summary based on skin list height
-const resizeOpSummary = () => {
-  const baseHeight = document.querySelector('#summaryLeft').clientHeight;
-  let listHeight = document.querySelector('.skinList').clientHeight - 100;
-
-  if (listHeight > baseHeight) {
-    document.querySelector('#opSummary').style.height = `${baseHeight + listHeight}px`;
-  } else {
-    document.querySelector('#opSummary').style.height = `${baseHeight}px`;
-  }
-};
-
-//Method that resets the height of the op summary view
-const resetOpSummaryView = () => {
-  const baseHeight = document.querySelector('#summaryLeft').clientHeight;
-  document.querySelector('#opSummary').style.height = `${baseHeight}px`;
 };
 
 setup();

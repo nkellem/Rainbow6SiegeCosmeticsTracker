@@ -10,10 +10,10 @@ const { Uniform } = models;
 const createUniform = (req, res) => {
   const request = req;
   const response = res;
-	
-	if (!request.session.account.premium) {
-		return response.status(403).json({ error: 'Must be a premium member save uniforms' });
-	}
+
+  if (!request.session.account.premium) {
+    return response.status(403).json({ error: 'Must be a premium member to save uniforms' });
+  }
 
   if (!request.body.uniformName || !request.body.opName) {
     return response.status(400).json({ error: 'Missing Uniform name' });
@@ -22,7 +22,7 @@ const createUniform = (req, res) => {
   const uniformData = {
     uniforms: [request.body.uniformName],
     opName: request.body.opName,
-		owner: request.session.account._id,
+    owner: request.session.account._id,
   };
 
   const newUniform = new Uniform.UniformModel(uniformData);
@@ -78,7 +78,7 @@ const addUniform = (req, res) => {
 const getUniforms = (req, res) => {
   const request = req;
   const response = res;
-	const parsedUrl = url.parse(request.url);
+  const parsedUrl = url.parse(request.url);
   const params = query.parse(parsedUrl.query);
 
   const id = request.session.account._id;

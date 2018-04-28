@@ -15,7 +15,7 @@ const createCharm = (req, res) => {
 
   const charmData = {
     charmNames: [request.body.charmName],
-		owner: request.session.account._id,
+    owner: request.session.account._id,
   };
 
   const newCharm = new Charm.CharmModel(charmData);
@@ -40,10 +40,10 @@ const createCharm = (req, res) => {
 const addCharm = (req, res) => {
   const request = req;
   const response = res;
-	
-	if (!request.session.account.premium) {
-		return response.status(403).json({ error: 'Must be a premium member save charms' });
-	}
+
+  if (!request.session.account.premium) {
+    return response.status(403).json({ error: 'Must be a premium member to save charms' });
+  }
 
   const id = request.session.account._id;
 

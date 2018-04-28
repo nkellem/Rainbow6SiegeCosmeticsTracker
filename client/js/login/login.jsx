@@ -41,42 +41,48 @@ const handleSignup = e => {
 //React Component for rendering the login form on the login.handlebars page
 const LoginWindow = props => {
   return (
-    <form id="loginForm" name="loginForm" action="/login" onSubmit={handleLogin} method="POST" className="mainForm alteredFont">
-			<div className="rightAlign">
-				<label htmlFor="username">Username: </label>
-      	<input className="alteredFont" id="username" type="text" name="username" placeholder="USERNAME" />
-			</div>
-			<div className="rightAlign">
-				<label htmlFor="password">Password: </label>
-      	<input className="alteredFont" id="password" type="password" name="password" placeholder="PASSWORD" />
-			</div>
-			<div>
-				<input className="submitForm" type="submit" value="Sign In " />
-			</div>
-    </form>
+    <div>
+			<div id="toast"></div>
+			<form id="loginForm" name="loginForm" action="/login" onSubmit={handleLogin} method="POST" className="mainForm alteredFont">
+				<div className="rightAlign">
+					<label htmlFor="username">Username: </label>
+    	  	<input className="alteredFont" id="username" type="text" name="username" placeholder="USERNAME" />
+				</div>
+				<div className="rightAlign">
+					<label htmlFor="password">Password: </label>
+    	  	<input className="alteredFont" id="password" type="password" name="password" placeholder="PASSWORD" />
+				</div>
+				<div>
+					<input className="submitForm" type="submit" value="Sign In " />
+				</div>
+    	</form>
+		</div>
   );
 };
 
 //React Component for rendering the sign up form on the login.handlebars page
 const SignupWindow = props => {
   return (
-    <form id="signupForm" name="signupForm" action="/signup" onSubmit={handleSignup} method="POST" className="mainForm">
-			<div className="rightAlign">
-				<label htmlFor="username">Username: </label>
-      	<input className="alteredFont" id="username" type="text" name="username" placeholder="USERNAME" />
-			</div>
-			<div className="rightAlign">
-				<label htmlFor="password">Password: </label>
-      	<input className="alteredFont" id="password" type="password" name="password" placeholder="PASSWORD" />
-			</div>
-			<div className="rightAlign">
-				<label htmlFor="password2">Confirm <span className="siegeLogo">Password: </span></label>
-      	<input className="alteredFont" id="password2" type="password" name="password2" placeholder="CONFIRM PASSWORD" />
-			</div>
-			<div>
-				<input className="submitForm" type="submit" value="Sign In " />
-			</div>
-    </form>
+    <div>
+			<div id="toast"></div>
+			<form id="signupForm" name="signupForm" action="/signup" onSubmit={handleSignup} method="POST" className="mainForm">
+				<div className="rightAlign">
+					<label htmlFor="username">Username: </label>
+    	  	<input className="alteredFont" id="username" type="text" name="username" placeholder="USERNAME" />
+				</div>
+				<div className="rightAlign">
+					<label htmlFor="password">Password: </label>
+    	  	<input className="alteredFont" id="password" type="password" name="password" placeholder="PASSWORD" />
+				</div>
+				<div className="rightAlign">
+					<label htmlFor="password2">Confirm <span className="siegeLogo">Password: </span></label>
+    	  	<input className="alteredFont" id="password2" type="password" name="password2" placeholder="CONFIRM PASSWORD" />
+				</div>
+				<div>
+					<input className="submitForm" type="submit" value="Sign In " />
+				</div>
+    	</form>
+		</div>
   );
 };
 

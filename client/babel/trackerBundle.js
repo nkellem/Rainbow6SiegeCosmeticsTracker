@@ -11,12 +11,12 @@ var handleChangePassword = function handleChangePassword(e) {
 	var changePassForm = document.querySelector('#changePassForm');
 
 	if (currPass === '' || newPass === '' || newPass2 === '') {
-		handleError('All fields are required');
+		handleError('All Fields Are Required');
 		return false;
 	}
 
 	if (newPass !== newPass2) {
-		handleError('Passwords do not match');
+		handleError('Passwords Do Not Match');
 		return false;
 	}
 
@@ -83,7 +83,8 @@ var ChangePasswordComponent = function ChangePasswordComponent(props) {
 				null,
 				React.createElement('input', { className: 'submitForm', type: 'submit', value: 'Change Password' })
 			)
-		)
+		),
+		React.createElement('div', { id: 'toast' })
 	);
 };
 
@@ -123,7 +124,7 @@ var handleEntrySubmit = function handleEntrySubmit(e) {
 		var weaponName = document.querySelector('#opGun').value;
 
 		if (weaponName === '') {
-			handleError('All fields are required');
+			handleError('All Fields Are Required');
 			return false;
 		}
 	}
@@ -134,18 +135,19 @@ var handleEntrySubmit = function handleEntrySubmit(e) {
 		var opName = document.querySelector('#operatorSelect').value;
 
 		if (opName === '') {
-			handleError('All fields are required');
+			handleError('All Fields Are Required');
 			return false;
 		}
 	}
 
 	if (cosmetic === '') {
-		handleError('All fields are required');
+		handleError('All Fields Are Required');
 		return false;
 	}
 
 	sendAjax(entryForm.getAttribute('method'), entryForm.getAttribute('action'), serialize(entryForm), function () {
-		alert('Cosmetic added!');
+		createToastMessage("toastSuccess", "Cosmetic added!");
+
 		document.querySelector('#cosmeticEntry').value = '';
 
 		if (!charmEntry) {
@@ -295,7 +297,8 @@ var NewEntryForm = function NewEntryForm(props) {
 			React.createElement('span', { id: 'opGun' }),
 			React.createElement('input', { id: 'cosmeticEntry', type: 'text', name: 'skin', placeholder: 'Enter a Skin' }),
 			React.createElement('input', { id: 'submitEntry', type: 'submit', value: 'submit' })
-		)
+		),
+		React.createElement('div', { id: 'toast' })
 	);
 };
 
@@ -309,7 +312,8 @@ var NewCharmEntryForm = function NewCharmEntryForm(props) {
 			{ action: '/addNewCharmEntry', method: 'POST', name: 'newCharmEntryForm', onSubmit: handleEntrySubmit, id: 'newEntryForm' },
 			React.createElement('input', { id: 'cosmeticEntry', type: 'text', name: 'charmName', placeholder: 'Enter a Charm' }),
 			React.createElement('input', { id: 'submitEntry', type: 'submit', value: 'submit' })
-		)
+		),
+		React.createElement('div', { id: 'toast' })
 	);
 };
 
@@ -324,7 +328,8 @@ var NewUniformEntryForm = function NewUniformEntryForm(props) {
 			React.createElement(OpOptions, null),
 			React.createElement('input', { id: 'cosmeticEntry', type: 'text', name: 'uniformName', placeholder: 'Enter a Uniform' }),
 			React.createElement('input', { id: 'submitEntry', type: 'submit', value: 'submit' })
-		)
+		),
+		React.createElement('div', { id: 'toast' })
 	);
 };
 
@@ -339,7 +344,8 @@ var NewHeadgearEntryForm = function NewHeadgearEntryForm(props) {
 			React.createElement(OpOptions, null),
 			React.createElement('input', { id: 'cosmeticEntry', type: 'text', name: 'headgearName', placeholder: 'Enter Headgear' }),
 			React.createElement('input', { id: 'submitEntry', type: 'submit', value: 'submit' })
-		)
+		),
+		React.createElement('div', { id: 'toast' })
 	);
 };
 
@@ -445,7 +451,14 @@ var getCharms = function getCharms(e) {
 
   sendAjax('GET', '/getCharms', null, function (data) {
     makeSectionActive(newE);
-    loadOtherCosmetics('Charms', data.charms.charmNames);
+
+    var cosmetics = [];
+
+    if (data.charms !== null) {
+      cosmetics = data.charms.charmNames;
+    }
+
+    loadOtherCosmetics('Charms', cosmetics);
   });
 };
 
@@ -470,7 +483,14 @@ var getOpUniforms = function getOpUniforms(e) {
 
   sendAjax('GET', 'getUniforms?opName=' + opName, null, function (data) {
     makeSectionActive(newE);
-    loadOtherCosmetics('Uniforms', data.uniforms.uniforms);
+
+    var cosmetics = [];
+
+    if (data.uniforms !== null) {
+      cosmetics = data.uniforms.uniforms;
+    }
+
+    loadOtherCosmetics('Uniforms', cosmetics);
   });
 };
 
@@ -485,13 +505,19 @@ var getOpHeadgear = function getOpHeadgear(e) {
 
   sendAjax('GET', 'getHeadgear?opName=' + opName, null, function (data) {
     makeSectionActive(newE);
-    loadOtherCosmetics('Headgear', data.headgear.headgear);
+
+    var cosmetics = [];
+
+    if (data.headgear !== null) {
+      cosmetics = data.headgear.headgear;
+    }
+
+    loadOtherCosmetics('Headgear', cosmetics);
   });
 };
 
 //Hides the Op Summary window and resets the skin list
 var hideSummary = function hideSummary(e) {
-  resetOpSummaryView();
   document.querySelector('#operatorContent').style.display = 'none';
   document.querySelector('#summaryLeft select').value = '';
   document.querySelector('#skinsLink').click();
@@ -502,9 +528,10 @@ var hideSummary = function hideSummary(e) {
 var loadWeaponSkinList = function loadWeaponSkinList(e, weapons) {
   var weapon = e.target.value;
   var skins = [];
+  var header = weapon + ' Skins';
 
   if (weapon === '') {
-    weapon = 'Select a Gun';
+    header = 'Select a Gun';
   }
 
   Object.keys(weapons).forEach(function (gun) {
@@ -514,13 +541,13 @@ var loadWeaponSkinList = function loadWeaponSkinList(e, weapons) {
     }
   });
 
-  ReactDOM.render(React.createElement(CosmeticListComponent, { header: weapon + ' Skins', cosmetics: skins }), document.querySelector('#summaryRight'), resizeOpSummary);
+  ReactDOM.render(React.createElement(CosmeticListComponent, { header: header, cosmetics: skins }), document.querySelector('#summaryRight'));
 };
 
 //Renders the cosmetics lists for all other cosmetics
 var loadOtherCosmetics = function loadOtherCosmetics(type, cosmetics) {
   document.querySelector('#summaryLeft select').style.display = 'none';
-  ReactDOM.render(React.createElement(CosmeticListComponent, { header: type, cosmetics: cosmetics }), document.querySelector('#summaryRight'), resizeOpSummary);
+  ReactDOM.render(React.createElement(CosmeticListComponent, { header: type, cosmetics: cosmetics }), document.querySelector('#summaryRight'));
 };
 
 //React Component for rendering the nav bar on the Home page
@@ -724,8 +751,8 @@ var OperatorSummaryComponent = function OperatorSummaryComponent(props) {
         null,
         props.opName
       ),
-      React.createElement('img', { src: props.imgSrc }),
-      React.createElement(OpWeaponOptions, { weapons: weaponNames, skins: props.weapons, summary: true })
+      React.createElement(OpWeaponOptions, { weapons: weaponNames, skins: props.weapons, summary: true }),
+      React.createElement('img', { src: props.imgSrc })
     ),
     React.createElement(
       'div',
@@ -768,25 +795,6 @@ var createTracker = function createTracker(e) {
 var setup = function setup() {
   createTracker();
   handleChangePasswordClick();
-  //handleUpgradeAccountClick();
-};
-
-//Method that resizes the height of the op summary based on skin list height
-var resizeOpSummary = function resizeOpSummary() {
-  var baseHeight = document.querySelector('#summaryLeft').clientHeight;
-  var listHeight = document.querySelector('.skinList').clientHeight - 100;
-
-  if (listHeight > baseHeight) {
-    document.querySelector('#opSummary').style.height = baseHeight + listHeight + 'px';
-  } else {
-    document.querySelector('#opSummary').style.height = baseHeight + 'px';
-  }
-};
-
-//Method that resets the height of the op summary view
-var resetOpSummaryView = function resetOpSummaryView() {
-  var baseHeight = document.querySelector('#summaryLeft').clientHeight;
-  document.querySelector('#opSummary').style.height = baseHeight + 'px';
 };
 
 setup();
@@ -797,7 +805,7 @@ var handleUpgradeAccount = function handleUpgradeAccount(e) {
 	e.preventDefault();
 
 	sendAjax('POST', '/upgradeAccount', null, function (data) {
-		alert(data.message);
+		createToastMessage("toastSuccess", data.message);
 	});
 };
 
@@ -806,6 +814,7 @@ var UpgradeAccountInfoComponent = function UpgradeAccountInfoComponent(props) {
 	return React.createElement(
 		'div',
 		null,
+		React.createElement('div', { id: 'toast' }),
 		React.createElement(
 			'h2',
 			{ className: 'pageHeader' },
@@ -891,41 +900,54 @@ var handleUpgradeAccountClick = function handleUpgradeAccountClick() {
 handleUpgradeAccountClick();
 'use strict';
 
-//TODO:: Implement real versions of handleError and redirect
 //handles what to do in case an AJAX request sends back an error
 var handleError = function handleError(message) {
-  alert(message);
+		createToastMessage("toastError", message);
 };
 
 //redirects the user to a specified page
 var redirect = function redirect(response) {
-  window.location = response.redirect;
+		window.location = response.redirect;
 };
 
 //helper method for sending out AJAX requests
 var sendAjax = function sendAjax(type, action, data, success) {
-  fetch(action, {
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
-    },
-    credentials: 'include',
-    method: type,
-    body: data
-  }).then(function (response) {
-    return response.json();
-  }).then(function (data) {
-    if (data.error) {
-      handleError(data.error);
-      return;
-    }
-    success(data);
-  });
+		fetch(action, {
+				headers: {
+						'Content-Type': 'application/x-www-form-urlencoded'
+				},
+				credentials: 'include',
+				method: type,
+				body: data
+		}).then(function (response) {
+				return response.json();
+		}).then(function (data) {
+				if (data.error) {
+						handleError(data.error);
+						return;
+				}
+				success(data);
+		});
 };
 
 //helper method for transferring which link is active on the cosmetic selectn nav
 var makeSectionActive = function makeSectionActive(e) {
-  document.querySelector('a[class="active"]').className = '';
-  e.target.className = 'active';
+		document.querySelector('a[class="active"]').className = '';
+		e.target.className = 'active';
+};
+
+//React Component for rendering sucess and error messages from the server
+var ToastComponent = function ToastComponent(props) {
+		return React.createElement(
+				'h2',
+				{ className: props.className },
+				props.message
+		);
+};
+
+//Renders the toast message based on success or failure of an AJAX request
+var createToastMessage = function createToastMessage(className, message) {
+		ReactDOM.render(React.createElement(ToastComponent, { className: className, message: message }), document.querySelector('#toast'));
 };
 'use strict';
 
