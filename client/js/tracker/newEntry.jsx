@@ -55,7 +55,7 @@ const HomeNav = props => {
     <div>
 			<a href="#" onClick={createTracker}>Home</a>
 			<div id="subNav">
-				<a href="#" onClick={createNewEntryForm}>Skin</a>
+				<a className="active" href="#" onClick={createNewEntryForm}>Skin</a>
 				<a href="#" onClick={createNewCharmEntryForm}>Charm</a>
 				<a href="#" onClick={createNewUniformEntryForm}>Uniform</a>
 				<a href="#" onClick={createNewHeadgearEntryForm}>Headgear</a>
@@ -184,18 +184,22 @@ const NewHeadgearEntryForm = props => {
 const createNewEntryForm = e => {
 	if (e) {
 		e.preventDefault();
+		makeSectionActive(e);
 	}
 	
   ReactDOM.render(
     <NewEntryForm />,
     document.querySelector('#mainContent')
   );
+	
+	createWeaponSelect([]);
 };
 
 //Renders the new charm entry form
 const createNewCharmEntryForm = e => {
 	if (e) {
 		e.preventDefault();
+		makeSectionActive(e);
 	}
 	
   ReactDOM.render(
@@ -208,6 +212,7 @@ const createNewCharmEntryForm = e => {
 const createNewUniformEntryForm = e => {
 	if (e) {
 		e.preventDefault();
+		makeSectionActive(e);
 	}
 	
   ReactDOM.render(
@@ -220,6 +225,7 @@ const createNewUniformEntryForm = e => {
 const createNewHeadgearEntryForm = e => {
 	if (e) {
 		e.preventDefault();
+		makeSectionActive(e);
 	}
 	
   ReactDOM.render(
@@ -251,7 +257,6 @@ const createNewEntry = e => {
   }
   createNewEntryFormNav();
   createNewEntryForm();
-	createWeaponSelect([]);
 };
 
 //Renders the Weapon select and dynamically loads the weapon options based on the operator selected

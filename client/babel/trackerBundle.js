@@ -95,7 +95,7 @@ var createChangePasswordForm = function createChangePasswordForm() {
 //Renders the entire change password view
 var createChangePasswordView = function createChangePasswordView() {
 	createChangePasswordForm();
-	createNewEntryFormNav();
+	createUpgradeAccountNav();
 };
 
 //Sets up event listener for change password
@@ -175,7 +175,7 @@ var HomeNav = function HomeNav(props) {
 			{ id: 'subNav' },
 			React.createElement(
 				'a',
-				{ href: '#', onClick: createNewEntryForm },
+				{ className: 'active', href: '#', onClick: createNewEntryForm },
 				'Skin'
 			),
 			React.createElement(
@@ -347,15 +347,19 @@ var NewHeadgearEntryForm = function NewHeadgearEntryForm(props) {
 var createNewEntryForm = function createNewEntryForm(e) {
 	if (e) {
 		e.preventDefault();
+		makeSectionActive(e);
 	}
 
 	ReactDOM.render(React.createElement(NewEntryForm, null), document.querySelector('#mainContent'));
+
+	createWeaponSelect([]);
 };
 
 //Renders the new charm entry form
 var createNewCharmEntryForm = function createNewCharmEntryForm(e) {
 	if (e) {
 		e.preventDefault();
+		makeSectionActive(e);
 	}
 
 	ReactDOM.render(React.createElement(NewCharmEntryForm, null), document.querySelector('#mainContent'));
@@ -365,6 +369,7 @@ var createNewCharmEntryForm = function createNewCharmEntryForm(e) {
 var createNewUniformEntryForm = function createNewUniformEntryForm(e) {
 	if (e) {
 		e.preventDefault();
+		makeSectionActive(e);
 	}
 
 	ReactDOM.render(React.createElement(NewUniformEntryForm, null), document.querySelector('#mainContent'));
@@ -374,6 +379,7 @@ var createNewUniformEntryForm = function createNewUniformEntryForm(e) {
 var createNewHeadgearEntryForm = function createNewHeadgearEntryForm(e) {
 	if (e) {
 		e.preventDefault();
+		makeSectionActive(e);
 	}
 
 	ReactDOM.render(React.createElement(NewHeadgearEntryForm, null), document.querySelector('#mainContent'));
@@ -396,7 +402,6 @@ var createNewEntry = function createNewEntry(e) {
 	}
 	createNewEntryFormNav();
 	createNewEntryForm();
-	createWeaponSelect([]);
 };
 
 //Renders the Weapon select and dynamically loads the weapon options based on the operator selected
@@ -431,11 +436,65 @@ var getOpWeapons = function getOpWeapons(e) {
   });
 };
 
+//Retrieves the charms for a user from the database
+var getCharms = function getCharms(e) {
+  var newE = {
+    target: e.target
+  };
+  e.preventDefault();
+
+  sendAjax('GET', '/getCharms', null, function (data) {
+    makeSectionActive(newE);
+    loadOtherCosmetics('Charms', data.charms.charmNames);
+  });
+};
+
+//resets the skins summary option
+var handleSkinsLinkClick = function handleSkinsLinkClick(e) {
+  makeSectionActive(e);
+  e.preventDefault();
+
+  document.querySelector('#summaryLeft select').style.display = 'inline-block';
+
+  ReactDOM.render(React.createElement(OperatorSummaryRightSideComponent, null), document.querySelector('#summaryRight'));
+};
+
+//Retrieves the uniforms for an operator from the database
+var getOpUniforms = function getOpUniforms(e) {
+  var newE = {
+    target: e.target
+  };
+  e.preventDefault();
+
+  var opName = document.querySelector('#summaryLeft h2').innerHTML;
+
+  sendAjax('GET', 'getUniforms?opName=' + opName, null, function (data) {
+    makeSectionActive(newE);
+    loadOtherCosmetics('Uniforms', data.uniforms.uniforms);
+  });
+};
+
+//Retrieves the uniforms for an operator from the database
+var getOpHeadgear = function getOpHeadgear(e) {
+  var newE = {
+    target: e.target
+  };
+  e.preventDefault();
+
+  var opName = document.querySelector('#summaryLeft h2').innerHTML;
+
+  sendAjax('GET', 'getHeadgear?opName=' + opName, null, function (data) {
+    makeSectionActive(newE);
+    loadOtherCosmetics('Headgear', data.headgear.headgear);
+  });
+};
+
 //Hides the Op Summary window and resets the skin list
 var hideSummary = function hideSummary(e) {
   resetOpSummaryView();
   document.querySelector('#operatorContent').style.display = 'none';
   document.querySelector('#summaryLeft select').value = '';
+  document.querySelector('#skinsLink').click();
   ReactDOM.render(React.createElement(OperatorSummaryRightSideComponent, null), document.querySelector('#summaryRight'));
 };
 
@@ -455,7 +514,13 @@ var loadWeaponSkinList = function loadWeaponSkinList(e, weapons) {
     }
   });
 
-  ReactDOM.render(React.createElement(WeaponSkinListComponent, { weapon: weapon, skins: skins }), document.querySelector('#summaryRight'), resizeOpSummary);
+  ReactDOM.render(React.createElement(CosmeticListComponent, { header: weapon + ' Skins', cosmetics: skins }), document.querySelector('#summaryRight'), resizeOpSummary);
+};
+
+//Renders the cosmetics lists for all other cosmetics
+var loadOtherCosmetics = function loadOtherCosmetics(type, cosmetics) {
+  document.querySelector('#summaryLeft select').style.display = 'none';
+  ReactDOM.render(React.createElement(CosmeticListComponent, { header: type, cosmetics: cosmetics }), document.querySelector('#summaryRight'), resizeOpSummary);
 };
 
 //React Component for rendering the nav bar on the Home page
@@ -468,6 +533,34 @@ var NewEntryNav = function NewEntryNav(props) {
       'span',
       { className: 'siegeLogo' },
       'Entry'
+    )
+  );
+};
+
+//React Component for rendering the cosmetic nav in the summary lightbox
+var CosmeticSummarySubNavComponent = function CosmeticSummarySubNavComponent(props) {
+  return React.createElement(
+    'div',
+    { id: 'summarySubNav' },
+    React.createElement(
+      'a',
+      { id: 'skinsLink', className: 'active', href: '#', onClick: handleSkinsLinkClick },
+      'Skins'
+    ),
+    React.createElement(
+      'a',
+      { href: '#', onClick: getCharms },
+      'Charms'
+    ),
+    React.createElement(
+      'a',
+      { href: '#', onClick: getOpUniforms },
+      'Uniforms'
+    ),
+    React.createElement(
+      'a',
+      { href: '#', onClick: getOpHeadgear },
+      'Headgear'
     )
   );
 };
@@ -569,30 +662,29 @@ var OperatorsDefendersComponent = function OperatorsDefendersComponent(props) {
 };
 
 //React Component for rendering individual items in the Summary skin list
-var WeaponSkinListItemComponent = function WeaponSkinListItemComponent(props) {
+var CosmeticListItemComponent = function CosmeticListItemComponent(props) {
   return React.createElement(
     'li',
     null,
-    props.skin
+    props.cosmetic
   );
 };
 
 //React Component for rendering Gun List
-var WeaponSkinListComponent = function WeaponSkinListComponent(props) {
+var CosmeticListComponent = function CosmeticListComponent(props) {
   var items = [];
 
-  props.skins.forEach(function (skin) {
-    items.push(React.createElement(WeaponSkinListItemComponent, { skin: skin }));
+  props.cosmetics.forEach(function (cosmetic) {
+    items.push(React.createElement(CosmeticListItemComponent, { cosmetic: cosmetic }));
   });
 
   return React.createElement(
     'div',
     null,
     React.createElement(
-      'h1',
+      'h2',
       { className: 'skinListHeader' },
-      props.weapon,
-      ' Skins'
+      props.header
     ),
     React.createElement(
       'ul',
@@ -605,7 +697,7 @@ var WeaponSkinListComponent = function WeaponSkinListComponent(props) {
 //React component for rendering the default right side of the op summery
 var OperatorSummaryRightSideComponent = function OperatorSummaryRightSideComponent(props) {
   return React.createElement(
-    'h1',
+    'h2',
     { className: 'skinListHeader' },
     'Select a Gun'
   );
@@ -623,11 +715,12 @@ var OperatorSummaryComponent = function OperatorSummaryComponent(props) {
       { id: 'exitSummary', onClick: hideSummary },
       'x'
     ),
+    React.createElement(CosmeticSummarySubNavComponent, null),
     React.createElement(
       'div',
       { id: 'summaryLeft', className: 'summary' },
       React.createElement(
-        'h1',
+        'h2',
         null,
         props.opName
       ),
@@ -697,52 +790,75 @@ var resetOpSummaryView = function resetOpSummaryView() {
 };
 
 setup();
-"use strict";
+'use strict';
+
+//method for sending out the request to upgrade the account in the DB
+var handleUpgradeAccount = function handleUpgradeAccount(e) {
+	e.preventDefault();
+
+	sendAjax('POST', '/upgradeAccount', null, function (data) {
+		alert(data.message);
+	});
+};
 
 //React component for rendering the content of the Upgrade Account Page
 var UpgradeAccountInfoComponent = function UpgradeAccountInfoComponent(props) {
 	return React.createElement(
-		"div",
+		'div',
 		null,
 		React.createElement(
-			"h2",
-			{ className: "pageHeader" },
-			"Upgrade ",
+			'h2',
+			{ className: 'pageHeader' },
+			'Upgrade ',
 			React.createElement(
-				"span",
-				{ className: "siegeLogo" },
-				"Account"
+				'span',
+				{ className: 'siegeLogo' },
+				'Account'
 			)
 		),
 		React.createElement(
-			"h2",
-			{ className: "alteredFont", id: "upgradeHeader" },
-			"With an upgraded account, you can also keep track of:"
+			'h2',
+			{ className: 'alteredFont', id: 'upgradeHeader' },
+			'With an upgraded account, you can also keep track of:'
 		),
 		React.createElement(
-			"ul",
-			{ className: "alteredFont", id: "upgradeList" },
+			'ul',
+			{ className: 'alteredFont', id: 'upgradeList' },
 			React.createElement(
-				"li",
+				'li',
 				null,
-				"Charms"
+				'Charms'
 			),
 			React.createElement(
-				"li",
+				'li',
 				null,
-				"Headgear"
+				'Headgear'
 			),
 			React.createElement(
-				"li",
+				'li',
 				null,
-				"Uniforms"
+				'Uniforms'
 			)
 		),
 		React.createElement(
-			"p",
-			{ className: "alteredFont", id: "upgradeInfo" },
-			"For a yearly fee of $5.00 (USD), you can extend the power of this app and keep track of all categories of cosmetic items found in Rainbow Six Siege!"
+			'p',
+			{ className: 'alteredFont', id: 'upgradeInfo' },
+			'For a yearly fee of $5.00 (USD), you can extend the power of this app and keep track of all categories of cosmetic items found in Rainbow Six Siege!'
+		),
+		React.createElement(
+			'a',
+			{ href: '#', onClick: handleUpgradeAccount },
+			'Click here to upgrade your account!'
 		)
+	);
+};
+
+//React component for rendering the content of the nav bar on the Upgrade Account Page
+var UpgradeAccountNavComponent = function UpgradeAccountNavComponent(props) {
+	return React.createElement(
+		'a',
+		{ href: '#', onClick: createTracker },
+		'Home'
 	);
 };
 
@@ -751,10 +867,15 @@ var createUpgradeAccountInfo = function createUpgradeAccountInfo() {
 	ReactDOM.render(React.createElement(UpgradeAccountInfoComponent, null), document.querySelector('#mainContent'));
 };
 
+//Renders the nav for the upgraded account page
+var createUpgradeAccountNav = function createUpgradeAccountNav() {
+	ReactDOM.render(React.createElement(UpgradeAccountNavComponent, null), document.querySelector('nav'));
+};
+
 //Renders the entire upgraded account info view
 var createUpgradeAccountInfoView = function createUpgradeAccountInfoView() {
 	createUpgradeAccountInfo();
-	createNewEntryFormNav();
+	createUpgradeAccountNav();
 };
 
 //Sets up click event to render upgraded account info view
@@ -799,6 +920,12 @@ var sendAjax = function sendAjax(type, action, data, success) {
     }
     success(data);
   });
+};
+
+//helper method for transferring which link is active on the cosmetic selectn nav
+var makeSectionActive = function makeSectionActive(e) {
+  document.querySelector('a[class="active"]').className = '';
+  e.target.className = 'active';
 };
 'use strict';
 

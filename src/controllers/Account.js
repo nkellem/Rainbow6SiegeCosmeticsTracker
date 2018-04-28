@@ -28,6 +28,7 @@ const login = (req, res) => {
     }
 
     request.session.account = Account.AccountModel.toAPI(account);
+		console.log(request.session.account);
 
     return response.json({ redirect: '/home' });
   });
@@ -127,6 +128,25 @@ const changePassword = (req, res) => {
   });
 };
 
+//changes the user's account premium status to true
+const upgradeAccount = (req, res) => {
+	const request = req;
+	const response = res;
+	
+	const search = {
+		username: `${request.session.account.username}`,
+	};
+	
+	return Account.AccountModel.update(search, { $set: { premium: true } }, {}, (err) => {
+		if (err) {
+			return response.status(500).json({ error: 'Unable to update Premium account status' });
+		}
+		
+		request.session.account.premium = true;
+		return response.status(200).json({ message: 'Account upgraded successfully!' });
+	});
+};
+
 // Exports methods for the module so they can be used by other files
 module.exports = {
   loginPage,
@@ -134,4 +154,5 @@ module.exports = {
   logout,
   signup,
   changePassword,
+	upgradeAccount,
 };

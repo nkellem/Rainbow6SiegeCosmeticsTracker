@@ -1,5 +1,7 @@
 // Pulls in required dependencies
 const models = require('../models');
+const url = require('url');
+const query = require('querystring');
 
 // Loads Headgear object from the Models module
 const { Headgear } = models;
@@ -41,6 +43,10 @@ const createHeadgear = (req, res) => {
 const addHeadgear = (req, res) => {
   const request = req;
   const response = res;
+	
+	if (!request.session.account.premium) {
+		return response.status(403).json({ error: 'Must be a premium member save headgear' });
+	}
 
   const id = request.session.account._id;
   const { opName } = request.body;
@@ -72,11 +78,12 @@ const addHeadgear = (req, res) => {
 const getHeadgear = (req, res) => {
   const request = req;
   const response = res;
+	const parsedUrl = url.parse(request.url);
+  const params = query.parse(parsedUrl.query);
 
   const id = request.session.account._id;
-  const { opName } = request.body;
 
-  return Headgear.HeadgearModel.findByOwner(id, opName, (err, docs) => {
+  return Headgear.HeadgearModel.findByOwner(id, params.opName, (err, docs) => {
     if (err) {
       console.log(err);
       return response.status(500).json({ error: 'An internal server error occurred' });

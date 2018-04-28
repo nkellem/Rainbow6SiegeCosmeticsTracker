@@ -1,3 +1,12 @@
+//method for sending out the request to upgrade the account in the DB
+const handleUpgradeAccount = e => {
+	e.preventDefault();
+	
+	sendAjax('POST', '/upgradeAccount', null, data => {
+		alert(data.message);
+	});
+};
+
 //React component for rendering the content of the Upgrade Account Page
 const UpgradeAccountInfoComponent = props => {
 	return (
@@ -12,7 +21,15 @@ const UpgradeAccountInfoComponent = props => {
 			<p className="alteredFont" id="upgradeInfo">For a yearly fee of $5.00 (USD), you can extend the power of this app and keep track of all 
 				 categories of cosmetic items found in Rainbow Six Siege!
 			</p>
+			<a href="#" onClick={handleUpgradeAccount}>Click here to upgrade your account!</a>
 		</div>
+	);
+};
+
+//React component for rendering the content of the nav bar on the Upgrade Account Page
+const UpgradeAccountNavComponent = props => {
+	return (
+		<a href="#" onClick={createTracker}>Home</a>
 	);
 };
 
@@ -24,10 +41,18 @@ const createUpgradeAccountInfo = () => {
 	);
 };
 
+//Renders the nav for the upgraded account page
+const createUpgradeAccountNav = () => {
+	ReactDOM.render(
+		<UpgradeAccountNavComponent />,
+		document.querySelector('nav')
+	);
+};
+
 //Renders the entire upgraded account info view
 const createUpgradeAccountInfoView = () => {
 	createUpgradeAccountInfo();
-	createNewEntryFormNav();
+	createUpgradeAccountNav();
 };
 
 //Sets up click event to render upgraded account info view

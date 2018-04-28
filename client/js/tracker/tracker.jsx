@@ -26,11 +26,68 @@ const getOpWeapons = e => {
   });
 };
 
+//Retrieves the charms for a user from the database
+const getCharms = e => {
+	const newE = {
+		target: e.target,
+	};
+	e.preventDefault();
+	
+	sendAjax('GET', '/getCharms', null, data => {
+		makeSectionActive(newE);
+		loadOtherCosmetics('Charms', data.charms.charmNames);
+	});
+};
+
+//resets the skins summary option
+const handleSkinsLinkClick = e => {
+	makeSectionActive(e);
+	e.preventDefault();
+	
+	document.querySelector('#summaryLeft select').style.display = 'inline-block';
+	
+	ReactDOM.render(
+		<OperatorSummaryRightSideComponent />,
+		document.querySelector('#summaryRight')
+	);
+};
+
+//Retrieves the uniforms for an operator from the database
+const getOpUniforms = e => {
+	const newE = {
+		target: e.target,
+	};
+	e.preventDefault();
+	
+	const opName = document.querySelector('#summaryLeft h2').innerHTML;
+	
+	sendAjax('GET', `getUniforms?opName=${opName}`, null, data => {
+		makeSectionActive(newE);
+		loadOtherCosmetics('Uniforms', data.uniforms.uniforms);
+	});
+};
+
+//Retrieves the uniforms for an operator from the database
+const getOpHeadgear = e => {
+	const newE = {
+		target: e.target,
+	};
+	e.preventDefault();
+	
+	const opName = document.querySelector('#summaryLeft h2').innerHTML;
+	
+	sendAjax('GET', `getHeadgear?opName=${opName}`, null, data => {
+		makeSectionActive(newE);
+		loadOtherCosmetics('Headgear', data.headgear.headgear);
+	});
+};
+
 //Hides the Op Summary window and resets the skin list
 const hideSummary = e => {
   resetOpSummaryView();
   document.querySelector('#operatorContent').style.display = 'none';
   document.querySelector('#summaryLeft select').value = '';
+	document.querySelector('#skinsLink').click();
   ReactDOM.render(
     <OperatorSummaryRightSideComponent />,
     document.querySelector('#summaryRight')
@@ -54,10 +111,20 @@ const loadWeaponSkinList = (e, weapons) => {
   });
 
   ReactDOM.render(
-    <WeaponSkinListComponent weapon={weapon} skins={skins} />,
+    <CosmeticListComponent header={`${weapon} Skins`} cosmetics={skins} />,
     document.querySelector('#summaryRight'),
     resizeOpSummary
   );
+};
+
+//Renders the cosmetics lists for all other cosmetics
+const loadOtherCosmetics = (type, cosmetics) => {
+	document.querySelector('#summaryLeft select').style.display = 'none';
+	ReactDOM.render(
+		<CosmeticListComponent header={type} cosmetics={cosmetics} />,
+		document.querySelector('#summaryRight'),
+		resizeOpSummary
+	);
 };
 
 //React Component for rendering the nav bar on the Home page
@@ -65,6 +132,18 @@ const NewEntryNav = props => {
   return (
     <a href="#" onClick={createNewEntry}>New<span className="siegeLogo">Entry</span></a>
   );
+};
+
+//React Component for rendering the cosmetic nav in the summary lightbox
+const CosmeticSummarySubNavComponent = props => {
+	return (
+		<div id="summarySubNav">
+			<a id="skinsLink" className="active" href="#" onClick={handleSkinsLinkClick}>Skins</a>
+			<a href="#" onClick={getCharms}>Charms</a>
+			<a href="#" onClick={getOpUniforms}>Uniforms</a>
+			<a href="#" onClick={getOpHeadgear}>Headgear</a>
+		</div>
+	);
 };
 
 //React Component for rendering the Attackers on the Home page
@@ -138,23 +217,23 @@ const OperatorsDefendersComponent = props => {
 };
 
 //React Component for rendering individual items in the Summary skin list
-const WeaponSkinListItemComponent = props => {
+const CosmeticListItemComponent = props => {
   return (
-    <li>{props.skin}</li>
+    <li>{props.cosmetic}</li>
   );
 };
 
 //React Component for rendering Gun List
-const WeaponSkinListComponent = props => {
+const CosmeticListComponent = props => {
   let items = [];
 
-  props.skins.forEach(skin => {
-    items.push(<WeaponSkinListItemComponent skin={skin} />);
+  props.cosmetics.forEach(cosmetic => {
+    items.push(<CosmeticListItemComponent cosmetic={cosmetic} />);
   });
 
   return (
     <div>
-      <h1 className="skinListHeader">{props.weapon} Skins</h1>
+      <h2 className="skinListHeader">{props.header}</h2>
       <ul className="skinList">
         {items}
       </ul>
@@ -165,7 +244,7 @@ const WeaponSkinListComponent = props => {
 //React component for rendering the default right side of the op summery
 const OperatorSummaryRightSideComponent = props => {
   return (
-    <h1 className="skinListHeader">Select a Gun</h1>
+    <h2 className="skinListHeader">Select a Gun</h2>
   );
 };
 
@@ -178,10 +257,11 @@ const OperatorSummaryComponent = props => {
       <div id="exitSummary" onClick={hideSummary}>
         x
       </div>
+			<CosmeticSummarySubNavComponent />
 			<div id="summaryLeft" className="summary">
-				<h1>{props.opName}</h1>
+				<h2>{props.opName}</h2>
 				<img src={props.imgSrc} />
-				<OpWeaponOptions weapons={weaponNames} skins={props.weapons} summary={true}/>
+				<OpWeaponOptions weapons={weaponNames} skins={props.weapons} summary={true} />
 			</div>
       <div id="summaryRight" className="summary">
         <OperatorSummaryRightSideComponent />

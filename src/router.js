@@ -19,6 +19,7 @@ const router = (app) => {
   app.post('/addNewHeadgearEntry', mid.requiresSecure, mid.requiresLogin, controllers.Headgear.addHeadgear);
   app.post('/addNewUniformEntry', mid.requiresSecure, mid.requiresLogin, controllers.Uniform.addUniform);
   app.post('/changePassword', mid.requiresSecure, mid.requiresLogin, controllers.Account.changePassword);
+	app.post('/upgradeAccount', mid.requiresSecure, mid.requiresLogin, controllers.Account.upgradeAccount);
   app.get('*', mid.requiresSecure, mid.requiresLogin, controllers.Weapon.operatorsPage);
 };
 

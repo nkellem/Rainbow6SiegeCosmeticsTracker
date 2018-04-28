@@ -60,7 +60,7 @@ const createChangePasswordForm = () => {
 //Renders the entire change password view
 const createChangePasswordView = () => {
 	createChangePasswordForm();
-	createNewEntryFormNav();
+	createUpgradeAccountNav();
 };
 
 //Sets up event listener for change password

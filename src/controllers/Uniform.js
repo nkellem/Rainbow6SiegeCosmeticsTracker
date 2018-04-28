@@ -1,5 +1,7 @@
 // Pulls in required dependencies
 const models = require('../models');
+const url = require('url');
+const query = require('querystring');
 
 // Loads Uniform object from the Models module
 const { Uniform } = models;
@@ -8,6 +10,10 @@ const { Uniform } = models;
 const createUniform = (req, res) => {
   const request = req;
   const response = res;
+	
+	if (!request.session.account.premium) {
+		return response.status(403).json({ error: 'Must be a premium member save uniforms' });
+	}
 
   if (!request.body.uniformName || !request.body.opName) {
     return response.status(400).json({ error: 'Missing Uniform name' });
@@ -72,11 +78,12 @@ const addUniform = (req, res) => {
 const getUniforms = (req, res) => {
   const request = req;
   const response = res;
+	const parsedUrl = url.parse(request.url);
+  const params = query.parse(parsedUrl.query);
 
   const id = request.session.account._id;
-  const { opName } = request.body;
 
-  return Uniform.UniformModel.findByOwner(id, opName, (err, docs) => {
+  return Uniform.UniformModel.findByOwner(id, params.opName, (err, docs) => {
     if (err) {
       console.log(err);
       return response.status(500).json({ error: 'An internal server error occurred' });

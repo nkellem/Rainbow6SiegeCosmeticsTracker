@@ -21,6 +21,10 @@ nav {
 	margin: 0 10px;
 }
 
+.active {
+	border-bottom: 5px solid white;
+}
+
 #formDiv {
   width: 900px;
   margin-left: auto;

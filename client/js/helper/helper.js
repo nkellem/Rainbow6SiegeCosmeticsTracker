@@ -28,3 +28,9 @@ const sendAjax = (type, action, data, success) => {
     success(data);
   });
 };
+
+//helper method for transferring which link is active on the cosmetic selectn nav
+const makeSectionActive = e => {
+	document.querySelector('a[class="active"]').className = '';
+	e.target.className = 'active';
+};
